@@ -1,6 +1,6 @@
 <template>
     <div id='app-nav' class="fixed">
-        <span>塔希提</span>
+        <span v-link="{path: '/'}">塔希提</span>
         <ul>
             <li v-for='item in nav'>{{item}}</li>
         </ul>

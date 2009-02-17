@@ -19,12 +19,12 @@
 <style lang="sass">
     .blog-prev {
         .title {
-            font-size: 1.5em;
+            text-align: left;
             color: #01579b;
             cursor: pointer;
         }
         .time {
-
+            
         }
     }
 </style>

@@ -23,6 +23,7 @@
 
 <style lang="sass">
         #banner {
+            background-color: #01579b;
             background-image: url('https://source.unsplash.com/category/nature/2600x500');
             padding: 10% 20%;
             max-height: 30%;

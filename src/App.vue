@@ -22,5 +22,10 @@
     body {
         background-color: #fafafa;
     }
+    .title {
+        text-align: center;
+        font-size: 1.5em;
+        letter-spacing: 1px;
+    }
 
 </style>

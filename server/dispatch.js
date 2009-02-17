@@ -21,7 +21,7 @@ exports.validatePassword = function(username, password, ep) {
 
 exports.blog = {
     add(data, ep) {
-        var data = [data.title, data.text, moment().format('l')]
+        var data = [data.title, data.content, data.contentHTML, moment().format('l')]
         hildb.blog.add(data, err => {
             handleData(err, ep, {success: 1, msg: 'Add Success'})
         })
@@ -33,7 +33,7 @@ exports.blog = {
         })
     },
     update(data, ep) {
-        hildb.blog.update([data.title, data.text, data.id], err => {
+        hildb.blog.update([data.title, data.content, data.contentHTML, data.id], err => {
             handleData(err, ep, {success: 1, msg: 'Update Success'})
         })
     },
@@ -51,7 +51,7 @@ exports.blog = {
         if(data.tagId) {
             addExistTag(data)
         } else {
-            //TODO:回调地狱
+            //TODO:YOU SEE THE CALLBACK HELL
             var tagExist;
             hildb.tag.queryByText(data.text, (err, row) => {
                 if(err) {
@@ -156,5 +156,6 @@ function handleData(err, ep, data, callback) {
         }
     }
 }
+
 
 

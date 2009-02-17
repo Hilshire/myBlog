@@ -73,7 +73,12 @@ export default {
             blog.add(this.$router, this.$data)
         },
         update() {
-            blog.update(this.$router, Object.assign({}, this.$data , {id: this.id}))
+            blog.update(this.$router, {
+                id: this.id,
+                title: this.title,
+                content: this.content,
+                contentHTML: this.contentHTML
+            })
             this.query()
         },
         tagInit() {

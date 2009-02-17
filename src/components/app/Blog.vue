@@ -1,8 +1,8 @@
 <template>
-    <div id="app-blog" class="container">
+    <div id="app-blog">
         <p class="title">{{title}}</p>
         <p class="time">{{time}}</p>
-        <article class="content">{{content}}</article>
+        <article class="contentHTML markdown-body">{{{contentHTML}}}</article>
     </div>
 </template>
 
@@ -18,7 +18,8 @@
                 id: '',
                 title: '',
                 time: '',
-                content: ''
+                content: '',
+                contentHTML: '',
             }
         },
         ready() {
@@ -37,10 +38,18 @@
 
 <style lang="sass">
     #app-blog {
+        width: 70%;
+        min-width: 640px;
+        max-width: 1020px;
         margin: 100px auto;
 
         .title {
+            text-align: center;
             font-size: 1.5em;
+        }
+        
+        .time {
+            text-align: right;
         }
     }
 </style>

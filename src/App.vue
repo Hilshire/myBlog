@@ -1,16 +1,26 @@
 <template>
     <div id='app'>
-        <p>hello world</p>
-        <Blog></Blog>
+        <app-nav></app-nav>
+        <router-view>
+        </router-view>
     </div>
 </template>
 
 <script type="text/javascript">
-    import Blog from './components/app/Blog.vue'
+    import AppNav from './components/app/Nav.vue'
+    import BlogGuide from './components/app/BlogGuide.vue'
 
     export default {
         components: {
-            Blog
+            BlogGuide,
+            AppNav,
         }
     }
 </script>
+
+<style lang="sass">
+    body {
+        background-color: #fafafa;
+    }
+
+</style>

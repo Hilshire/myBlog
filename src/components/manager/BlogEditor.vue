@@ -6,7 +6,7 @@
     <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag'></tags-editor>
 
     <card-panel>
-        <pagedown :md-val.sync='text'></pagedown>
+        <pagedown :md-val.sync='content' :html-val.sync='contentHTML'></pagedown>
         <button text='编辑全文'></button><button text='全屏'></button>
     </card-panel>
 
@@ -31,15 +31,16 @@ var EventProxy = require('eventproxy')
 export default {
     data: () => {
         return {
+            ep: new EventProxy(),
             title: '',
-            text: '',
+            content: '',
+            contentHTML: '',
             tags: ['JavaScript'],
             alltags: ['js']
         }
     },
     ready() {
         this.query()
-        this.ep = new EventProxy()
 //        $('pre code').each(function(i, block) {
 //            hljs.highlightBlock(block);
 //        });
@@ -47,19 +48,22 @@ export default {
     methods: {
         query() {
             //这里其实可以用$set，让vue来代理id，但是vue会发出一条警告
-            var id = this.$route.params.id
-            this.id = id
-            if(this.id) {
-                let blog = blog.queryById({id: id}, this.ep)
-            }
-            ep.on('queryById', data => {
-                this.title = blog.title
-                this.text = blog.text
-                this.tags = blog.tags
-                this.$nextTick(() => {
-                    Materialize.updateTextFields()
+            var id = this.id = this.$route.params.id,
+                ep = this.ep
+
+            if(id) {
+                blog.queryById({id: id}, ep)
+
+                ep.on('queryById', data => {
+                    this.title = data.title
+                    this.content = data.content
+                    this.contentHTML = data.contentHTML
+                    this.tags = data.tags
+                    this.$nextTick(() => {
+                        Materialize.updateTextFields()
+                    })
                 })
-            })
+            }
         },
         submit() {
             if(this.id) this.update()

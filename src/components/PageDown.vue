@@ -14,7 +14,6 @@
     export default{
         data() {
             return {
-                htmlVal: ''
             }
         },
         components:{
@@ -24,6 +23,9 @@
             mdVal: {
                 required: true,
                 twoWay :true
+            },
+            htmlVal: {
+                twoWay: true
             }
         },
         ready() {

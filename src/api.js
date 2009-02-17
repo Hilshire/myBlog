@@ -1,3 +1,5 @@
+// 'use strict'
+
 import * as url from './const'
 
 let jsonInit = {
@@ -15,19 +17,25 @@ let jsonAjax = (_url, data, callback) => {
     jsonInit.body = JSON.stringify(data)
     fetch(_url, jsonInit).then(res => {
         if (res.ok) {
-            res.json().then(function(data) {
+            res.json().then(data => {
                 if(data.error) {
-                    Materialize.toast(data.msg)
-                    if(data.error == 1) window.location.href = url.base.LOGIN
+                    handleErrData(data)
                     return
                 }
 
                 callback(data)
             })
         } else {
-            Materialize.toast('fail')
+           // handleErrData({msg: 'fetch Fail'})
+            throw new Error('fetch Fail')
         }
     }).catch(err => {console.log(err)})
+
+    function handleErrData(data) {
+        if (window.Materialize) {Materialize.toast(data.msg)}
+            else alert(data.msg)
+        if(data.error == 1) window.location.href = url.base.LOGIN
+    }
 }
 
 
@@ -62,7 +70,7 @@ export let blog = {
             ep.emit('queryList', json)
         })
     },
-    queryById(id, vm) {
+    queryById(id, ep) {
         jsonAjax(url.blog.QUERY_BY_ID, id, json => {
             ep.emit('queryById', json)
             // vm.title = json.title

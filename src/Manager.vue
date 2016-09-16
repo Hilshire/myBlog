@@ -1,8 +1,7 @@
 <template>
 <div>
-    <navbar logo='Manager' :nav='nav'></navbar>
+    <navbar color='indigo' logo='Manager' :nav='nav'></navbar>
     <div class="container">
-        <p>manager</p>
         <router-view></router-view>
     </div>
 </div>

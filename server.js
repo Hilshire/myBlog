@@ -23,6 +23,8 @@ var DIR_PAGE = __dirname,
 
 
 var app = express()
+var ep = new EventProxy()
+
 app.use(bodyParser.json())
 app.get(URL_ROOT, function(req, res) {
     console.log('dir root')
@@ -38,16 +40,24 @@ app.get(URL_MANAGER, function(req, res) {
 })
 
 app.post(url.LOGIN, function(req, res) {
-    var login_ep = new EventProxy()
     var username = req.body.username,
         password = req.body.password
 
-    dispatch.validatePassword(username, password, login_ep)
+    dispatch.validatePassword(username, password, ep)
 
-    login_ep.on('validate', function(result) {
+    ep.on('validate', function(result) {
         res.send(result)
     })
-}) 
+})
+app.post(url.ADD_BLOG, function(req, res) {
+    var data = req.body
+    dispatch.addBlog(data, ep)
+
+    ep.on('addBlog', function(result) {
+        res.send(result)
+    })
+})
+
 app.listen(3000, function() {
     console.log('app is listen on port 3000')
 })

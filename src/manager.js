@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router'
 import Manager from './Manager'
+
 import Blog from './components/manager/Blog'
 import BlogEditor from './components/manager/BlogEditor'
 import Project from './components/manager/Project'
@@ -23,13 +24,19 @@ router.map({
     '/blog': {
         component: Blog
     },
+    '/blog/add': {
+        component: BlogEditor
+    },
+    '/blog/update/:id': {
+        component: BlogEditor
+    },
     '/project': {
         component: Project
     },
-    '/blog/edit': {
-        component: BlogEditor
+    '/project/add': {
+        component: ProjectEditor
     },
-    '/project/edit': {
+    '/project/update/:id': {
         component: ProjectEditor
     }
 })

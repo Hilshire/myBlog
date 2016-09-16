@@ -21,7 +21,7 @@ export default {
   props: {
       divClass: {
         type: String,
-        default: ''
+        default: 's12'
       },
       divId: String,
       value: {

@@ -1,7 +1,21 @@
 <template>
-    <p>blog</p>
+    <card>
+        <button :click='create' text='新增'></button>
+    </card>
 </template>
 
 <script>
-    export default {}
+    import Button from '../Button.vue'
+    import Card from '../Card'
+    export default {
+        methods: {
+            create() {
+                this.$router.go('/blog/add')
+            }
+        },
+        components: {
+            Button,
+            Card
+        }
+    }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav class="{{color}}">
       <div class="nav-wrapper container {{class}}">
         <a href="#" class="brand-logo">{{logo}}</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -17,7 +17,8 @@
                 default: ''
             },
             logo: String,
-            nav: Array
+            nav: Array,
+            color: String
         }
     }
 </script>

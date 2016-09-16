@@ -18,28 +18,29 @@ exports.disconnect = function() {
 }
 
 exports.blog = {
-  add: createRunFn('INSERT INTO blog VALUES(?, ?, ?, ?);'), 
+  add: createGetFn('INSERT INTO blog VALUES(null, ?, ?, ?);'), 
   del: createRunFn('DELETE FROM blog WHERE id = ?;'),
   update: createRunFn('UPDATE blog SET title = ?, text = ?, type = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM blog WHERE id = ?;', 'get')
+  query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
+  queryList: createGetFn('SELECT id, title, type, time From blog'),
 }
 
 exports.project = {
-  add: createRunFn('INSERT INTO project VALUES(?, ?, ?, ?, ?);'), 
+  add: createRunFn('INSERT INTO project VALUES(?, ?, ?, ?, ?);'),
   del: createRunFn('DELETE FROM project WHERE id = ?;'),
   update: createRunFn('UPDATE project SET title = ?, describe = ?, address = ?, img = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM project WHERE id = ?;')
 }
 
 exports.tag = {
-  add: createRunFn('INSERT INTO tag VALUES(?, ?);'), 
+  add: createRunFn('INSERT INTO tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM tag WHERE id = ?;'),
   update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM tag WHERE id = ?;')
 }
 
 exports.blogTag = {
-  add: createRunFn('INSERT INTO blog_tag VALUES(?, ?);'), 
+  add: createRunFn('INSERT INTO blog_tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM blog_tag WHERE blog_id = ?, tag_id = ?;'),
   update: createRunFn('UPDATE blog_tag SET title = ?, text = ?, type = ? WHERE id = ?;'),
   queryByProject: createGetFn('SELECT * FROM blog_tag WHERE project_id = ?;'),
@@ -47,7 +48,7 @@ exports.blogTag = {
 }
 
 exports.projectTag = {
-  add: createRunFn('INSERT INTO project_tag VALUES(?, ?);'), 
+  add: createRunFn('INSERT INTO project_tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM project_tag WHERE project_id = ? AND tag_id = ?;'),
   update: createRunFn('UPDATE project_tag SET title = ?, text = ?, type = ? WHERE id = ?;'),
   queryByProject: createGetFn('SELECT * FROM project_tag WHERE project_id = ?;'),
@@ -55,7 +56,7 @@ exports.projectTag = {
 }
 
 exports.account = {
-  add: createRunFn('INSERT INTO account VALUES(null, ?, ?, ?);'), 
+  add: createRunFn('INSERT INTO account VALUES(null, ?, ?, ?);'),
   del: createRunFn('DELETE FROM account WHERE id = ?;'),
   updatePassword: createRunFn('UPDATE account SET password = ? WHERE id = ?;'),
   updateType: createRunFn('UPDATE account SET type = ? WHERE id = ?'),

@@ -10,17 +10,28 @@ let jsonInit = {
 
 let jsonAjax = (url, data, callback) => {
     jsonInit.body = JSON.stringify(data)
-    fetch(url, jsonInit).then((res) => {
+    fetch(url, jsonInit).then((res) => callback(res))
+}
+
+export function login(username, password) {
+    jsonAjax(path.LOGIN, {username:username, password:password}, (res) => {
         if (res.ok) {
             res.json().then((data) => {
                 if(!data.isCorrect) Materialize.toast(data.msg, 2000)
-                    else window.location.href = path.MANAGER
+                else window.location.href = path.MANAGER
             })
         }
     })
 }
-export function login(username, password) {
-    jsonAjax(path.LOGIN, {username:username, password:password}, (json) => {
-        alert(json)
+
+export function addBlog(data) {
+    jsonAjax(path.ADD_BLOG, data, (json) => {
+        Materialize.toast(json, 2000)
+    })
+}
+
+export function updateBlog(data) {
+    jsonAjax(path.UPDATE_BLOG, data, (json) => {
+        Materialize.toast(josn, 2000)
     })
 }

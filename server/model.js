@@ -1,7 +1,7 @@
 var sqlite3 = require('sqlite3').verbose()
 
 exports.connect = function(callback) {
-  callback = callback || () => {}
+  // callback = callback || () => {}
   db = new sqlite3.Database('hilshire.db',
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     function(err) {
@@ -51,6 +51,14 @@ exports.projectTag = {
   update: createRunFn('UPDATE project_tag SET title = ?, text = ?, type = ? WHERE id = ?;'),
   queryByProject: createGetFn('SELECT * FROM project_tag WHERE project_id = ?;'),
   queryByTag: createGetFn('SELECT * FROM project_tag WHERE tag_id = ?;'),
+}
+
+exports.account = {
+  add: createRunFn('INSERT INTO account VALUES(null, ?, ?, ?);'), 
+  del: createRunFn('DELETE FROM account WHERE id = ?;'),
+  updatePassword: createRunFn('UPDATE account SET password = ? WHERE id = ?;'),
+  updateType: createRunFn('UPDATE account SET type = ? WHERE id = ?'),
+  query: createGetFn('SELECT * FROM account WHERE id = ?;')
 }
 
 // return a sqlite3 api function, default api is run

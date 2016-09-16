@@ -1,7 +1,8 @@
 var sqlite3 = require('sqlite3').verbose()
+var Q = require('q')
 
 exports.connect = function(callback) {
-  // callback = callback || () => {}
+  callback = callback || () => {}
   db = new sqlite3.Database('hilshire.db',
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     function(err) {
@@ -58,10 +59,10 @@ exports.account = {
   del: createRunFn('DELETE FROM account WHERE id = ?;'),
   updatePassword: createRunFn('UPDATE account SET password = ? WHERE id = ?;'),
   updateType: createRunFn('UPDATE account SET type = ? WHERE id = ?'),
-  query: createGetFn('SELECT * FROM account WHERE id = ?;')
+  queryByUsername: createGetFn('SELECT password FROM account WHERE username = ?;')
 }
 
-// return a sqlite3 api function, default api is run
+// return a sqlite3 interface function
 function createRunFn(sql, method) {
   return function(data, callback) {
     console.log(db)
@@ -74,9 +75,6 @@ function createRunFn(sql, method) {
 
 function createGetFn(sql) {
   return function(data, callback) {
-    db.get(sql, data, function(error, row) {
-      if (error) throw error
-          else callback(row)
-    })
+    db.get(sql, data, callback)
   }
 }

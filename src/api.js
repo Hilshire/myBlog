@@ -1,7 +1,7 @@
 import * as path from './const'
 
 let jsonHeader = new Headers()
-jsonHeader.append('Content-Type', 'application/json;charset:utf-8')
+jsonHeader.append('Content-Type', 'application/json')
 
 let jsonInit = {
     method: 'POST',
@@ -15,15 +15,6 @@ let jsonAjax = (url, data, callback) => {
             res.json().then(callback(json))
         }
     })
-    // $.ajax({
-    //     url: url,
-    //     method: 'post',
-    //     data: JSON.stringify(data),
-    //     contentType: 'application/json',
-    //     sucess: function (data) {
-    //         callback(data)
-    //     }
-    // })
 }
 export function login(username, password) {
     jsonAjax(path.LOGIN, {username:username, password:password}, (json) => {

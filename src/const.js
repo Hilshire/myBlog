@@ -1,1 +1,2 @@
-export const LOGIN = './manager/login'
+exports.MANAGER = '/manager'
+exports.LOGIN = '/manager/login'

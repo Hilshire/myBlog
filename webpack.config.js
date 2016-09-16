@@ -7,11 +7,13 @@ var path = require('path'),
 var ROOT_PATH = __dirname,
     APP_PATH = path.resolve(ROOT_PATH, 'src'),
     BUILD_PATH = path.resolve(ROOT_PATH, 'dist')
+var PROXY = 'http://localhost:3000/'
 
 module.exports = {
   entry: {
     app: path.resolve(APP_PATH, 'app.js'),
     login: path.resolve(APP_PATH, 'login.js'),
+    manager: path.resolve(APP_PATH, 'manager.js'),
     vendor: ['jquery', 'vue']
   },
   output: {
@@ -48,7 +50,7 @@ module.exports = {
     progress: true,
     proxy: {
         "/manager": {
-            target: 'http://localhost:3000'
+            target: PROXY
         }
     }
   },
@@ -60,6 +62,12 @@ module.exports = {
     //         warnings: false
     //     }
     // }),
+    new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery",
+          "window.jQuery": "jquery",
+          "root.jQuery": "jquery",
+        }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         chunks: ['index', 'login'],

@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var EventProxy = require('eventproxy')
 var hildb = require('./server/model.js')
 var dispatch = require('./server/dispatch.js')
+var url = require('./src/const')
 
 hildb.connect()
 // hildb.account.query(1, function(data) {
@@ -31,8 +32,12 @@ app.get(URL_LOGIN, function(req, res) {
     console.log('login')
     res.sendFile(DIR_LOGIN)
 })
+app.get(URL_MANAGER, function(req, res) {
+    console.log('manager')
+    res.sendFile(DIR_MANAGER)
+})
 
-app.post('/manager/login', function(req, res) {
+app.post(url.LOGIN, function(req, res) {
     var login_ep = new EventProxy()
     var username = req.body.username,
         password = req.body.password
@@ -40,8 +45,7 @@ app.post('/manager/login', function(req, res) {
     dispatch.validatePassword(username, password, login_ep)
 
     login_ep.on('validate', function(result) {
-        if (result.isValidated) res.redirect('/manager')
-            else res.send({msg: result.msg})
+        res.send(result)
     })
 }) 
 app.listen(3000, function() {

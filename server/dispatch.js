@@ -1,8 +1,11 @@
 var hildb = require('./model.js')
+var moment = require('moment')
+
+moment.locale('zh-cn')
 
 exports.validatePassword = function(username, password, ep) {
     hildb.account.queryByUsername(username, function(err, row) {
-        delErr(err)
+        if(delErr(err, ep)) return
 
         var result;
         if (!row) result = {isValidated: false, msg: 'No such user'}
@@ -12,15 +15,27 @@ exports.validatePassword = function(username, password, ep) {
     })
 }
 
-exports.queryBlogList = function() {
-    hildb.blog.query()
+exports.queryBlogList = function(ep) {
+    hildb.blog.queryList((err, row) => {
+        if(delErr(err, ep)) return
+        console.log(row)
+        ep.emit('success', row)
+    })
 }
 
-exports.addBlog = function(data) {
-    var data = [data.title, data.text, new Date()]
-    hildb.blog.add(data, (row)=>{console.log(row)})
+exports.addBlog = function(data, ep) {
+    var data = [data.title, data.text, moment().format('l')]
+    hildb.blog.add(data, err => {
+        if(delErr(err,ep)) return
+
+        ep.emit('success', {msg: 'Add Success'})
+    })
 }
 
-function delErr(err) {
-    if(err) console.log(err)
+function delErr(err, ep) {
+    if(err) {
+        console.log(err)
+        ep.emit('Error', {msg: 'ERROR! ' + err})
+        return true
+    }
 }

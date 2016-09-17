@@ -13,7 +13,7 @@ hildb.connect()
 // hildb.disconnect()
 
 var URL_ROOT = '/',
-    URL_MANAGER = '/manager',
+    URL_MANAGER = '/manager/',
     URL_LOGIN = path.resolve(URL_MANAGER, 'login')
 
 var DIR_PAGE = __dirname,
@@ -23,7 +23,6 @@ var DIR_PAGE = __dirname,
 
 
 var app = express()
-var ep = new EventProxy()
 
 app.use(bodyParser.json())
 app.get(URL_ROOT, function(req, res) {
@@ -39,21 +38,22 @@ app.get(URL_MANAGER, function(req, res) {
     res.sendFile(DIR_MANAGER)
 })
 
-app.post(url.LOGIN, function(req, res) {
-    var username = req.body.username,
-        password = req.body.password
+//TODO: control分离
+handlePost(url.QUERY_BLOG_LIST, function(data, ep) {
+    dispatch.queryBlogList(ep)
+})
+
+handlePost(url.ADD_BLOG, function(data, ep) {
+    dispatch.addBlog(data, ep)
+})
+
+handlePost(url.LOGIN, function(data, ep) {
+    var username = data.username,
+        password = data.password
 
     dispatch.validatePassword(username, password, ep)
-
-    ep.on('validate', function(result) {
-        res.send(result)
-    })
-})
-app.post(url.ADD_BLOG, function(req, res) {
-    var data = req.body
-    dispatch.addBlog(data, ep)
-
-    ep.on('addBlog', function(result) {
+}, function(res, ep) {
+    ep.once('validate', function(result) {
         res.send(result)
     })
 })
@@ -61,3 +61,26 @@ app.post(url.ADD_BLOG, function(req, res) {
 app.listen(3000, function() {
     console.log('app is listen on port 3000')
 })
+
+// 处理post请求。无论成功还是失败都把结果返回去。
+// 可以增加多个事件
+function handlePost(url, callback) {
+    var ep = new EventProxy()
+    var event = Array.prototype.slice.call(arguments, 2)
+
+    app.post(url, function(req, res) {
+        callback(req.body, ep)
+
+        ep.once('success', function(result) {
+            res.send(result)
+        })
+
+        ep.once('Error', function(msg) {
+            res.send(msg)
+        })
+
+        for(key in event) {
+            event[key](res, ep)
+        }
+    })
+}

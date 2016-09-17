@@ -1,5 +1,5 @@
 <template>
-    <a class="waves-effect waves-light btn {{class}}" @click='click'>{{text}}</a>
+    <a class="waves-effect waves-light btn {{class}} {{color}}" @click='click'>{{text}}</a>
 </template>
 
 <script>
@@ -8,6 +8,10 @@
             class:{
                 type: String,
                 default:''
+            },
+            color: {
+                type: String,
+                default: 'indigo'
             },
             text: String,
             click: Function

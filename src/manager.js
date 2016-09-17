@@ -28,6 +28,7 @@ router.map({
         component: BlogEditor
     },
     '/blog/update/:id': {
+        name: 'updateBlog',
         component: BlogEditor
     },
     '/project': {

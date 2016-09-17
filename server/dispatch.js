@@ -15,20 +15,45 @@ exports.validatePassword = function(username, password, ep) {
     })
 }
 
-exports.queryBlogList = function(ep) {
-    hildb.blog.queryList((err, row) => {
-        if(delErr(err, ep)) return
-        console.log(row)
-        ep.emit('success', row)
-    })
-}
-
 exports.addBlog = function(data, ep) {
     var data = [data.title, data.text, moment().format('l')]
     hildb.blog.add(data, err => {
         if(delErr(err,ep)) return
 
         ep.emit('success', {msg: 'Add Success'})
+    })
+}
+
+exports.delBlog = function(data, ep) {
+    //TODO：如果id不存在也会显示成功
+    hildb.blog.del(data.id, err => {
+        if(delErr(err, ep)) return
+
+        ep.emit('success', {msg: 'Del Success'})
+    })
+}
+
+exports.updateBlog = function(data, ep) {
+    hildb.blog.update([data.title, data.text, data.id], err => {
+        if(delErr(err, ep)) return
+
+        ep.emit('success', {msg: 'Update Success'})
+    })
+}
+
+exports.queryBlogList = function(ep) {
+    hildb.blog.queryList((err, row) => {
+        if(delErr(err, ep)) return
+        // console.log(row)
+        ep.emit('success', row)
+    })
+}
+
+exports.queryBlogById = function(data, ep) {
+    hildb.blog.query(data.id, (err, row) => {
+        if(delErr(err, ep)) return
+        console.log(row)
+        ep.emit('success', row)
     })
 }
 

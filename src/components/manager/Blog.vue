@@ -1,6 +1,6 @@
 <template>
     <card>
-        <button :click='create' text='新增'></button>
+        <button @click='add' text='新增'></button>
     </card>
 
     <card>
@@ -19,8 +19,8 @@
                     <td></td>
                     <td>{{item.time}}</td>
                     <td>
-                        <button text='修改' class='btn-flat' color='indigo-text'></button>
-                        <button text='删除' class='btn-flat' color='indigo-text'></button>
+                        <button text='修改' class='btn-flat' color='indigo-text' @click='update(item.id)'></button>
+                        <button text='删除' class='btn-flat' color='indigo-text' @click='del(item.id)'></button>
                     </td>
                 </tr>
             </tbody>
@@ -39,12 +39,22 @@
             }
         },
         methods: {
-            create() {
+            add: function() {
                 this.$router.go('/blog/add')
+            },
+            query: function() {
+                blog.queryList(this)
+            },
+            update: function(id) {
+                this.$router.go({name: 'updateBlog', params: {id: id}})
+            },
+            del: function(id) {
+                blog.del({id: id})
+                this.query()
             }
         },
         ready() {
-            blog.queryList(this)
+            this.query()
         },
         components: {
             Button,

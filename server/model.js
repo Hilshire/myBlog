@@ -70,6 +70,7 @@ function createRunFn(sql, method) {
   }
 }
 
+
 function createGetFn(sql, method) {
   return function(data, callback) {
     if(Object.prototype.toString.call(data) === '[object Function]') {

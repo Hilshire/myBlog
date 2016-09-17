@@ -13,7 +13,7 @@ hildb.connect()
 // hildb.disconnect()
 
 var URL_ROOT = '/',
-    URL_MANAGER = '/manager/',
+    URL_MANAGER = '/manager/*',
     URL_LOGIN = path.resolve(URL_MANAGER, 'login')
 
 var DIR_PAGE = __dirname,
@@ -39,12 +39,20 @@ app.get(URL_MANAGER, function(req, res) {
 })
 
 //TODO: control分离
+handlePost(url.ADD_BLOG, function(data, ep) {
+    dispatch.addBlog(data, ep)
+})
+handlePost(url.DEL_BLOG, function(data, ep) {
+    dispatch.delBlog(data, ep)
+})
+handlePost(url.UPDATE_BLOG, function(data, ep) {
+    dispatch.updateBlog(data, ep)
+})
 handlePost(url.QUERY_BLOG_LIST, function(data, ep) {
     dispatch.queryBlogList(ep)
 })
-
-handlePost(url.ADD_BLOG, function(data, ep) {
-    dispatch.addBlog(data, ep)
+handlePost(url.QUERY_BLOG_BY_ID, function(data, ep) {
+    dispatch.queryBlogById(data, ep)
 })
 
 handlePost(url.LOGIN, function(data, ep) {

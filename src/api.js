@@ -8,6 +8,7 @@ let jsonInit = {
     headers: jsonHeader
 }
 
+//TODO: 异常捕获
 let jsonAjax = (url, data, callback) => {
     if (Object.prototype.toString.call(data) === '[object Function]') {
         callback = data
@@ -34,21 +35,37 @@ export function login(username, password) {
 }
 
 export let blog = {
-    queryList(target) {
-        jsonAjax(path.QUERY_BLOG_LIST, json => {
-            console.log(target)
-            console.log(json)
-            target.table = json
-        })
-    },
     add(data) {
         jsonAjax(path.ADD_BLOG, data, json => {
-            Materialize.toast(json, 2000)
+            Materialize.toast(json.msg, 2000)
         })
     },
-    updateBlog(data) {
+    del(id) {
+        jsonAjax(path.DEL_BLOG, id, result => {
+            Materialize.toast(result.msg, 2000)
+        })
+    },
+    update(data) {
         jsonAjax(path.UPDATE_BLOG, data, json => {
-            Materialize.toast(josn, 2000)
+            Materialize.toast(json.msg, 2000)
+        })
+    },
+    queryList(vm) {
+        jsonAjax(path.QUERY_BLOG_LIST, json => {
+            vm.table = json
+        })
+    },
+    //这里传入vm，导致视图和逻辑耦合。
+    //为零应对ajax异步不得已而为之
+    //不知道有没有什么更好的方法
+    //TODO: fix it
+    queryById(id, vm) {
+        jsonAjax(path.QUERY_BLOG_BY_ID, id, json => {
+            vm.title = json.title
+            vm.text = json.text
+            vm.$nextTick(() => {
+                Materialize.updateTextFields()
+            })
         })
     }
 }

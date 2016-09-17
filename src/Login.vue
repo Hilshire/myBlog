@@ -3,7 +3,7 @@
     <div class="valign col s12">
         <input-group :label="userName.label" :value.sync="userName.value" div-class="s12" div-id="userName"></input-group>
         <input-group :label="passWord.label" :value.sync="passWord.value" div-class="s12" div-id="passWord"></input-group>
-        <button :click="submit" text='Login'></button>
+        <button @click="submit" text='Login'></button>
     </div>
     </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import {login} from './api'
 import InputGroup from './components/InputGroup'
-import Button from './components/Button' 
+import Button from './components/Button'
 export default {
   data: function () {
     return {

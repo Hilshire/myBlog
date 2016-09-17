@@ -50,8 +50,7 @@ exports.blog = {
 
 }
 
-
-
+//善后: 处理错误，触发事件，回调处理数据。data是返回的数据
 function handleData(err, ep, data, callback) {
     if(err) {
         console.log(err)
@@ -59,7 +58,7 @@ function handleData(err, ep, data, callback) {
     } else {
         if (callback) {
             console.log('show db data: ', data)
-            callback(data)
+            data = callback(data)
         }
         ep.emit('success', data)
     }

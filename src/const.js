@@ -1,5 +1,8 @@
-exports.MANAGER = '/manager'
-exports.LOGIN = '/manager/login'
+exports.base = {
+    ROOT: '/',
+    MANAGER: '/manager',
+    LOGIN: '/manager/login'
+}
 
 exports.blog = {
     ADD: '/manager/addBlog',

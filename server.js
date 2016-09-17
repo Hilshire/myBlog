@@ -7,55 +7,60 @@ var dispatch = require('./server/dispatch.js')
 var url = require('./src/const')
 
 hildb.connect()
-// hildb.account.query(1, function(data) {
-//     console.log(data)
-// })
 // hildb.disconnect()
-
-var URL_ROOT = '/',
-    URL_MANAGER = '/manager',
-    URL_LOGIN = '/manager/login'
 
 var DIR_PAGE = __dirname,
     DIR_APP = path.resolve(DIR_PAGE, 'app.html'),
     DIR_MANAGER = path.resolve(DIR_PAGE, 'manager.html'),
     DIR_LOGIN = path.resolve(DIR_PAGE, 'login.html')
 
-
 var app = express()
 
 app.use(bodyParser.json())
-app.get(URL_ROOT, function(req, res) {
-    console.log('dir root')
+
+//返回html
+app.get(url.base.ROOT, function(req, res) {
+    console.log('path: dir root')
     res.sendFile(DIR_APP)
 })
-app.get(URL_LOGIN, function(req, res) {
-    console.log('login')
+app.get(url.base.LOGIN, function(req, res) {
+    console.log('path: login')
     res.sendFile(DIR_LOGIN)
 })
-app.get(URL_MANAGER, function(req, res) {
-    console.log('manager')
+app.get(url.base.MANAGER, function(req, res) {
+    console.log('path: manager')
     res.sendFile(DIR_MANAGER)
 })
 
-//TODO: control分离
-handlePost(url.blog.ADD, function(data, ep) {
-    dispatch.blog.add(data, ep)
-})
-handlePost(url.blog.DEL, function(data, ep) {
-    dispatch.blog.del(data, ep)
-})
-handlePost(url.blog.UPDATE, function(data, ep) {
-    dispatch.blog.update(data, ep)
-})
-handlePost(url.blog.QUERY_LIST, function(data, ep) {
-    dispatch.blog.queryList(ep)
-})
-handlePost(url.blog.QUERY_BY_ID, function(data, ep) {
-    dispatch.blog.queryById(data, ep)
+// 之后会对数组里每一项调用handlepost,
+// 数组第一项为对应url,
+// 第二项为对应的dispatch(DAO),
+// 第三项为第二项的参数, 从(data, ep)中选择一个，默认为都有
+var postToHandle = [
+    [url.blog.ADD, dispatch.blog.add],
+    [url.blog.DEL, dispatch.blog.del],
+    [url.blog.UPDATE, dispatch.blog.update],
+    [url.blog.QUERY_LIST, dispatch.blog.queryList, 1],
+    [url.blog.QUERY_BY_ID, dispatch.blog.queryById]
+]
+
+// 对每一项调用handlePost,简单地传入req.body，输出dispatch返回的数据
+// 以blod.add为例，每项单独写出来大概是这样的
+// handlePost(url.blog.ADD, function(data, ep) {
+//     dispatch.blog.add(data, ep)
+// })
+postToHandle.forEach(function(item) {
+    var arg = item[2]
+    handlePost(item[0], function(data, ep) {
+        if(!arg) item[1](data, ep)
+            else item[1](arguments[arg])
+    })
 })
 
-handlePost(url.LOGIN, function(data, ep) {
+
+// 逻辑较为复杂的control无法并入数组，在这里单独列出
+// （其实主要是不想用success作为事件名，因为验证可能是失败的）
+handlePost(url.base.LOGIN, function(data, ep) {
     var username = data.username,
         password = data.password
 
@@ -79,6 +84,8 @@ function handlePost(url, callback) {
     app.post(url, function(req, res) {
         callback(req.body, ep)
 
+        //这里只能用once。如果事件不解绑，res对象惠一直存在，
+        //然后在新请求到来时报错。
         ep.once('success', function(result) {
             res.send(result)
         })

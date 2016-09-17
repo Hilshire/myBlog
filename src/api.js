@@ -28,9 +28,9 @@ let jsonAjax = (url, data, callback) => {
 
 
 export function login(username, password) {
-    jsonAjax(path.LOGIN, {username:username, password:password}, data => {
+    jsonAjax(path.base.LOGIN, {username:username, password:password}, data => {
         if(!data.isCorrect) Materialize.toast(data.msg, 2000)
-            else window.location.href = path.MANAGER
+            else window.location.href = path.base.MANAGER
     })
 }
 

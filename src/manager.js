@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 var router = new VueRouter({
   hashbang: true,
   linkActiveClass: 'active',
-  history: true,
+  // history: true,
   saveScrollPosition: true,
   root: '/manager'
 });

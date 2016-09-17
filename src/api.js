@@ -36,22 +36,22 @@ export function login(username, password) {
 
 export let blog = {
     add(data) {
-        jsonAjax(path.ADD_BLOG, data, json => {
+        jsonAjax(path.blog.ADD, data, json => {
             Materialize.toast(json.msg, 2000)
         })
     },
     del(id) {
-        jsonAjax(path.DEL_BLOG, id, result => {
+        jsonAjax(path.blog.DEL, id, result => {
             Materialize.toast(result.msg, 2000)
         })
     },
     update(data) {
-        jsonAjax(path.UPDATE_BLOG, data, json => {
+        jsonAjax(path.blog.UPDATE, data, json => {
             Materialize.toast(json.msg, 2000)
         })
     },
     queryList(vm) {
-        jsonAjax(path.QUERY_BLOG_LIST, json => {
+        jsonAjax(path.blog.QUERY_LIST, json => {
             vm.table = json
         })
     },
@@ -60,7 +60,7 @@ export let blog = {
     //不知道有没有什么更好的方法
     //TODO: fix it
     queryById(id, vm) {
-        jsonAjax(path.QUERY_BLOG_BY_ID, id, json => {
+        jsonAjax(path.blog.QUERY_BY_ID, id, json => {
             vm.title = json.title
             vm.text = json.text
             vm.$nextTick(() => {

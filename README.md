@@ -7,8 +7,11 @@ sqlite + express + webpack + vue
 简易的博客，（计划）包含一个展示页面和一个后台管理页面。目前，仅完成blog表的增删改查操纵。样式方面也没有调整
 ###start
 该项目尚未完成，不过你可以调试它
+
 npm install
+
 node server.js
+
 npm run dev
 
 访问localhost:8080/manager进入管理页面

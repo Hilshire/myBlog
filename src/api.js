@@ -18,6 +18,12 @@ let jsonAjax = (url, data, callback) => {
     fetch(url, jsonInit).then(res => {
         if (res.ok) {
             res.json().then(function(data) {
+                if(data.error) {
+                    Materialize.toast(data.msg)
+                    if(data.error == 1) window.location.href = path.base.LOGIN
+                    return
+                }
+
                 callback(data)
             })
         } else {
@@ -29,7 +35,7 @@ let jsonAjax = (url, data, callback) => {
 
 export function login(username, password) {
     jsonAjax(path.base.LOGIN, {username:username, password:password}, data => {
-        if(!data.isCorrect) Materialize.toast(data.msg, 2000)
+        if(!data.passValidate) Materialize.toast(data.msg, 2000)
             else window.location.href = path.base.MANAGER
     })
 }

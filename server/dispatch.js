@@ -11,9 +11,9 @@ exports.validatePassword = function(username, password, ep) {
             ep.emit('Error', {msg: 'ERROR! ' + err})
         } else {
             var result;
-            if (!row) result = {isValidated: false, msg: 'No such user'}
-                else if (row.password !== password) result = {isCorrect: false, msg: 'Password error'}
-                    else result = {isCorrect: true, msg: 'success'}
+            if (!row) result = {paseValidate: false, msg: 'No such user'}
+                else if (row.password !== password) result = {passValidate: false, msg: 'Password error'}
+                    else result = {passValidate: true, msg: 'success'}
             ep.emit('validate', result)
         }
     })

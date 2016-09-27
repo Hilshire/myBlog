@@ -1,5 +1,6 @@
 var path = require('path')
 var express = require('express')
+var session = require('express-session')
 var bodyParser = require('body-parser')
 var EventProxy = require('eventproxy')
 var hildb = require('./server/model.js')
@@ -17,18 +18,25 @@ var DIR_PAGE = __dirname,
 var app = express()
 
 app.use(bodyParser.json())
+app.use(session({
+    secret: 'keyboard cat',
+    saveUninitialized: true,
+    resave: false,
+    secure: false,
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 }
+}))
 
 //返回html
 app.get(url.base.ROOT, function(req, res) {
-    console.log('path: dir root')
+    console.log('path: dir root', 'session', req.sessionID)
     res.sendFile(DIR_APP)
 })
 app.get(url.base.LOGIN, function(req, res) {
-    console.log('path: login')
+    console.log('path: login', 'session', req.sessionID)
     res.sendFile(DIR_LOGIN)
 })
 app.get(url.base.MANAGER, function(req, res) {
-    console.log('path: manager')
+    console.log('path: manager', 'session', req.sessionID)
     res.sendFile(DIR_MANAGER)
 })
 
@@ -60,13 +68,24 @@ postToHandle.forEach(function(item) {
 
 // 逻辑较为复杂的control无法并入数组，在这里单独列出
 // （其实主要是不想用success作为事件名，因为验证可能是失败的）
-handlePost(url.base.LOGIN, function(data, ep) {
-    var username = data.username,
-        password = data.password
-
+// handlePost(url.base.LOGIN, function(data, ep) {
+//     var username = data.username,
+//         password = data.password
+//
+//     dispatch.validatePassword(username, password, ep)
+// }, function(res, ep) {
+//     ep.once('validate', function(result) {
+//         res.send(result)
+//     })
+// })
+app.post(url.base.LOGIN, function(req, res) {
+    console.log('do login', req.sessionID)
+    var ep = new EventProxy()
+    var username = req.body.username,
+        password = req.body.password
     dispatch.validatePassword(username, password, ep)
-}, function(res, ep) {
-    ep.once('validate', function(result) {
+    ep.once('validate', function (result) {
+        // if(result.passValidate) req.session.user_name = username
         res.send(result)
     })
 })
@@ -82,6 +101,12 @@ function handlePost(url, callback) {
     var event = Array.prototype.slice.call(arguments, 2)
 
     app.post(url, function(req, res) {
+        console.log('handlePost', url, req.sessionID)
+        if(!req.session.user_name) {
+            res.send({error:1, msg:'You shoul login'})
+            return
+        }
+
         callback(req.body, ep)
 
         //这里只能用once。如果事件不解绑，res对象惠一直存在，

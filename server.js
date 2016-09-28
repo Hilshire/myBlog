@@ -85,7 +85,7 @@ app.post(url.base.LOGIN, function(req, res) {
         password = req.body.password
     dispatch.validatePassword(username, password, ep)
     ep.once('validate', function (result) {
-        // if(result.passValidate) req.session.user_name = username
+        if(result.passValidate) req.session.user_name = username
         res.send(result)
     })
 })

@@ -1,11 +1,9 @@
 import * as path from './const'
 
-let jsonHeader = new Headers()
-jsonHeader.append('Content-Type', 'application/json')
-
 let jsonInit = {
     method: 'POST',
-    headers: jsonHeader
+    headers: { "Content-Type": "application/json"},
+    credentials: 'include'
 }
 
 //TODO: 异常捕获
@@ -29,7 +27,7 @@ let jsonAjax = (url, data, callback) => {
         } else {
             Materialize.toast('fail')
         }
-    })
+    }).catch(err => {console.log(err)})
 }
 
 

@@ -1,10 +1,8 @@
 <template>
-    <div class="row">
-      <div class="input-field col {{width}}">
-        <textarea v-model="value" class="materialize-textarea"></textarea>
-        <label>{{label}}</label>
-      </div>
-    </div>
+  <div class="input-field col {{width}}">
+    <textarea v-model="value" class="materialize-textarea"></textarea>
+    <label>{{label}}</label>
+  </div>
 </template>
 
 <script>

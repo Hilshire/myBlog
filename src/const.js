@@ -1,10 +1,13 @@
 exports.base = {
     ROOT: '/',
     MANAGER: '/manager',
-    LOGIN: '/manager/login'
+    MANAGER_ALL: '/manager/*',
+    LOGIN: '/manager/login',
 }
 
 exports.blog = {
+    ROOT: '/manager/blog',
+    VUE_ROOT: '/blog',
     ADD: '/manager/addBlog',
     DEL: '/manager/delBlog',
     UPDATE: '/manager/updateBlog',

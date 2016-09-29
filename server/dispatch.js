@@ -23,18 +23,18 @@ exports.blog = {
     add(data, ep) {
         var data = [data.title, data.text, moment().format('l')]
         hildb.blog.add(data, err => {
-            handleData(err, ep, {msg: 'Add Success'})
+            handleData(err, ep, {success: 1, msg: 'Add Success'})
         })
     },
     del(data, ep) {
         //TODO：如果id不存在也会显示成功
         hildb.blog.del(data.id, err => {
-            handleData(err, ep, {msg: 'Del Success'})
+            handleData(err, ep, {success: 1, msg: 'Del Success'})
         })
     },
     update(data, ep) {
         hildb.blog.update([data.title, data.text, data.id], err => {
-            handleData(err, ep, {msg: 'Update Success'})
+            handleData(err, ep, {success: 1, msg: 'Update Success'})
         })
     },
     queryList(ep) {

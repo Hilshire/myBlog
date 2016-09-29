@@ -1,0 +1,35 @@
+<template>
+    <div class="row">
+        <textarea id="article-markdown" :value.sync='mdVal' label='正文' width='s6'></textarea>
+        <div id="article-html" class="col s6">{{{htmlVal}}}</div>
+    </div>
+</template>
+<style>
+
+</style>
+<script>
+    import Markdown from '../../node_modules/pagedown/Markdown.Converter.js'
+    import Textarea from './Textarea.vue'
+
+    export default{
+        data() {
+            return {
+                htmlVal: ''
+            }
+        },
+        components:{
+            Textarea
+        },
+        props: ['mdVal'],
+        ready() {
+            this.conventer = new Markdown.Converter()
+        },
+        computed: {
+            htmlVal() {
+                if(this.mdVal) return this.conventer.makeHtml(this.mdVal)
+            }
+        },
+        methods: {
+        }
+    }
+</script>

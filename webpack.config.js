@@ -11,7 +11,7 @@ var PROXY = 'http://localhost:3000/'
 
 module.exports = {
   entry: {
-    app: path.resolve(APP_PATH, 'app.js'),
+    app:['webpack/hot/dev-server', path.resolve(APP_PATH, 'app.js')],
     login: path.resolve(APP_PATH, 'login.js'),
     manager: path.resolve(APP_PATH, 'manager.js'),
     vendor: ['jquery', 'vue']

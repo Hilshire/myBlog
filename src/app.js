@@ -8,6 +8,6 @@ var router = new VueRouter({
   hashbang: false,
   history: true,
   saveScrollPosition: true
-});
+})
 
-router.start(App, '#app');
+router.start(App, '#app')

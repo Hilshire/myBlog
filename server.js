@@ -35,7 +35,7 @@ app.get(url.base.LOGIN, function(req, res) {
     console.log('path: login', 'session', req.sessionID)
     res.sendFile(DIR_LOGIN)
 })
-app.get(url.base.MANAGER, function(req, res) {
+app.get(url.base.MANAGER_ALL, function(req, res) {
     console.log('path: manager', 'session', req.sessionID)
     res.sendFile(DIR_MANAGER)
 })

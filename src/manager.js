@@ -13,9 +13,9 @@ import '../node_modules/materialize-css/dist/js/materialize.js'
 Vue.use(VueRouter)
 
 var router = new VueRouter({
-  hashbang: true,
+  hashbang: false,
   linkActiveClass: 'active',
-  // history: true,
+  history: true,
   saveScrollPosition: true,
   root: '/manager'
 });
@@ -42,4 +42,4 @@ router.map({
     }
 })
 
-router.start(Manager, '#manager');
+router.start(Manager, '#manager')

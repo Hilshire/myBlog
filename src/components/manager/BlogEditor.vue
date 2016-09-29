@@ -1,17 +1,18 @@
 <template>
     <card>
         <input-group :value.sync='title' label='标题'></input-group>
-        <textarea :value.sync='text' label='正文'></textarea>
+        <pagedown :md-val='text'></pagedown>
         <button class="indigo" @click='submit' text="确定"></button>
     </card>
 </template>
 
-<script>
+<script lang="babel">
 import Card from '../Card'
 import InputGroup from '../InputGroup'
 import Select from '../Select'
 import Textarea from '../Textarea'
 import Button from '../Button'
+import Pagedown from '../PageDown'
 
 import {blog} from '../../api'
 
@@ -39,10 +40,10 @@ export default {
                 else this.add()
         },
         add() {
-            blog.add(this.$data)
+            blog.add(this.$router, this.$data)
         },
         update() {
-            blog.update(Object.assign({}, this.$data , {id: this.id}))
+            blog.update(this.$router, Object.assign({}, this.$data , {id: this.id}))
             this.query()
         }
     },
@@ -50,7 +51,8 @@ export default {
         InputGroup,
         Card,
         Textarea,
-        Button
+        Button,
+        Pagedown,
     }
 }
 </script>

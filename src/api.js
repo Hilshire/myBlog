@@ -1,4 +1,4 @@
-import * as path from './const'
+import * as url from './const'
 
 let jsonInit = {
     method: 'POST',
@@ -18,7 +18,7 @@ let jsonAjax = (url, data, callback) => {
             res.json().then(function(data) {
                 if(data.error) {
                     Materialize.toast(data.msg)
-                    if(data.error == 1) window.location.href = path.base.LOGIN
+                    if(data.error == 1) window.location.href = url.base.LOGIN
                     return
                 }
 
@@ -32,30 +32,32 @@ let jsonAjax = (url, data, callback) => {
 
 
 export function login(username, password) {
-    jsonAjax(path.base.LOGIN, {username:username, password:password}, data => {
+    jsonAjax(url.base.LOGIN, {username:username, password:password}, data => {
         if(!data.passValidate) Materialize.toast(data.msg, 2000)
-            else window.location.href = path.base.MANAGER
+            else window.location.href = url.blog.ROOT
     })
 }
 
 export let blog = {
-    add(data) {
-        jsonAjax(path.blog.ADD, data, json => {
+    add(router, data) {
+        jsonAjax(url.blog.ADD, data, json => {
             Materialize.toast(json.msg, 2000)
+            if(json.success) router.go(url.blog.VUE_ROOT)
         })
     },
     del(id) {
-        jsonAjax(path.blog.DEL, id, result => {
+        jsonAjax(url.blog.DEL, id, result => {
             Materialize.toast(result.msg, 2000)
         })
     },
-    update(data) {
-        jsonAjax(path.blog.UPDATE, data, json => {
+    update(router, data) {
+        jsonAjax(url.blog.UPDATE, data, json => {
             Materialize.toast(json.msg, 2000)
+            if(json.success) router.go(url.blog.VUE_ROOT)
         })
     },
     queryList(vm) {
-        jsonAjax(path.blog.QUERY_LIST, json => {
+        jsonAjax(url.blog.QUERY_LIST, json => {
             vm.table = json
         })
     },
@@ -64,7 +66,7 @@ export let blog = {
     //不知道有没有什么更好的方法
     //TODO: fix it
     queryById(id, vm) {
-        jsonAjax(path.blog.QUERY_BY_ID, id, json => {
+        jsonAjax(url.blog.QUERY_BY_ID, id, json => {
             vm.title = json.title
             vm.text = json.text
             vm.$nextTick(() => {

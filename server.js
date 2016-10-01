@@ -37,6 +37,10 @@ app.get(url.base.LOGIN, function(req, res) {
 })
 app.get(url.base.MANAGER_ALL, function(req, res) {
     console.log('path: manager', 'session', req.sessionID)
+    if(!req.session.user_name) {
+        res.redirect(url.base.LOGIN)
+        return
+    }
     res.sendFile(DIR_MANAGER)
 })
 
@@ -49,7 +53,13 @@ var postToHandle = [
     [url.blog.DEL, dispatch.blog.del],
     [url.blog.UPDATE, dispatch.blog.update],
     [url.blog.QUERY_LIST, dispatch.blog.queryList, 1],
-    [url.blog.QUERY_BY_ID, dispatch.blog.queryById]
+    [url.blog.QUERY_BY_ID, dispatch.blog.queryById],
+
+    [url.project.ADD, dispatch.project.add],
+    [url.project.DEL, dispatch.project.del],
+    [url.project.UPDATE, dispatch.project.update],
+    [url.project.QUERY_LIST, dispatch.project.queryList, 1],
+    [url.project.QUERY_BY_ID, dispatch.project.queryById]
 ]
 
 // 对每一项调用handlePost,简单地传入req.body，输出dispatch返回的数据

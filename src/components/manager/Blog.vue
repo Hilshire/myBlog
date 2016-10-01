@@ -14,6 +14,7 @@
                 </tr>
             </thead>
             <tbody>
+                <tr v-if="table.length === 0"><td  colspan = 8>No Data</td></tr>
                 <tr v-for = 'item in table'>
                     <td>{{item.title}}</td>
                     <td></td>
@@ -32,6 +33,7 @@
     import Button from '../Button.vue'
     import Card from '../Card'
     import {blog} from '../../api'
+
     export default {
         data() {
             return {

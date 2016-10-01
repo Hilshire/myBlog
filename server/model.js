@@ -26,10 +26,11 @@ exports.blog = {
 }
 
 exports.project = {
-  add: createRunFn('INSERT INTO project VALUES(?, ?, ?, ?, ?);'),
+  add: createRunFn('INSERT INTO project VALUES(null, ?, ?, ?, ?, ?);'),
   del: createRunFn('DELETE FROM project WHERE id = ?;'),
   update: createRunFn('UPDATE project SET title = ?, describe = ?, address = ?, img = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM project WHERE id = ?;')
+  query: createGetFn('SELECT * FROM project WHERE id = ?;'),
+  queryList: createGetFn('SELECT id, title, describe, address, time, img FROM project', 'all')
 }
 
 exports.tag = {

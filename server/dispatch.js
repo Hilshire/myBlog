@@ -50,6 +50,38 @@ exports.blog = {
 
 }
 
+exports.project = {
+    add(data, ep) {
+        var data = [data.title, data.describe, data.address, moment().format('l'), data.imgsrc]
+        hildb.project.add(data, err => {
+            handleData(err, ep, {success: 1, msg: 'Add Success'})
+        })
+    },
+    del(data, ep) {
+        hildb.project.del(data.id, err => {
+            handleData(err, ep, {success: 1, msg: 'Del Success'})
+        })
+    },
+    update(data, ep) {
+        var data = [data.title, data.describe, data.address, data.img, data.id]
+        hildb.project.update(data, (err, row) => {
+            handleData(err, ep, {success: 1, msg: 'Update Success'})
+        })
+    },
+    queryList(ep) {
+        hildb.project.queryList((err, row) => {
+            handleData(err, ep, row)
+        })
+    },
+    queryById(data, ep) {
+        hildb.project.query(data.id, (err, row) => {
+            handleData(err, ep, row)
+        })
+    }
+
+
+}
+
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
 function handleData(err, ep, data, callback) {
     if(err) {
@@ -57,7 +89,7 @@ function handleData(err, ep, data, callback) {
         ep.emit('Error', {msg: 'ERROR! ' + err})
     } else {
         if (callback) {
-            console.log('show db data: ', data)
+            console.log('db return data: ', data)
             data = callback(data)
         }
         ep.emit('success', data)

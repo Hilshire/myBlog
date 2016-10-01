@@ -20,7 +20,12 @@
         components:{
             Textarea
         },
-        props: ['mdVal'],
+        props: {
+            mdVal: {
+                required: true,
+                twoWay :true
+            }
+        },
         ready() {
             this.conventer = new Markdown.Converter()
         },

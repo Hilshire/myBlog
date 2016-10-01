@@ -7,13 +7,13 @@ let jsonInit = {
 }
 
 //TODO: 异常捕获
-let jsonAjax = (url, data, callback) => {
+let jsonAjax = (_url, data, callback) => {
     if (Object.prototype.toString.call(data) === '[object Function]') {
         callback = data
         data = undefined
     }
     jsonInit.body = JSON.stringify(data)
-    fetch(url, jsonInit).then(res => {
+    fetch(_url, jsonInit).then(res => {
         if (res.ok) {
             res.json().then(function(data) {
                 if(data.error) {
@@ -69,6 +69,41 @@ export let blog = {
         jsonAjax(url.blog.QUERY_BY_ID, id, json => {
             vm.title = json.title
             vm.text = json.text
+            vm.$nextTick(() => {
+                Materialize.updateTextFields()
+            })
+        })
+    }
+}
+
+export let project = {
+    add(router, data) {
+        jsonAjax(url.project.ADD, data, json => {
+            Materialize.toast(json.msg, 2000)
+            if(json.success) router.go(url.project.VUE_ROOT)
+        })
+    },
+    del(id) {
+        jsonAjax(url.project.DEL, id, result => {
+            Materialize.toast(result.msg, 2000)
+        })
+    },
+    update(router, data) {
+        jsonAjax(url.project.UPDATE, data, json => {
+            Materialize.toast(json.msg, 2000)
+            if(json.success) router.go(url.project.VUE_ROOT)
+        })
+    },
+    queryList(vm) {
+        jsonAjax(url.project.QUERY_LIST, json => {
+            vm.table = json
+        })
+    },
+    queryById(id, vm) {
+        jsonAjax(url.project.QUERY_BY_ID, id, json => {
+            vm.title = json.title
+            vm.describe = json.describe
+            vm.address = json.address
             vm.$nextTick(() => {
                 Materialize.updateTextFields()
             })

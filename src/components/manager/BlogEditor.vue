@@ -1,7 +1,7 @@
 <template>
     <card>
         <input-group :value.sync='title' label='标题'></input-group>
-        <pagedown :md-val='text'></pagedown>
+        <pagedown :md-val.sync='text'></pagedown>
         <button class="indigo" @click='submit' text="确定"></button>
     </card>
 </template>

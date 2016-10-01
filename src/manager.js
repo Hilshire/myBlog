@@ -38,6 +38,7 @@ router.map({
         component: ProjectEditor
     },
     '/project/update/:id': {
+        name: 'updateProject',
         component: ProjectEditor
     }
 })

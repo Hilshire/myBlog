@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row pagedown markdown-body">
         <textarea id="article-markdown" :value.sync='mdVal' label='正文' width='s6'></textarea>
         <div id="article-html" class="col s6">{{{htmlVal}}}</div>
     </div>

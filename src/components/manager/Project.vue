@@ -31,7 +31,7 @@
 
 <script>
     import Button from '../Button.vue'
-    import Card from '../Card'
+    import Card from '../CardPanel'
     import {project} from '../../api'
 
     export default {

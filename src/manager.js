@@ -9,6 +9,9 @@ import ProjectEditor from './components/manager/ProjectEditor'
 
 import '../node_modules/materialize-css/dist/css/materialize.min.css'
 import '../node_modules/materialize-css/dist/js/materialize.js'
+import '../node_modules/github-markdown-css/github-markdown.css'
+import '../node_modules/highlight.js/styles/default.css'
+import '../node_modules/highlight.js/lib/highlight'
 
 Vue.use(VueRouter)
 

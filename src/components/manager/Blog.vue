@@ -1,9 +1,9 @@
 <template>
-    <card>
+    <card-panel>
         <button @click='add' text='新增'></button>
-    </card>
+    </card-panel>
 
-    <card>
+    <card-panel>
         <table class="bordered striped">
             <thead>
                 <tr>
@@ -26,12 +26,14 @@
                 </tr>
             </tbody>
         </table>
-    </card>
+    </card-panel>
 </template>
 
 <script>
     import Button from '../Button.vue'
-    import Card from '../Card'
+    import CardPanel from '../CardPanel'
+    import CardReveal from '../CardReveal.vue'
+    import Tags from '../Tags.vue'
     import {blog} from '../../api'
 
     export default {
@@ -60,7 +62,9 @@
         },
         components: {
             Button,
-            Card
+            CardPanel,
+            CardReveal,
+            Tags
         }
     }
 </script>

@@ -73,6 +73,18 @@ export let blog = {
                 Materialize.updateTextFields()
             })
         })
+    },
+    tagInit(data, vm) {
+        jsonAjax(url.blog.TAG_INIT, data, json => {
+            vm.allTag = json.allTag
+            vm.tags = json.tags
+        })
+    },
+    addTag(data) {
+        jsonAjax(url.blog.ADD_TAG, data)
+    },
+    delTag(data) {
+        jsonAjax(url.blog.DEL_TAG, data)
     }
 }
 

@@ -37,7 +37,9 @@ exports.tag = {
   add: createRunFn('INSERT INTO tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM tag WHERE id = ?;'),
   update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM tag WHERE id = ?;')
+  query: createGetFn('SELECT * FROM tag WHERE id = ?;'),
+  queryByText: createGetFn('SELECT * FROM tag WHERE text = ?'),
+  used: createGetFn()
 }
 
 exports.blogTag = {

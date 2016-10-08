@@ -54,6 +54,7 @@ var postToHandle = [
     [url.blog.UPDATE, dispatch.blog.update],
     [url.blog.QUERY_LIST, dispatch.blog.queryList, 1],
     [url.blog.QUERY_BY_ID, dispatch.blog.queryById],
+    [url.blog.ADD_TAG, dispatch.blog.addTag],
 
     [url.project.ADD, dispatch.project.add],
     [url.project.DEL, dispatch.project.del],

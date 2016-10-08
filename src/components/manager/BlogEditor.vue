@@ -3,7 +3,7 @@
         <input-group :value.sync='title' label='标题'></input-group>
     </card-panel>
 
-    <tags-editor :tags='tags' :alltags='alltags'></tags-editor>
+    <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag'></tags-editor>
 
     <card-panel>
         <pagedown :md-val.sync='text'></pagedown>
@@ -60,6 +60,15 @@ export default {
         update() {
             blog.update(this.$router, Object.assign({}, this.$data , {id: this.id}))
             this.query()
+        },
+        tagInit() {
+            blog.tagInit({id: this.id}, this)
+        },
+        addTag(newTag) {
+            blog.addTag({text: newTag, blogId: this.id})
+        },
+        delTag(tag) {
+            blog.delTag({TagId})
         }
     },
     components: {

@@ -12,7 +12,10 @@ exports.blog = {
     DEL: '/manager/delBlog',
     UPDATE: '/manager/updateBlog',
     QUERY_LIST: '/manager/queryBlogList',
-    QUERY_BY_ID: '/manager/queryBlogById'
+    QUERY_BY_ID: '/manager/queryBlogById',
+    TAG_INIT: '/manager/blog/tagInit',
+    ADD_TAG: '/manager/blog/addTag',
+    DEL_TAG: '/manager/blog/delTag'
 }
 
 exports.project = {

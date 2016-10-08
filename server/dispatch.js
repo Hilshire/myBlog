@@ -47,6 +47,44 @@ exports.blog = {
             handleData(err, ep, row)
         })
     },
+    addTag(data, ep) {
+        if(data.tagId) {
+            addExistTag(data)
+        } else {
+            //TODO:这里有异步造成的回调错误
+            var tagExist;
+            hildb.tag.queryByText(data.text, (err, row) => {
+                tagExist = row
+            })
+            if(tagExist) {
+                addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
+            } else {
+                var text = data.text,
+                    blogId = data.blogId
+                hildb.tag.add([null, text], (err) => {
+                    var newTagId;
+                    hildb.tag.queryByText(text, (err, row) => {
+                        newTagId = row.id
+                    })
+                    hildb.blogTag.add([blogId, newTagId], (err) => {
+                        handleData(err, ep, {success: 1, msg: 'Add Success'})
+                    })
+                })
+            }
+        }
+
+        function addExistTag(data) {
+            hildb.blogTag.add([data.blogId, data.tagId], err => {
+                handleData(err, ep, {success: 1, msg: 'Add Success'})
+            })
+        }
+    },
+    delTag(data, ep) {
+        var blogId = data.blogId
+        hildb.blogTag.del([blogId, data.tagId], err => {
+            handleData(err, ep, {success: 1, msg: 'Del Success'})
+        })
+    }
 
 }
 

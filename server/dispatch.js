@@ -51,26 +51,42 @@ exports.blog = {
         if(data.tagId) {
             addExistTag(data)
         } else {
-            //TODO:这里有异步造成的回调错误
+            //TODO:回调地狱
             var tagExist;
             hildb.tag.queryByText(data.text, (err, row) => {
+                if(err) {
+                    ep.emit('Error', {msg: 'query blog tag by text error'})
+                }
+
                 tagExist = row
+
+                if(tagExist) {
+                    addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
+                } else {
+                    var text = data.text,
+                        blogId = data.blogId
+
+                    hildb.tag.add([null, text], (err) => {
+                        if(err) {
+                            ep.emit('Error', {msg: 'add new tag error'})
+                        }
+
+                        var newTagId;
+
+                        hildb.tag.queryByText(text, (err, row) => {
+                            if(err) {
+                                ep.emit('Error', {msg: 'query blog tag by text error'})
+                                return
+                            }
+                            newTagId = row.id
+
+                            hildb.blogTag.add([blogId, newTagId], (err) => {
+                                handleData(err, ep, {success: 1, msg: 'Add Success'})
+                            })
+                        })
+                    })
+                }
             })
-            if(tagExist) {
-                addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
-            } else {
-                var text = data.text,
-                    blogId = data.blogId
-                hildb.tag.add([null, text], (err) => {
-                    var newTagId;
-                    hildb.tag.queryByText(text, (err, row) => {
-                        newTagId = row.id
-                    })
-                    hildb.blogTag.add([blogId, newTagId], (err) => {
-                        handleData(err, ep, {success: 1, msg: 'Add Success'})
-                    })
-                })
-            }
         }
 
         function addExistTag(data) {
@@ -121,7 +137,12 @@ exports.project = {
 }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
+//最后一个参数可传一个boolean值，用于控制emit
 function handleData(err, ep, data, callback) {
+    var len = arguments.length,
+        shouldEmit = true;
+    if (typeof arguments[len] === 'Boolean')  shouldEmit = arguments[len]
+
     if(err) {
         console.log(err)
         ep.emit('Error', {msg: 'ERROR! ' + err})
@@ -130,6 +151,10 @@ function handleData(err, ep, data, callback) {
             console.log('db return data: ', data)
             data = callback(data)
         }
-        ep.emit('success', data)
+        if (shouldEmit) {
+            ep.emit('success', data)
+        }
     }
 }
+
+

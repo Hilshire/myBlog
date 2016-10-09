@@ -1,9 +1,14 @@
 <template>
-  <p>hello world</p>
+    <p>hello world</p>
+    <Blog></Blog>
 </template>
 
 <script type="text/javascript">
-  export default {
-    
-  }
+    import Blog from './components/app/Blog.vue'
+
+    export default {
+        components: {
+            Blog
+        }
+    }
 </script>

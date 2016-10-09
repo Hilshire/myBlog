@@ -6,19 +6,20 @@
 <style>
 
 </style>
-<script>
+<script lang='babel'>
     import BlogPrev from './BlogPrev.vue'
     import {blog} from '../../api'
 
-    let Eventproxy = require('eventproxy')
+    let EventProxy = require('eventproxy')
 
     export default{
         data(){
-            blog.queryList(this)
+            let ep = this.ep = new EventProxy()
+            blog.queryList(ep)
+            ep.on('queryList', data => {
+                console.log(data)
+            })
             return {}
-        },
-        ready() {
-            this.ep = new Eventproxy()
         },
         components:{
             BlogPrev

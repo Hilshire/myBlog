@@ -26,6 +26,8 @@ import TagsEditor from '../TagsEditor.vue'
 
 import {blog} from '../../api'
 
+var EventProxy = require('eventproxy')
+
 export default {
     data: () => {
         return {
@@ -37,6 +39,7 @@ export default {
     },
     ready() {
         this.query()
+        this.ep = new EventProxy()
 //        $('pre code').each(function(i, block) {
 //            hljs.highlightBlock(block);
 //        });
@@ -47,8 +50,16 @@ export default {
             var id = this.$route.params.id
             this.id = id
             if(this.id) {
-                blog.queryById({id: id}, this)
+                let blog = blog.queryById({id: id}, this.ep)
             }
+            ep.on('queryById', data => {
+                this.title = blog.title
+                this.text = blog.text
+                this.tags = blog.tags
+                this.$nextTick(() => {
+                    Materialize.updateTextFields()
+                })
+            })
         },
         submit() {
             if(this.id) this.update()

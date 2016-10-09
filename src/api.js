@@ -56,22 +56,20 @@ export let blog = {
             if(json.success) router.go(url.blog.VUE_ROOT)
         })
     },
-    queryList(vm) {
+    queryList(ep) {
         jsonAjax(url.blog.QUERY_LIST, json => {
-            vm.table = json
+            // vm.table = json
+            ep.emit('queryList', json)
         })
     },
-    //这里传入vm，导致视图和逻辑耦合。
-    //为零应对ajax异步不得已而为之
-    //不知道有没有什么更好的方法
-    //TODO: fix it
     queryById(id, vm) {
         jsonAjax(url.blog.QUERY_BY_ID, id, json => {
-            vm.title = json.title
-            vm.text = json.text
-            vm.$nextTick(() => {
-                Materialize.updateTextFields()
-            })
+            ep.emit('queryById', json)
+            // vm.title = json.title
+            // vm.text = json.text
+            // vm.$nextTick(() => {
+            //     Materialize.updateTextFields()
+            // })
         })
     },
     tagInit(data, vm) {
@@ -106,19 +104,20 @@ export let project = {
             if(json.success) router.go(url.project.VUE_ROOT)
         })
     },
-    queryList(vm) {
+    queryList(ep) {
         jsonAjax(url.project.QUERY_LIST, json => {
-            vm.table = json
+            ep.emit('queryList', json)
         })
     },
-    queryById(id, vm) {
+    queryById(id, ep) {
         jsonAjax(url.project.QUERY_BY_ID, id, json => {
-            vm.title = json.title
-            vm.describe = json.describe
-            vm.address = json.address
-            vm.$nextTick(() => {
-                Materialize.updateTextFields()
-            })
+            // vm.title = json.title
+            // vm.describe = json.describe
+            // vm.address = json.address
+            // vm.$nextTick(() => {
+            //     Materialize.updateTextFields()
+            // })
+            ep.emit('queryById', json)
         })
     }
 }

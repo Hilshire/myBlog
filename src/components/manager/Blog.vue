@@ -29,15 +29,18 @@
     </card-panel>
 </template>
 
-<script>
+<script lang='babel'>
     import Button from '../Button.vue'
     import CardPanel from '../CardPanel'
     import CardReveal from '../CardReveal.vue'
     import Tags from '../Tags.vue'
     import {blog} from '../../api'
 
+    let EventProxy = require('eventproxy')
+
     export default {
         data() {
+            this.ep = new EventProxy()
             return {
                 table:[]
             }
@@ -47,7 +50,11 @@
                 this.$router.go('/blog/add')
             },
             query: function() {
-                blog.queryList(this)
+                var ep = this.ep
+                blog.queryList(ep)
+                ep.on('queryList', data => {
+                    this.table = data
+                })
             },
             update: function(id) {
                 this.$router.go({name: 'updateBlog', params: {id: id}})

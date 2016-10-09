@@ -1,6 +1,8 @@
 <template>
-    <p>hello world</p>
-    <Blog></Blog>
+    <div id='app'>
+        <p>hello world</p>
+        <Blog></Blog>
+    </div>
 </template>
 
 <script type="text/javascript">

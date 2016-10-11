@@ -40,11 +40,11 @@ exports.blog = {
         var title = data.title,
             content = data.content,
             summary = getSummary(content)
-        if(summary == '') {
-            ep.emit("Error", {msg: 'You should add a summary'})
-            return
-        }
-        console.log(summary)
+        // if(summary == '') {
+        //     ep.emit("Error", {msg: 'You should add a summary'})
+        //     return
+        // }
+        // console.log(summary)
         hildb.blog.update([title, content, summary, data.id], err => {
             handleData(err, ep, {success: 1, msg: 'Update Success'})
         })

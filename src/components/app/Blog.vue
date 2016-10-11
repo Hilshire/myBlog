@@ -2,7 +2,7 @@
     <div id="app-blog">
         <p class="title">{{title}}</p>
         <p class="time">{{time}}</p>
-        <article class="contentHTML markdown-body">{{{content | mdToHtml}}}</article>
+        <article class="contentHTML markdown-body">{{{content | mdToHtml }}}</article>
     </div>
 </template>
 
@@ -23,10 +23,14 @@
         },
         ready() {
             let id = this.id = this.$route.params.id,
-                    ep = this.ep
+                ep = this.ep
             blog.queryById({id: id}, ep)
             ep.on('queryById', data => {
                 Object.assign(this.$data, data)
+                this.$nextTick(()=> {
+                    window.hljs.initHighlighting.called = false
+                    window.hljs.initHighlighting()
+                })
             })
         },
         components:{

@@ -28,7 +28,12 @@
         background-color: #fafafa; 
         // background-color: #0091ea;
         // color: #fff;
-        span {}
+        span {
+            cursor: pointer;
+        }
+        span:hover {
+            color: #666;
+        }
         ul {
             margin: 0;
             li {

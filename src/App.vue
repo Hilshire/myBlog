@@ -24,7 +24,7 @@
     }
     .title {
         text-align: center;
-        font-size: 1.5em;
+        font-size: 2em;
         letter-spacing: 1px;
     }
 

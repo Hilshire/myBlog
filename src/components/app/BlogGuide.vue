@@ -1,6 +1,6 @@
 <template>
     <div class='container'>
-        <blog-prev v-for='blog in blogs' :title='blog.title' :time='blog.time' :id='blog.id'></blog-prev>
+        <blog-prev v-for='blog in blogs' :title='blog.title' :time='blog.time' :id='blog.id' :summary='blog.summary'></blog-prev>
     </div>
 </template>
 <style>

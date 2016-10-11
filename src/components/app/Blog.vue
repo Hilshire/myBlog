@@ -2,7 +2,7 @@
     <div id="app-blog">
         <p class="title">{{title}}</p>
         <p class="time">{{time}}</p>
-        <article class="contentHTML markdown-body">{{{contentHTML}}}</article>
+        <article class="contentHTML markdown-body">{{{content | mdToHtml}}}</article>
     </div>
 </template>
 
@@ -19,7 +19,6 @@
                 title: '',
                 time: '',
                 content: '',
-                contentHTML: '',
             }
         },
         ready() {
@@ -45,7 +44,6 @@
 
         .title {
             text-align: center;
-            font-size: 1.5em;
         }
         
         .time {

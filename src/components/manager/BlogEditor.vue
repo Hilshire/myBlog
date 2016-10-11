@@ -6,7 +6,7 @@
     <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag'></tags-editor>
 
     <card-panel>
-        <pagedown :md-val.sync='content' :html-val.sync='contentHTML'></pagedown>
+        <pagedown :md-val.sync='content'></pagedown>
         <button text='编辑全文'></button><button text='全屏'></button>
     </card-panel>
 
@@ -34,7 +34,6 @@ export default {
             ep: new EventProxy(),
             title: '',
             content: '',
-            contentHTML: '',
             tags: ['JavaScript'],
             alltags: ['js']
         }
@@ -57,7 +56,6 @@ export default {
                 ep.on('queryById', data => {
                     this.title = data.title
                     this.content = data.content
-                    this.contentHTML = data.contentHTML
                     this.tags = data.tags
                     this.$nextTick(() => {
                         Materialize.updateTextFields()

@@ -23,9 +23,6 @@
             mdVal: {
                 required: true,
                 twoWay :true
-            },
-            htmlVal: {
-                twoWay: true
             }
         },
         ready() {

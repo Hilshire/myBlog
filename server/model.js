@@ -20,9 +20,9 @@ exports.disconnect = function() {
 exports.blog = {
   add: createRunFn('INSERT INTO blog VALUES(null, ?, ?, ?, ?);'),
   del: createRunFn('DELETE FROM blog WHERE id = ?;'),
-  update: createRunFn('UPDATE blog SET title = ?, content = ?, contentHTML = ? WHERE id = ?;'),
+  update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
-  queryList: createGetFn('SELECT id, title, time From blog', 'all'),
+  queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
 }
 
 exports.project = {

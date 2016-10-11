@@ -118,17 +118,17 @@ function handlePost(url, callback) {
             return
         }
 
-        callback(req.body, ep)
-
         //这里只能用once。如果事件不解绑，res对象惠一直存在，
         //然后在新请求到来时报错。
         ep.once('success', function(result) {
             res.send(result)
         })
-
         ep.once('Error', function(msg) {
             res.send(msg)
         })
+
+        //callback必须在事件绑定之后。因为callback内通常会触发事件。
+        callback(req.body, ep)
 
         for(key in event) {
             event[key](res, ep)

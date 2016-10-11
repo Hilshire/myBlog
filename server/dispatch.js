@@ -2,6 +2,7 @@ var hildb = require('./model.js')
 var moment = require('moment')
 
 moment.locale('zh-cn')
+var summaryHook = '<!--summary-->'
 
 //TODO：if err 部分有点重合，也许可以提取
 exports.validatePassword = function(username, password, ep) {
@@ -21,7 +22,10 @@ exports.validatePassword = function(username, password, ep) {
 
 exports.blog = {
     add(data, ep) {
-        var data = [data.title, data.content, data.contentHTML, moment().format('l')]
+        var title = data.title,
+            content = data.content,
+            summary = getSummary(content)
+        var data = [title, content, summary, moment().format('l')]
         hildb.blog.add(data, err => {
             handleData(err, ep, {success: 1, msg: 'Add Success'})
         })
@@ -33,7 +37,15 @@ exports.blog = {
         })
     },
     update(data, ep) {
-        hildb.blog.update([data.title, data.content, data.contentHTML, data.id], err => {
+        var title = data.title,
+            content = data.content,
+            summary = getSummary(content)
+        if(summary == '') {
+            ep.emit("Error", {msg: 'You should add a summary'})
+            return
+        }
+        console.log(summary)
+        hildb.blog.update([title, content, summary, data.id], err => {
             handleData(err, ep, {success: 1, msg: 'Update Success'})
         })
     },
@@ -157,5 +169,10 @@ function handleData(err, ep, data, callback) {
     }
 }
 
-
+//从markdown截取Summary
+function getSummary(content) {
+    var endPoint = content.indexOf(summaryHook)
+    if (endPoint === -1) return ''
+        else return content.slice(0, content.indexOf(summaryHook))
+}
 

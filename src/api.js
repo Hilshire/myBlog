@@ -2,6 +2,9 @@
 
 import * as url from './const'
 
+let toastTime = 2000,
+    InfoToastTime = 6000
+
 let jsonInit = {
     method: 'POST',
     headers: { "Content-Type": "application/json"},
@@ -41,7 +44,7 @@ let jsonAjax = (_url, data, callback) => {
 
 export function login(username, password) {
     jsonAjax(url.base.LOGIN, {username:username, password:password}, data => {
-        if(!data.passValidate) Materialize.toast(data.msg, 2000)
+        if(!data.passValidate) Materialize.toast(data.msg, toastTime)
             else window.location.href = url.blog.ROOT
     })
 }
@@ -49,18 +52,18 @@ export function login(username, password) {
 export let blog = {
     add(router, data) {
         jsonAjax(url.blog.ADD, data, json => {
-            Materialize.toast(json.msg, 2000)
+            Materialize.toast(json.msg, toastTime)
             if(json.success) router.go(url.blog.VUE_ROOT)
         })
     },
     del(id) {
         jsonAjax(url.blog.DEL, id, result => {
-            Materialize.toast(result.msg, 2000)
+            Materialize.toast(result.msg, toastTime)
         })
     },
     update(router, data) {
         jsonAjax(url.blog.UPDATE, data, json => {
-            Materialize.toast(json.msg, 2000)
+            Materialize.toast(json.msg, toastTime)
             if(json.success) router.go(url.blog.VUE_ROOT)
         })
     },
@@ -97,18 +100,18 @@ export let blog = {
 export let project = {
     add(router, data) {
         jsonAjax(url.project.ADD, data, json => {
-            Materialize.toast(json.msg, 2000)
+            Materialize.toast(json.msg, toastTime)
             if(json.success) router.go(url.project.VUE_ROOT)
         })
     },
     del(id) {
         jsonAjax(url.project.DEL, id, result => {
-            Materialize.toast(result.msg, 2000)
+            Materialize.toast(result.msg, toastTime)
         })
     },
     update(router, data) {
         jsonAjax(url.project.UPDATE, data, json => {
-            Materialize.toast(json.msg, 2000)
+            Materialize.toast(json.msg, toastTime)
             if(json.success) router.go(url.project.VUE_ROOT)
         })
     },

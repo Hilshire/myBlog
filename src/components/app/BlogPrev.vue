@@ -4,7 +4,7 @@
         <p class="time">{{time}}</p>
         <div class="markdown-body">{{{summary | mdToHtml}}}</div>
     </div>
-    <div class="divider"></div>
+    <div v-if='divider' class="divider"></div>
 </template>
 
 <script>
@@ -14,7 +14,16 @@
         },
         components:{
         },
-        props: ['title', 'time', 'id', 'summary']
+        props: {
+            'title': String,
+            'time': String,
+            'id': Number,
+            'summary': String,
+            'divider': {
+                type: Boolean,
+                default: true
+            }
+        }
     }
 </script>
 

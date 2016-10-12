@@ -8,7 +8,9 @@
 </template>
 
 <script lang="babel">
+    import AppNav from "./Nav.vue"
     import BlogGuide from "./BlogGuide.vue"
+    import AppFooter from "./Footer.vue"
 
     export default{
         data(){
@@ -16,7 +18,9 @@
             }
         },
         components:{
-            BlogGuide
+            AppNav,
+            BlogGuide,
+            AppFooter
         }
     }
 </script>

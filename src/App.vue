@@ -1,19 +1,27 @@
 <template>
     <div id='app'>
-        <app-nav></app-nav>
+        <app-nav :show='showNav'></app-nav>
         <router-view>
         </router-view>
+        <app-footer></app-footer>
     </div>
 </template>
 
 <script type="text/javascript">
     import AppNav from './components/app/Nav.vue'
+    import AppFooter from './components/app/Footer.vue'
     import BlogGuide from './components/app/BlogGuide.vue'
 
     export default {
+        data() {
+        return {
+            showNav: true
+        }
+    },
         components: {
             BlogGuide,
             AppNav,
+            AppFooter,
         }
     }
 </script>

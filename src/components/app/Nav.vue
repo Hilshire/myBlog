@@ -1,5 +1,5 @@
 <template>
-    <div id='app-nav' class="fixed">
+    <div id='app-nav' class="fixed" :class="showNav">
         <span v-link="{path: '/'}">塔希提</span>
         <ul>
             <li v-for='item in nav'>{{item}}</li>
@@ -15,17 +15,35 @@
                 nav: ['blog', 'article', 'tips', 'About Me']
             }
         },
+        computed: {
+            showNav() {
+                if (this.show) return ''
+                    else return 'hide'
+            }
+        },
         components:{
+        },
+        props: {
+            show: {
+                type: Boolean,
+                default: true
+            }
         }
     }
 </script>
 
 <style lang="sass">
+    $animeTime: 400ms;
+    $nav-height: 62px;
+
     #app-nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
         background-color: #fafafa; 
+        height: $nav-height;
+        transition: height $animeTime;
+        overflow: hidden;
         // background-color: #0091ea;
         // color: #fff;
         span {
@@ -44,9 +62,14 @@
             }
             li:hover {
                 background-color: rgba(220, 220, 220, 0.8);
-                transition: background-color 400ms;
+                transition: background-color $animeTime;
             }
         }
+    }
+    #app-nav.hide {
+        display: flex !important;
+        height: 0;
+        transition: height $animeTime;
     }
     #app-nav.fixed {
         position: fixed;
@@ -55,6 +78,6 @@
     }
     #app-nav-space {
         //TODO: 自适应
-        height: 62px;
+        height: $nav-height;
     }
 </style>

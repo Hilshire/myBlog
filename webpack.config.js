@@ -49,10 +49,7 @@ module.exports = {
     inline: true,
     progress: true,
     proxy: {
-        "/*": {
-            target: PROXY
-        },
-        "/": {
+        "**": {
             target: PROXY
         }
     }

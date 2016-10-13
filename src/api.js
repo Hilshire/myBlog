@@ -1,4 +1,4 @@
-// 'use strict'
+'use strict'
 
 import * as url from './const'
 
@@ -38,6 +38,14 @@ let jsonAjax = (_url, data, callback) => {
         if (window.Materialize) {Materialize.toast(data.msg)}
             else alert(data.msg)
         if(data.error == 1) window.location.href = url.base.LOGIN
+    }
+}
+
+export let app = {
+    blogList(ep) {
+        jsonAjax(url.app.QUERY_BLOG_LIST, json => {
+            ep.emit('blogList', json)
+        })
     }
 }
 

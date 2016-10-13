@@ -49,6 +49,8 @@ app.get(url.base.MANAGER_ALL, function(req, res) {
 // 第二项为对应的dispatch(DAO),
 // 第三项为第二项的参数, 从(data, ep)中选择一个，默认为都有
 var postToHandle = [
+    [url.app.QUERY_BLOG_LIST, dispatch.blog.queryList, 1],
+
     [url.blog.ADD, dispatch.blog.add],
     [url.blog.DEL, dispatch.blog.del],
     [url.blog.UPDATE, dispatch.blog.update],
@@ -113,9 +115,11 @@ function handlePost(url, callback) {
 
     app.post(url, function(req, res) {
         console.log('handlePost', url, req.sessionID)
-        if(!req.session.user_name) {
-            res.send({error:1, msg:'You shoul login'})
-            return
+        if(req.url.indexOf('manager') !== -1) {
+            if(!req.session.user_name) {
+                res.send({error:1, msg:'You shoul login'})
+                return
+            }
         }
 
         //这里只能用once。如果事件不解绑，res对象惠一直存在，

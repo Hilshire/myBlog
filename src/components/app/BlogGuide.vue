@@ -8,11 +8,11 @@
 <style>
 
 </style>
-<script lang='babel'>
+<script type='text/babel'>
     'use strict'
 
     import BlogPrev from './BlogPrev.vue'
-    import {blog} from '../../api'
+    import {app} from '../../api'
 
     let EventProxy = require('eventproxy')
 
@@ -26,8 +26,8 @@
         ready() {
             let ep = this.ep
 
-            blog.queryList(ep)
-            ep.on('queryList', result => {
+            app.blogList(ep)
+            ep.on('blogList', result => {
                 this.$data.blogs = result
             })
         },

@@ -6,7 +6,7 @@
     </div>
 </template>
 
-<script lang='babel'>
+<script type='text/babel'>
     import {blog} from '../../api'
     import hil from '../../utils'
 

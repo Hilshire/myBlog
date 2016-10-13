@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose()
-var Q = require('q')
+var db;
 
 exports.connect = function(callback) {
   callback = callback || () => {}

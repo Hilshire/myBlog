@@ -28,3 +28,7 @@ exports.project = {
     QUERY_LIST: '/manager/queryProjectList',
     QUERY_BY_ID: '/manager/queryProjectById'
 }
+
+exports.app = {
+    QUERY_BLOG_LIST: '/app/bloglist'
+}

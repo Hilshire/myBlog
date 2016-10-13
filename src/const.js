@@ -30,5 +30,6 @@ exports.project = {
 }
 
 exports.app = {
-    QUERY_BLOG_LIST: '/app/bloglist'
+    QUERY_BLOG_LIST: '/app/bloglist',
+    QUERY_BLOG :'/app/blog'
 }

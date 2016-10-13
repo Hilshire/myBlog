@@ -3,6 +3,7 @@ var db;
 
 exports.connect = function(callback) {
   callback = callback || () => {}
+
   db = new sqlite3.Database('hilshire.db',
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
     function(err) {
@@ -11,6 +12,8 @@ exports.connect = function(callback) {
       } else
         callback()
     })
+    
+  return db
 }
 
 exports.disconnect = function() {

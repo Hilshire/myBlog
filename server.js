@@ -50,6 +50,7 @@ app.get(url.base.MANAGER_ALL, function(req, res) {
 // 第三项为第二项的参数, 从(data, ep)中选择一个，默认为都有
 var postToHandle = [
     [url.app.QUERY_BLOG_LIST, dispatch.blog.queryList, 1],
+    [url.app.QUERY_BLOG, dispatch.blog.queryById],
 
     [url.blog.ADD, dispatch.blog.add],
     [url.blog.DEL, dispatch.blog.del],

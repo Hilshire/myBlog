@@ -7,7 +7,7 @@
 </template>
 
 <script type='text/babel'>
-    import {blog} from '../../api'
+    import {app} from '../../api'
     import hil from '../../utils'
 
     let EventProxy = require('eventproxy')
@@ -28,8 +28,8 @@
 //            let options = [{selector: '.title', offset: 200, callback: () => {this.$root.showNav = false}}]
 
             // 获取数据
-            blog.queryById({id: id}, ep)
-            ep.on('queryById', data => {
+            app.queryBlog({id: id}, ep)
+            ep.on('queryBlog', data => {
                 Object.assign(this.$data, data)
                 this.$nextTick(()=> {
                     //语法高亮。在dom重渲染后完成
@@ -40,7 +40,7 @@
 
             // 滚动监听
 //            Materialize.scrollFire(options)
-            hil.scrollFire('.title',
+            hil.scrollFire('#app-blog .title',
                     () => {this.$root.showNav = false},
                     () => {this.$root.showNav = true})
         },

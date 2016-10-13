@@ -46,6 +46,11 @@ export let app = {
         jsonAjax(url.app.QUERY_BLOG_LIST, json => {
             ep.emit('blogList', json)
         })
+    },
+    queryBlog(id, ep) {
+        jsonAjax(url.app.QUERY_BLOG, id, json => {
+            ep.emit('queryBlog', json)
+        })
     }
 }
 
@@ -77,18 +82,12 @@ export let blog = {
     },
     queryList(ep) {
         jsonAjax(url.blog.QUERY_LIST, json => {
-            // vm.table = json
             ep.emit('queryList', json)
         })
     },
     queryById(id, ep) {
         jsonAjax(url.blog.QUERY_BY_ID, id, json => {
             ep.emit('queryById', json)
-            // vm.title = json.title
-            // vm.text = json.text
-            // vm.$nextTick(() => {
-            //     Materialize.updateTextFields()
-            // })
         })
     },
     tagInit(data, vm) {

@@ -1,8 +1,8 @@
 var hildb = require('./model.js')
 var moment = require('moment')
 
-moment.locale('zh-cn')
 var summaryHook = '<!--summary-->'
+moment.locale('zh-cn')
 
 //TODO：if err 部分有点重合，也许可以提取
 exports.validatePassword = function(username, password, ep) {

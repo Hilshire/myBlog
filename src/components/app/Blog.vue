@@ -8,9 +8,10 @@
 
 <script type='text/babel'>
     import {app} from '../../api'
-    import hil from '../../utils'
+    import {ScrollFire} from '../../utils'
 
-    let EventProxy = require('eventproxy')
+    let EventProxy = require('eventproxy'),
+        scrollFire = new ScrollFire('#app-blog .title')
 
     export default{
         data(){
@@ -25,7 +26,6 @@
         ready() {
             let id = this.id = this.$route.params.id,
                 ep = this.ep
-//            let options = [{selector: '.title', offset: 200, callback: () => {this.$root.showNav = false}}]
 
             // 获取数据
             app.queryBlog({id: id}, ep)
@@ -38,11 +38,14 @@
                 })
             })
 
-            // 滚动监听
-//            Materialize.scrollFire(options)
-            hil.scrollFire('#app-blog .title',
+            scrollFire.init(
                     () => {this.$root.showNav = false},
                     () => {this.$root.showNav = true})
+        },
+        route: {
+            deactivate() {
+                scrollFire.destory()
+            }
         },
         components:{
 

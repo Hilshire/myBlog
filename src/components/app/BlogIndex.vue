@@ -3,13 +3,13 @@
         <section id="banner">
             <p>你现在遭遇的不幸，是你荒废时间的报应。你现在在干什么，而你该干什么？</p>
         </section>
-        <Blog-guide></Blog-guide>
+        <blog-list></blog-list>
     </div>
 </template>
 
 <script lang="babel">
     import AppNav from "./Nav.vue"
-    import BlogGuide from "./BlogGuide.vue"
+    import BlogList from "./BlogList.vue"
     import AppFooter from "./Footer.vue"
 
     export default{
@@ -19,7 +19,7 @@
         },
         components:{
             AppNav,
-            BlogGuide,
+            BlogList,
             AppFooter
         }
     }

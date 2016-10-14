@@ -1,8 +1,10 @@
 <template>
     <div id='app'>
-        <app-nav :show='showNav'></app-nav>
-        <router-view>
-        </router-view>
+        <div class="wrapper">
+            <app-nav :show='showNav'></app-nav>
+            <router-view>
+            </router-view>
+        </div>
         <app-footer></app-footer>
     </div>
 </template>
@@ -10,16 +12,16 @@
 <script type="text/javascript">
     import AppNav from './components/app/Nav.vue'
     import AppFooter from './components/app/Footer.vue'
-    import BlogGuide from './components/app/BlogGuide.vue'
+    import BlogList from './components/app/BlogList.vue'
 
     export default {
         data() {
-        return {
-            showNav: true
-        }
-    },
+            return {
+                showNav: true
+            }
+        },
         components: {
-            BlogGuide,
+            BlogList,
             AppNav,
             AppFooter,
         }
@@ -27,13 +29,21 @@
 </script>
 
 <style lang="sass">
-    body {
+    html, body, #app, .wrapper {
+        height: 100%;
+    }
+    body{
         background-color: #fafafa;
+        position: relative;
+    }
+    /*挤开footer*/
+    .wrapper {
+        height: auto; min-height: 100%;
+        padding-bottom: 50px;
     }
     .title {
         text-align: center;
         font-size: 2em;
         letter-spacing: 1px;
     }
-
 </style>

@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="container wrapper valign-wrapper row">
+    <div class="container wrapper valign-wrapper row" @keyup.enter="submit">
     <div class="valign col s12">
         <input-group :label="userName.label" :value.sync="userName.value" div-class="s12" div-id="userName"></input-group>
         <input-group :label="passWord.label" :value.sync="passWord.value" div-class="s12" div-id="passWord"></input-group>
@@ -32,6 +32,7 @@ export default {
       Button
   }
 }
+
 </script>
 
 <style lang="sass">

@@ -27,21 +27,21 @@ app.use(session({
 }))
 
 //返回html
-app.get(url.base.ROOT, function(req, res) {
-    console.log('path: dir root', 'session', req.sessionID)
-    res.sendFile(DIR_APP)
-})
 app.get(url.base.LOGIN, function(req, res) {
     console.log('path: login', 'session', req.sessionID)
     res.sendFile(DIR_LOGIN)
 })
-app.get(url.base.MANAGER_ALL, function(req, res) {
+app.get(url.base.MANAGER, function(req, res) {
     console.log('path: manager', 'session', req.sessionID)
     if(!req.session.user_name) {
         res.redirect(url.base.LOGIN)
         return
     }
     res.sendFile(DIR_MANAGER)
+})
+app.get(url.base.ROOT, function(req, res) {
+    console.log('path: dir root', 'session', req.sessionID)
+    res.sendFile(DIR_APP)
 })
 
 // 之后会对数组里每一项调用handlepost,

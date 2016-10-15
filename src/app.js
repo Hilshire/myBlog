@@ -6,7 +6,10 @@ import '../node_modules/highlight.js/styles/default.css'
 
 import App from './App'
 import Blog from './components/app/Blog'
-import BlogIndex from './components/app/BlogIndex'
+import ContentList from './components/app/ContentList'
+import BlogList from './components/app/BlogList'
+import Article from './components/app/Article'
+import ArticleList from './components/app/ArticleList'
 
 let converter = new Markdown.Converter()
 window.hljs = hljs
@@ -27,11 +30,26 @@ let router = new VueRouter({
 
 router.map({
     "/": {
-        component: BlogIndex
+        component: ContentList,
+        subRoutes: {
+            '/': {
+                component: BlogList
+            },
+            '/blog': {
+                component: BlogList
+            },
+            '/article': {
+                component: ArticleList
+            }
+        }
     },
     '/blog/:id': {
         name: 'blog',
         component: Blog
+    },
+    '/article/:id': {
+        name: 'article',
+        component: Article
     }
 })
 

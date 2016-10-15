@@ -1,15 +1,18 @@
 <template>
     <div class='container'>
-        <blog-prev v-for='blog in blogs'
-                   :title='blog.title' :time='blog.time' :id='blog.id' :summary='blog.summary'
-                   :divider='$index !== blogs.length - 1'></blog-prev>
-        <p class="error" v-if="!hasContent">这里什么都没有哦。</p>
+        <article-prev v-for='article in articles'
+                   :title='article.title' :time='article.time' :id='article.id'
+                   :divider='$index !== articles.length - 1'></article-prev>
     </div>
+    <p class="error" v-if="!hasContent">这里什么都没有哦。</p>
 </template>
+<style>
+
+</style>
 <script type='text/babel'>
     'use strict'
 
-    import BlogPrev from './BlogPrev.vue'
+    import ArticlePrev from './ArticlePrev.vue'
     import {app} from '../../api'
 
     let EventProxy = require('eventproxy')
@@ -18,16 +21,16 @@
         data(){
             let ep = this.ep = new EventProxy()
             return {
-                blogs: [],
+                articles: [],
                 hasContent: true
             }
         },
         ready() {
             let ep = this.ep
 
-            app.blogList(ep)
-            ep.on('blogList', result => {
-                this.$data.blogs = result
+            app.articleList(ep)
+            ep.on('aritcleList', result => {
+                this.articles = result
 
                 this.$nextTick(() => {
                     if(result.length === 0) {
@@ -37,14 +40,7 @@
             })
         },
         components:{
-            BlogPrev
+            ArticlePrev
         }
     }
 </script>
-
-<style>
-    p.error {
-        font-size: 2.2em;
-        text-align: center;
-    }
-</style>

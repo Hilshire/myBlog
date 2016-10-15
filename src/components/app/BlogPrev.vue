@@ -1,5 +1,5 @@
 <template>
-    <div class="blog-prev section">
+    <div class="app-prev section">
         <p class="title" v-link="{name: 'blog', params: {id: this.id}}">{{title}}</p>
         <p class="time">{{time}}</p>
         <div class="markdown-body">{{{summary | mdToHtml}}}</div>
@@ -28,7 +28,7 @@
 </script>
 
 <style lang="sass">
-    .blog-prev {
+    .app-prev {
         margin-bottom: 40px;
 
         .title {

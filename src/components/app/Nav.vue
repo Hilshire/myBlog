@@ -1,8 +1,12 @@
 <template>
     <div id='app-nav' class="fixed" :class="showNav">
-        <span v-link="{path: '/'}">塔希提</span>
+        <span v-link="'/'">塔希提</span>
         <ul>
-            <li v-for='item in nav'>{{item}}</li>
+            <!--<li v-for='item in nav'>{{item}}</li>-->
+            <li v-link="'/blog'">blog</li>
+            <li v-link="'/article'">article</li>
+            <li v-link="'/tips'">tips</li>
+            <li v-link="'/about'">About Me</li>
         </ul>
     </div>
     <div id='app-nav-space'></div>
@@ -12,7 +16,7 @@
     export default{
         data(){
             return{
-                nav: ['blog', 'article', 'tips', 'About Me']
+//                nav: ['blog', 'article', 'tips', 'About Me']
             }
         },
         computed: {

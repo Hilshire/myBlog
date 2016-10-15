@@ -56,6 +56,8 @@ app.get('/*', function(req, res) {
 var postToHandle = [
     [url.app.QUERY_BLOG_LIST, dispatch.blog, 'queryList', 1],
     [url.app.QUERY_BLOG, dispatch.blog, 'queryById'],
+    [url.app.QUERY_ARTICLE_LIST, dispatch.article, 'queryList', 1],
+    [url.app.QUERY_ARTICLE, dispatch.article, 'queryById'],
 
     [url.blog.ADD, dispatch.blog, 'add'],
     [url.blog.DEL, dispatch.blog, 'del'],

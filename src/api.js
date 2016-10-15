@@ -51,6 +51,16 @@ export let app = {
         jsonAjax(url.app.QUERY_BLOG, id, json => {
             ep.emit('queryBlog', json)
         })
+    },
+    articleList(ep) {
+        jsonAjax(url.app.QUERY_ARTICLE_LIST, json => {
+            ep.emit('aritcleList', json)
+        })
+    },
+    queryArticle(id, ep) {
+        jsonAjax(url.app.QUERY_ARTICLE, id, json => {
+            ep.emit('queryArticle', json)
+        })
     }
 }
 

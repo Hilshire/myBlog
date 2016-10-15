@@ -3,7 +3,7 @@
         <section id="banner">
             <p>你现在遭遇的不幸，是你荒废时间的报应。你现在在干什么，而你该干什么？</p>
         </section>
-        <blog-list></blog-list>
+        <router-view></router-view>
     </div>
 </template>
 

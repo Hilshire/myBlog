@@ -1,7 +1,7 @@
 exports.base = {
     // ROOT: /^((?!manager).)*$/,
-    ROOT: '/*',
-    MANAGER: '/manager*',
+    ROOT: '/',
+    MANAGER: '/manager/',
     LOGIN: '/manager/login',
 }
 

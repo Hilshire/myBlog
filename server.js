@@ -27,11 +27,15 @@ app.use(session({
 }))
 
 //返回html
-app.get(url.base.LOGIN, function(req, res) {
+app.get('/manager/login', function(req, res) {
     console.log('path: login', 'session', req.sessionID)
+    if(req.session.user_name) {
+        res.redirect(url.base.MANAGER)
+        return
+    }
     res.sendFile(DIR_LOGIN)
 })
-app.get(url.base.MANAGER, function(req, res) {
+app.get('/manager*', function(req, res) {
     console.log('path: manager', 'session', req.sessionID)
     if(!req.session.user_name) {
         res.redirect(url.base.LOGIN)
@@ -39,7 +43,7 @@ app.get(url.base.MANAGER, function(req, res) {
     }
     res.sendFile(DIR_MANAGER)
 })
-app.get(url.base.ROOT, function(req, res) {
+app.get('/*', function(req, res) {
     console.log('path: dir root', 'session', req.sessionID)
     res.sendFile(DIR_APP)
 })

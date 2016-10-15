@@ -2,7 +2,7 @@
     <div class="container wrapper valign-wrapper row" @keyup.enter="submit">
     <div class="valign col s12">
         <input-group :label="userName.label" :value.sync="userName.value" div-class="s12" div-id="userName"></input-group>
-        <input-group :label="passWord.label" :value.sync="passWord.value" div-class="s12" div-id="passWord"></input-group>
+        <input-group :label="passWord.label" :value.sync="passWord.value" div-class="s12" div-id="passWord" type="password"></input-group>
         <button @click="submit" text='Login'></button>
     </div>
     </div>

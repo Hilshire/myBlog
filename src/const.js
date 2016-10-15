@@ -1,9 +1,7 @@
 exports.base = {
-    //不包含manager的url
     // ROOT: /^((?!manager).)*$/,
     ROOT: '/*',
     MANAGER: '/manager*',
-    // MANAGER_ALL: '/manager/*',
     LOGIN: '/manager/login',
 }
 

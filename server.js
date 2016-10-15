@@ -140,3 +140,5 @@ function handlePost(url, callback) {
         }
     })
 }
+
+module.exports = app

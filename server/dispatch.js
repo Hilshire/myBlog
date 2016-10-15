@@ -4,6 +4,27 @@ var moment = require('moment')
 var summaryHook = '<!--summary-->'
 moment.locale('zh-cn')
 
+function Dispatch(model) {
+    this.model = model
+    this.add = (data, ep) => {
+        model.add(data, err => {
+            handleData(err, ep, {success: 1, msg: 'Add Success'})
+        })
+    }
+    this.del = (data, ep) => {
+        model.del(data.id, err => {
+            handleData(err, ep, {success: 1, msg: 'Del Success'})
+        })
+    }
+    this.update = (data, ep) => {}
+    this.queryList = (ep) => {
+
+    }
+    this.queryById = (data, ep) => {
+
+    }
+}
+
 //TODO：if err 部分有点重合，也许可以提取
 exports.validatePassword = function(username, password, ep) {
     hildb.account.queryByUsername(username, function(err, row) {
@@ -116,9 +137,9 @@ exports.blog = {
 
 }
 
-exports.project = {
+exports.article = {
     add(data, ep) {
-        var data = [data.title, data.describe, data.address, moment().format('l'), data.imgsrc]
+        var data = [data.title, data.content, moment().format('l'), data.imgsrc]
         hildb.project.add(data, err => {
             handleData(err, ep, {success: 1, msg: 'Add Success'})
         })
@@ -129,7 +150,7 @@ exports.project = {
         })
     },
     update(data, ep) {
-        var data = [data.title, data.describe, data.address, data.img, data.id]
+        var data = [data.title, data.content]
         hildb.project.update(data, (err, row) => {
             handleData(err, ep, {success: 1, msg: 'Update Success'})
         })
@@ -144,8 +165,6 @@ exports.project = {
             handleData(err, ep, row)
         })
     }
-
-
 }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据

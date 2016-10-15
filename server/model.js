@@ -28,12 +28,12 @@ exports.blog = {
   queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
 }
 
-exports.project = {
-  add: createRunFn('INSERT INTO project VALUES(null, ?, ?, ?, ?, ?);'),
-  del: createRunFn('DELETE FROM project WHERE id = ?;'),
-  update: createRunFn('UPDATE project SET title = ?, describe = ?, address = ?, img = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM project WHERE id = ?;'),
-  queryList: createGetFn('SELECT id, title, describe, address, time, img FROM project', 'all')
+exports.article = {
+  add: createRunFn('INSERT INTO article VALUES(null, ?, ?, ?);'),
+  del: createRunFn('DELETE FROM article WHERE id = ?;'),
+  update: createRunFn('UPDATE article SET title = ?, content = ? WHERE id = ?;'),
+  query: createGetFn('SELECT * FROM article WHERE id = ?;'),
+  queryList: createGetFn('SELECT id, title, content, time FROM article', 'all')
 }
 
 exports.tag = {
@@ -73,6 +73,7 @@ exports.account = {
 function createRunFn(sql, method) {
   return function(data, callback) {
     db[method || 'run'](sql, data, callback)
+    console.log(sql, data)
   }
 }
 
@@ -84,5 +85,6 @@ function createGetFn(sql, method) {
         data = undefined
     }
     db[method || 'get'](sql, data, callback)
+    console.log(sql, data)
   }
 }

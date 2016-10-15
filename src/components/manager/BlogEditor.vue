@@ -15,7 +15,7 @@
     </card-panel>
 </template>
 
-<script lang="babel">
+<script type="text/babel">
 import CardPanel from '../CardPanel'
 import InputGroup from '../InputGroup'
 import Select from '../Select'
@@ -25,13 +25,13 @@ import Pagedown from '../PageDown'
 import TagsEditor from '../TagsEditor.vue'
 
 import {blog} from '../../api'
+import url from '../../const'
 
 var EventProxy = require('eventproxy')
 
 export default {
     data: () => {
         return {
-            ep: new EventProxy(),
             title: '',
             content: '',
             tags: ['JavaScript'],
@@ -39,10 +39,8 @@ export default {
         }
     },
     ready() {
+        this.ep = new EventProxy()
         this.query()
-//        $('pre code').each(function(i, block) {
-//            hljs.highlightBlock(block);
-//        });
     },
     methods: {
         query() {
@@ -68,16 +66,22 @@ export default {
                 else this.add()
         },
         add() {
-            blog.add(this.$router, this.$data)
+            var ep = this.ep
+            blog.add(ep, this.$data)
+            ep.on('add', () => {
+                this.$router.go(url.blog.VUE_ROOT)
+            })
         },
         update() {
-            blog.update(this.$router, {
+            var ep = this.ep
+            blog.update(ep, {
                 id: this.id,
                 title: this.title,
                 content: this.content,
-                contentHTML: this.contentHTML
             })
-            this.query()
+            ep.on('update', () => {
+                this.$router.go(url.blog.VUE_ROOT)
+            })
         },
         tagInit() {
             blog.tagInit({id: this.id}, this)

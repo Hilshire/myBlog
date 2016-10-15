@@ -6,27 +6,75 @@ moment.locale('zh-cn')
 
 function Dispatch(model) {
     this.model = model
-    this.add = (data, ep) => {
-        model.add(data, err => {
+}
+Dispatch.prototype = {
+    add(data, ep) {
+        this.model.add(data, err => {
             handleData(err, ep, {success: 1, msg: 'Add Success'})
         })
-    }
-    this.del = (data, ep) => {
-        model.del(data.id, err => {
+    },
+    del(data, ep) {
+        //TODO：如果id不存在也会显示成功
+        this.model.del(data.id, err => {
             handleData(err, ep, {success: 1, msg: 'Del Success'})
         })
-    }
-    this.update = (data, ep) => {}
-    this.queryList = (ep) => {
-
-    }
-    this.queryById = (data, ep) => {
-
+    },
+    update(data, ep) {
+        this.model.update(data, err => {
+            handleData(err, ep, {success: 1, msg: 'Update Success'})
+        })
+    },
+    queryList(ep) {
+        this.model.queryList((err, row) => {
+            handleData(err, ep, row)
+        })
+    },
+    queryById(data, ep) {
+        this.model.query(data.id, (err, row) => {
+            handleData(err, ep, row)
+        })
     }
 }
 
+var blog = new Dispatch(hildb.blog)
+blog.add = function (data, ep) {
+    var title = data.title,
+        content = data.content,
+        summary = getSummary(content),
+        model = this.model
+
+    var data = [title, content, summary, moment().format('l')]
+    model.add(data, err => {
+        handleData(err, ep, {success: 1, msg: 'Add Success'})
+    })
+}
+blog.update = function (data, ep) {
+    var title = data.title,
+        content = data.content,
+        summary = getSummary(content),
+        model = this.model
+
+    model.update([title, content, summary, data.id], err => {
+        handleData(err, ep, {success: 1, msg: 'Update Success'})
+    })
+}
+
+var article = new Dispatch(hildb.article)
+article.add = function(data, ep) {
+    var data = [data.title, data.content, moment().format('l'), data.imgsrc]
+    this.model.add(data, err => {
+        handleData(err, ep, {success: 1, msg: 'Add Success'})
+    })
+}
+article.update = function(data,ep) {
+    var data = [data.title, data.content, data.id]
+    this.model.update(data, (err, row) => {
+        handleData(err, ep, {success: 1, msg: 'Update Success'})
+    })
+}
+
 //TODO：if err 部分有点重合，也许可以提取
-exports.validatePassword = function(username, password, ep) {
+function validatePassword(username, password, ep) {
     hildb.account.queryByUsername(username, function(err, row) {
         if(err) {
             console.log(err)
@@ -41,131 +89,95 @@ exports.validatePassword = function(username, password, ep) {
     })
 }
 
-exports.blog = {
-    add(data, ep) {
-        var title = data.title,
-            content = data.content,
-            summary = getSummary(content)
-        var data = [title, content, summary, moment().format('l')]
-        hildb.blog.add(data, err => {
-            handleData(err, ep, {success: 1, msg: 'Add Success'})
-        })
-    },
-    del(data, ep) {
-        //TODO：如果id不存在也会显示成功
-        hildb.blog.del(data.id, err => {
-            handleData(err, ep, {success: 1, msg: 'Del Success'})
-        })
-    },
-    update(data, ep) {
-        var title = data.title,
-            content = data.content,
-            summary = getSummary(content)
-        // if(summary == '') {
-        //     ep.emit("Error", {msg: 'You should add a summary'})
-        //     return
-        // }
-        // console.log(summary)
-        hildb.blog.update([title, content, summary, data.id], err => {
-            handleData(err, ep, {success: 1, msg: 'Update Success'})
-        })
-    },
-    queryList(ep) {
-        hildb.blog.queryList((err, row) => {
-            handleData(err, ep, row)
-        })
-    },
-    queryById(data, ep) {
-        hildb.blog.query(data.id, (err, row) => {
-            handleData(err, ep, row)
-        })
-    },
-    addTag(data, ep) {
-        if(data.tagId) {
-            addExistTag(data)
-        } else {
-            //TODO:YOU SEE THE CALLBACK HELL
-            var tagExist;
-            hildb.tag.queryByText(data.text, (err, row) => {
-                if(err) {
-                    ep.emit('Error', {msg: 'query blog tag by text error'})
-                }
+// exports.blog = {
+//     add(data, ep) {
+//         var title = data.title,
+//             content = data.content,
+//             summary = getSummary(content)
+//         var data = [title, content, summary, moment().format('l')]
+//         hildb.blog.add(data, err => {
+//             handleData(err, ep, {success: 1, msg: 'Add Success'})
+//         })
+//     },
+//     del(data, ep) {
+//         hildb.blog.del(data.id, err => {
+//             handleData(err, ep, {success: 1, msg: 'Del Success'})
+//         })
+//     },
+//     update(data, ep) {
+//         var title = data.title,
+//             content = data.content,
+//             summary = getSummary(content)
+//         hildb.blog.update([title, content, summary, data.id], err => {
+//             handleData(err, ep, {success: 1, msg: 'Update Success'})
+//         })
+//     },
+//     queryList(ep) {
+//         hildb.blog.queryList((err, row) => {
+//             handleData(err, ep, row)
+//         })
+//     },
+//     queryById(data, ep) {
+//         hildb.blog.query(data.id, (err, row) => {
+//             handleData(err, ep, row)
+//         })
+//     },
+//     addTag(data, ep) {
+//         if(data.tagId) {
+//             addExistTag(data)
+//         } else {
+//             //TODO:YOU SEE THE CALLBACK HELL
+//             var tagExist;
+//             hildb.tag.queryByText(data.text, (err, row) => {
+//                 if(err) {
+//                     ep.emit('Error', {msg: 'query blog tag by text error'})
+//                 }
+//
+//                 tagExist = row
+//
+//                 if(tagExist) {
+//                     addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
+//                 } else {
+//                     var text = data.text,
+//                         blogId = data.blogId
+//
+//                     hildb.tag.add([null, text], (err) => {
+//                         if(err) {
+//                             ep.emit('Error', {msg: 'add new tag error'})
+//                         }
+//
+//                         var newTagId;
+//
+//                         hildb.tag.queryByText(text, (err, row) => {
+//                             if(err) {
+//                                 ep.emit('Error', {msg: 'query blog tag by text error'})
+//                                 return
+//                             }
+//                             newTagId = row.id
+//
+//                             hildb.blogTag.add([blogId, newTagId], (err) => {
+//                                 handleData(err, ep, {success: 1, msg: 'Add Success'})
+//                             })
+//                         })
+//                     })
+//                 }
+//             })
+//         }
+//
+//         function addExistTag(data) {
+//             hildb.blogTag.add([data.blogId, data.tagId], err => {
+//                 handleData(err, ep, {success: 1, msg: 'Add Success'})
+//             })
+//         }
+//     },
+//     delTag(data, ep) {
+//         var blogId = data.blogId
+//         hildb.blogTag.del([blogId, data.tagId], err => {
+//             handleData(err, ep, {success: 1, msg: 'Del Success'})
+//         })
+//     }
 
-                tagExist = row
-
-                if(tagExist) {
-                    addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
-                } else {
-                    var text = data.text,
-                        blogId = data.blogId
-
-                    hildb.tag.add([null, text], (err) => {
-                        if(err) {
-                            ep.emit('Error', {msg: 'add new tag error'})
-                        }
-
-                        var newTagId;
-
-                        hildb.tag.queryByText(text, (err, row) => {
-                            if(err) {
-                                ep.emit('Error', {msg: 'query blog tag by text error'})
-                                return
-                            }
-                            newTagId = row.id
-
-                            hildb.blogTag.add([blogId, newTagId], (err) => {
-                                handleData(err, ep, {success: 1, msg: 'Add Success'})
-                            })
-                        })
-                    })
-                }
-            })
-        }
-
-        function addExistTag(data) {
-            hildb.blogTag.add([data.blogId, data.tagId], err => {
-                handleData(err, ep, {success: 1, msg: 'Add Success'})
-            })
-        }
-    },
-    delTag(data, ep) {
-        var blogId = data.blogId
-        hildb.blogTag.del([blogId, data.tagId], err => {
-            handleData(err, ep, {success: 1, msg: 'Del Success'})
-        })
-    }
-
-}
-
-exports.article = {
-    add(data, ep) {
-        var data = [data.title, data.content, moment().format('l'), data.imgsrc]
-        hildb.project.add(data, err => {
-            handleData(err, ep, {success: 1, msg: 'Add Success'})
-        })
-    },
-    del(data, ep) {
-        hildb.project.del(data.id, err => {
-            handleData(err, ep, {success: 1, msg: 'Del Success'})
-        })
-    },
-    update(data, ep) {
-        var data = [data.title, data.content]
-        hildb.project.update(data, (err, row) => {
-            handleData(err, ep, {success: 1, msg: 'Update Success'})
-        })
-    },
-    queryList(ep) {
-        hildb.project.queryList((err, row) => {
-            handleData(err, ep, row)
-        })
-    },
-    queryById(data, ep) {
-        hildb.project.query(data.id, (err, row) => {
-            handleData(err, ep, row)
-        })
-    }
-}
+// }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
 //最后一个参数可传一个boolean值，用于控制emit
@@ -195,3 +207,6 @@ function getSummary(content) {
         else return content.slice(0, content.indexOf(summaryHook))
 }
 
+exports.blog = blog
+exports.article = article
+exports.validatePassword = validatePassword

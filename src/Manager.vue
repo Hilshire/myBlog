@@ -16,8 +16,8 @@
                     link: '/blog',
                     text: 'blog'
                 }, {
-                    link: '/project',
-                    text: 'project'
+                    link: '/article',
+                    text: 'article'
                 }]
             }
         },

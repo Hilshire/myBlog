@@ -63,10 +63,10 @@ export function login(username, password) {
 }
 
 export let blog = {
-    add(router, data) {
+    add(ep, data) {
         jsonAjax(url.blog.ADD, data, json => {
             Materialize.toast(json.msg, toastTime)
-            if(json.success) router.go(url.blog.VUE_ROOT)
+            if(json.success) ep.emit('add')
         })
     },
     del(id) {
@@ -74,10 +74,10 @@ export let blog = {
             Materialize.toast(result.msg, toastTime)
         })
     },
-    update(router, data) {
+    update(ep, data) {
         jsonAjax(url.blog.UPDATE, data, json => {
             Materialize.toast(json.msg, toastTime)
-            if(json.success) router.go(url.blog.VUE_ROOT)
+            if(json.success) ep.emit('update')
         })
     },
     queryList(ep) {
@@ -104,37 +104,31 @@ export let blog = {
     }
 }
 
-export let project = {
-    add(router, data) {
-        jsonAjax(url.project.ADD, data, json => {
+export let article = {
+    add(ep, data) {
+        jsonAjax(url.article.ADD, data, json => {
             Materialize.toast(json.msg, toastTime)
-            if(json.success) router.go(url.project.VUE_ROOT)
+            if(json.success) ep.emit('add')
         })
     },
     del(id) {
-        jsonAjax(url.project.DEL, id, result => {
+        jsonAjax(url.article.DEL, id, result => {
             Materialize.toast(result.msg, toastTime)
         })
     },
-    update(router, data) {
-        jsonAjax(url.project.UPDATE, data, json => {
+    update(ep, data) {
+        jsonAjax(url.article.UPDATE, data, json => {
             Materialize.toast(json.msg, toastTime)
-            if(json.success) router.go(url.project.VUE_ROOT)
+            if(json.success) ep.emit('update')
         })
     },
     queryList(ep) {
-        jsonAjax(url.project.QUERY_LIST, json => {
+        jsonAjax(url.article.QUERY_LIST, json => {
             ep.emit('queryList', json)
         })
     },
     queryById(id, ep) {
-        jsonAjax(url.project.QUERY_BY_ID, id, json => {
-            // vm.title = json.title
-            // vm.describe = json.describe
-            // vm.address = json.address
-            // vm.$nextTick(() => {
-            //     Materialize.updateTextFields()
-            // })
+        jsonAjax(url.article.QUERY_BY_ID, id, json => {
             ep.emit('queryById', json)
         })
     }

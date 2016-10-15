@@ -18,14 +18,14 @@ exports.blog = {
     DEL_TAG: '/manager/blog/delTag'
 }
 
-exports.project = {
-    ROOT: '/manager/project',
-    VUE_ROOT: '/project',
-    ADD: '/manager/addProject',
-    DEL: '/manager/delProject',
-    UPDATE: '/manager/updateProject',
-    QUERY_LIST: '/manager/queryProjectList',
-    QUERY_BY_ID: '/manager/queryProjectById'
+exports.article = {
+    ROOT: '/manager/article',
+    VUE_ROOT: '/article',
+    ADD: '/manager/addArticle',
+    DEL: '/manager/delArticle',
+    UPDATE: '/manager/update',
+    QUERY_LIST: '/manager/queryAritcleList',
+    QUERY_BY_ID: '/manager/queryArticleById'
 }
 
 exports.app = {

@@ -29,10 +29,11 @@
     </card>
 </template>
 
-<script>
+<script type="text/babel">
+    import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
     import Card from '../CardPanel'
-    import {project} from '../../api'
+    import {article} from '../../api'
 
     export default {
         data() {
@@ -42,20 +43,25 @@
         },
         methods: {
             add: function() {
-                this.$router.go('/project/add')
+                this.$router.go('/article/add')
             },
             query: function() {
-                project.queryList(this)
+                var ep = this.ep
+                article.queryList(ep)
+                ep.on('queryList', data => {
+                    this.table = data
+                })
             },
             update: function(id) {
-                this.$router.go({name: 'updateProject', params: {id: id}})
+                this.$router.go({name: 'updateArticle', params: {id: id}})
             },
             del: function(id) {
-                project.del({id: id})
+                article.del({id: id})
                 this.query()
             }
         },
         ready() {
+            this.ep = new EventProxy()
             this.query()
         },
         components: {

@@ -29,7 +29,7 @@
     </card-panel>
 </template>
 
-<script lang='babel'>
+<script type='text/babel'>
     import Button from '../Button.vue'
     import CardPanel from '../CardPanel'
     import CardReveal from '../CardReveal.vue'
@@ -40,7 +40,6 @@
 
     export default {
         data() {
-            this.ep = new EventProxy()
             return {
                 table:[]
             }
@@ -65,6 +64,7 @@
             }
         },
         ready() {
+            this.ep = new EventProxy()
             this.query()
         },
         components: {

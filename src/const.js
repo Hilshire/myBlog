@@ -28,14 +28,21 @@ exports.article = {
     QUERY_BY_ID: '/manager/article/queryById'
 }
 
-exports.tip = {
-    QUERY_LIST: '/manager/tip/queryList',
-    
+exports.tips = {
+    ROOT: '/manager/tips',
+    VUE_ROOT: '/tips',
+    QUERY_LIST: '/manager/tips/queryList',
+    QUERY_BY_ID: '/manager/tips/queryById',
+    ADD: '/manager/tips/add',
+    DEL: '/manager/tips/del',
+    UPDATE: '/manager/tips/update'
 }
 
 exports.app = {
     QUERY_BLOG_LIST: '/app/blogList',
     QUERY_BLOG :'/app/blog',
     QUERY_ARTICLE: '/app/query',
-    QUERY_ARTICLE_LIST: '/app/articleList'
+    QUERY_ARTICLE_LIST: '/app/articleList',
+    QUERY_TIPS_LIST: '/app/tipsLIst',
+    QUERY_TIPS: '/app/tips'
 }

@@ -70,6 +70,14 @@ export let manager = {
         del: url.article.DEL,
         queryList: url.article.QUERY_LIST,
         queryById: url.article.QUERY_BY_ID
+    }),
+    
+    tips: new Transform({
+        add: url.tips.ADD,
+        update: url.tips.UPDATE,
+        del: url.tips.DEL,
+        queryList: url.tips.QUERY_LIST,
+        queryById: url.tips.QUERY_BY_ID
     })
 }
 
@@ -81,6 +89,10 @@ export let app = {
     article: new Query({
         queryList: url.app.QUERY_ARTICLE_LIST,
         queryById: url.app.QUERY_ARTICLE
+    }),
+    tips: new Query({
+        queryList: url.app.QUERY_TIPS_LIST,
+        queryById: url.app.QUERY_TIPS
     })
 }
 

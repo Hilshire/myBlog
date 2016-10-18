@@ -1,4 +1,5 @@
 'use strict'
+import * as urlConst from './const'
 
 let jsonInit = {
     method: 'POST',
@@ -32,7 +33,7 @@ export let jsonAjax = (url, data, callback) => {
     function handleErrData(data) {
         if (window.Materialize) {Materialize.toast(data.msg)}
             else alert(data.msg)
-        if(data.error == 1) window.location.href = url.base.LOGIN
+        if(data.error == 1) window.location.href = urlConst.base.LOGIN
     }
 }
 

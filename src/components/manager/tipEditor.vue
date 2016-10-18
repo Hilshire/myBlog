@@ -30,7 +30,7 @@
     import Pagedown from '../PageDown'
     import TagsEditor from '../TagsEditor.vue'
 
-    var article = manager.article
+    var tips = manager.tips
     export default {
         data: () => {
             return {
@@ -41,7 +41,7 @@
             }
         },
         ready() {
-            var ep = this.ep = article.ep
+            var ep = this.ep = tips.ep
 
             ep.on('queryById', (data) => {
                 this.title = data.title
@@ -55,11 +55,11 @@
             })
 
             ep.on('update', () => {
-                this.$router.go(url.article.VUE_ROOT)
+                this.$router.go(url.tips.VUE_ROOT)
             })
 
             ep.on('add', () => {
-                this.$router.go(url.article.VUE_ROOT)
+                this.$router.go(url.tips.VUE_ROOT)
             })
 
             this.query()
@@ -70,7 +70,7 @@
                 this.id = id
                 if(this.id) {
                     var ep = this.ep
-                    article.queryById({id: id})
+                    tips.queryById({id: id})
                 }
             },
             submit() {
@@ -78,10 +78,10 @@
                     else this.add()
             },
             add() {
-                article.add(this.$data)
+                tips.add(this.$data)
             },
             update() {
-                article.update(Object.assign({}, this.$data , {id: this.id}))
+                tips.update(Object.assign({}, this.$data , {id: this.id}))
             }
         },
         components: {

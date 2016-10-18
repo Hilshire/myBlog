@@ -18,6 +18,9 @@
                 }, {
                     link: '/article',
                     text: 'article'
+                }, {
+                    link: '/tips',
+                    text: 'tips'
                 }]
             }
         },

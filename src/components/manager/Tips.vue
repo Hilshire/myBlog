@@ -1,9 +1,9 @@
 <template>
-    <card-panel>
+    <card>
         <button @click='add' text='新增'></button>
-    </card-panel>
+    </card>
 
-    <card-panel>
+    <card>
         <table class="bordered striped">
             <thead>
                 <tr>
@@ -26,20 +26,16 @@
                 </tr>
             </tbody>
         </table>
-    </card-panel>
+    </card>
 </template>
 
-<script type='text/babel'>
+<script type="text/babel">
+    import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
-    import CardPanel from '../CardPanel'
-    import CardReveal from '../CardReveal.vue'
-    import Tags from '../Tags.vue'
+    import Card from '../CardPanel'
     import {manager} from '../../transform'
 
-    let EventProxy = require('eventproxy')
-
-    var blog = manager.blog
-
+    var tips = manager.tips
     export default {
         data() {
             return {
@@ -48,32 +44,30 @@
         },
         methods: {
             add: function() {
-                this.$router.go('/blog/add')
+                this.$router.go('/tips/add')
             },
             query: function() {
                 var ep = this.ep
-                blog.queryList(ep)
+                tips.queryList()
                 ep.on('queryList', data => {
                     this.table = data
                 })
             },
             update: function(id) {
-                this.$router.go({name: 'updateBlog', params: {id: id}})
+                this.$router.go({name: 'updateArticle', params: {id: id}})
             },
             del: function(id) {
-                blog.del({id: id})
+                tips.del({id: id})
                 this.query()
             }
         },
         ready() {
-            this.ep = blog.ep
+            this.ep = tips.ep
             this.query()
         },
         components: {
             Button,
-            CardPanel,
-            CardReveal,
-            Tags
+            Card
         }
     }
 </script>

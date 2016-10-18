@@ -6,6 +6,8 @@ import Blog from './components/manager/Blog'
 import BlogEditor from './components/manager/BlogEditor'
 import Article from './components/manager/Article.vue'
 import ArticleEditor from './components/manager/ArticleEditor.vue'
+import Tips from './components/manager/Tips.vue'
+import TipsEditor from './components/manager/tipEditor.vue'
 
 import '../node_modules/materialize-css/dist/css/materialize.min.css'
 import '../node_modules/materialize-css/dist/js/materialize.js'
@@ -40,9 +42,19 @@ router.map({
     '/article/add': {
         component: ArticleEditor
     },
-    '/project/article/:id': {
+    '/article/update/:id': {
         name: 'updateArticle',
         component: ArticleEditor
+    },
+    '/tips': {
+        component: Tips
+    },
+    '/tips/add': {
+        component: TipsEditor
+    },
+    '/tips/update/:id': {
+        name: 'updateArticle',
+        component: TipsEditor
     }
 })
 

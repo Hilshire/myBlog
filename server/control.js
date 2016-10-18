@@ -22,6 +22,8 @@ module.exports = function(app) {
         [url.app.QUERY_BLOG, dispatch.blog, 'queryById'],
         [url.app.QUERY_ARTICLE_LIST, dispatch.article, 'queryList', 1],
         [url.app.QUERY_ARTICLE, dispatch.article, 'queryById'],
+        [url.app.QUERY_TIPS_LIST, dispatch.tips, 'queryList', 1],
+        [url.app.QUERY_TIPS, dispatch.tips, 'queryById', 1],
 
         [url.blog.DEL, dispatch.blog, 'del'],
         [url.blog.QUERY_LIST, dispatch.blog, 'queryList', 1],
@@ -29,7 +31,11 @@ module.exports = function(app) {
 
         [url.article.DEL, dispatch.article, 'del'],
         [url.article.QUERY_LIST, dispatch.article, 'queryList', 1],
-        [url.article.QUERY_BY_ID, dispatch.article, 'queryById']
+        [url.article.QUERY_BY_ID, dispatch.article, 'queryById'],
+
+        [url.tips.DEL, dispatch.tips, 'del'],
+        [url.tips.QUERY_LIST, dispatch.tips, 'queryList', 1],
+        [url.tips.QUERY_BY_ID, dispatch.tips, 'queryById'],
     ]
 
     var postReqs = [
@@ -39,6 +45,9 @@ module.exports = function(app) {
 
         [url.article.ADD, dispatch.article, 'add'],
         [url.article.UPDATE, dispatch.article, 'update'],
+
+        [url.tips.ADD, dispatch.tips, 'add'],
+        [url.tips.UPDATE, dispatch.tips, 'update']
     ]
 
     // 对每一项调用handlePost | handleGet, 简单地传入req.body，输出dispatch返回的数据

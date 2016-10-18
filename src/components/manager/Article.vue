@@ -33,8 +33,9 @@
     import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
     import Card from '../CardPanel'
-    import {article} from '../../transform'
+    import {manager} from '../../transform'
 
+    var article = manager.article
     export default {
         data() {
             return {

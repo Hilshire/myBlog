@@ -9,7 +9,7 @@
 
 <script type="text/babel">
     import Tip from './Tip.vue'
-    import {Tip} from '../../transform.js'
+    import {app} from '../../transform.js'
 
     export default {
         data() {
@@ -18,7 +18,7 @@
            }
         },
         ready() {
-
+            this.ep = app.tips.queryList()
         },
         components: {
            Tip,

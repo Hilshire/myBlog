@@ -61,12 +61,26 @@ blog.update = function (data, ep) {
 
 var article = new Dispatch(hildb.article)
 article.add = function(data, ep) {
-    var data = [data.title, data.content, moment().format('l'), data.imgsrc]
+    var data = [data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
         handleData(err, ep, {success: 1, msg: 'Add Success'})
     })
 }
 article.update = function(data,ep) {
+    var data = [data.title, data.content, data.id]
+    this.model.update(data, (err, row) => {
+        handleData(err, ep, {success: 1, msg: 'Update Success'})
+    })
+}
+
+var tips = new Dispatch(hildb.tips)
+tips.add = function(data, ep) {
+    var data = [data.title, data.content, moment().format('l')]
+    this.model.add(data, err => {
+        handleData(err, ep, {success: 1, msg: 'Add Success'})
+    })
+}
+tips.update = function(data, ep) {
     var data = [data.title, data.content, data.id]
     this.model.update(data, (err, row) => {
         handleData(err, ep, {success: 1, msg: 'Update Success'})
@@ -209,4 +223,5 @@ function getSummary(content) {
 
 exports.blog = blog
 exports.article = article
+exports.tips = tips
 exports.validatePassword = validatePassword

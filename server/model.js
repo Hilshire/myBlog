@@ -36,6 +36,14 @@ exports.article = {
   queryList: createGetFn('SELECT id, title, content, time FROM article', 'all')
 }
 
+exports.tips = {
+    add: createRunFn('INSERT INTO tigs VALUES(null, ?, ?, ?);'),
+    del: createRunFn('DELETE FROM tigs WHERE id = ?'),
+    update: createRunFn('UPDATE tigs SET title = ?, content = ? WHERE id = ?'),
+    query: createGetFn('SELECT * FROM tigs WHERE id = ?'),
+    queryList: createGetFn('SELECT id, title, content, time FROM tips', 'all')
+}
+
 exports.tag = {
   add: createRunFn('INSERT INTO tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM tag WHERE id = ?;'),

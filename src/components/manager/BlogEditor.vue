@@ -24,10 +24,11 @@ import Button from '../Button'
 import Pagedown from '../PageDown'
 import TagsEditor from '../TagsEditor.vue'
 
-import {blog} from '../../transform'
+import {manager} from '../../transform'
 import url from '../../const'
 
 var EventProxy = require('eventproxy')
+var blog = manager.blog
 
 export default {
     data: () => {

@@ -19,7 +19,7 @@
 
     export default{
         data(){
-            let ep = this.ep = new EventProxy()
+            let ep = this.ep = app.article.ep
             return {
                 articles: [],
                 hasContent: true
@@ -28,8 +28,8 @@
         ready() {
             let ep = this.ep
 
-            app.articleList(ep)
-            ep.on('aritcleList', result => {
+            app.article.queryList(ep)
+            ep.on('queryList', result => {
                 this.articles = result
 
                 this.$nextTick(() => {

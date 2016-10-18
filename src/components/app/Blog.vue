@@ -24,11 +24,11 @@
         },
         ready() {
             let id = this.id = this.$route.params.id,
-                ep = this.ep = new EventProxy()
+                ep = this.ep = app.blog.ep
 
             // 获取数据
-            app.queryBlog({id: id}, ep)
-            ep.on('queryBlog', data => {
+            app.blog.queryById({id: id}, ep)
+            ep.on('queryById', data => {
                 Object.assign(this.$data, data)
                 this.$nextTick(()=> {
                     //语法高亮。在dom重渲染后完成

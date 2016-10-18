@@ -24,11 +24,11 @@
         },
         ready() {
             let id = this.id = this.$route.params.id,
-                ep = this.ep = new EventProxy()
+                ep = this.ep = app.article.ep
 
             // 获取数据
-            app.queryArticle({id: id}, ep)
-            ep.on('queryArticle', data => {
+            app.article.queryById({id: id}, ep)
+            ep.on('queryById', data => {
                 Object.assign(this.$data, data)
             })
 

@@ -16,7 +16,7 @@
 
     export default{
         data(){
-            let ep = this.ep = new EventProxy()
+            let ep = this.ep = app.blog.ep
             return {
                 blogs: [],
                 hasContent: true
@@ -25,8 +25,8 @@
         ready() {
             let ep = this.ep
 
-            app.blogList(ep)
-            ep.on('blogList', result => {
+            app.blog.queryList(ep)
+            ep.on('queryList', result => {
                 this.$data.blogs = result
 
                 this.$nextTick(() => {

@@ -28,6 +28,11 @@ exports.article = {
     QUERY_BY_ID: '/manager/article/queryById'
 }
 
+exports.tip = {
+    QUERY_LIST: '/manager/tip/queryList',
+    
+}
+
 exports.app = {
     QUERY_BLOG_LIST: '/app/blogList',
     QUERY_BLOG :'/app/blog',

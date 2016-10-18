@@ -13,7 +13,7 @@
     'use strict'
 
     import ArticlePrev from './ArticlePrev.vue'
-    import {app} from '../../api'
+    import {app} from '../../transform'
 
     let EventProxy = require('eventproxy')
 

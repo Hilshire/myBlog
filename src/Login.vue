@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {login} from './api'
+import {login} from './transform'
 import InputGroup from './components/InputGroup'
 import Button from './components/Button'
 export default {

@@ -19,7 +19,7 @@
 
 <script type="text/babel">
     import EventProxy from 'eventproxy'
-    import {article} from '../../api'
+    import {article} from '../../transform'
     import url from '../../const'
 
     import CardPanel from '../CardPanel'
@@ -40,7 +40,27 @@
             }
         },
         ready() {
-            this.ep = new EventProxy()
+            var ep = this.ep = article.ep
+
+            ep.on('queryById', (data) => {
+                this.title = data.title
+                this.content = data.content
+                this.tags = data.tags
+                this.alltags = data.alltags
+
+                this.$nextTick(() => {
+                    Materialize.updateTextFields()
+                })
+            })
+
+            ep.on('update', () => {
+                this.$router.go(url.article.VUE_ROOT)
+            })
+
+            ep.on('add', () => {
+                this.$router.go(url.article.VUE_ROOT)
+            })
+
             this.query()
         },
         methods: {
@@ -49,13 +69,7 @@
                 this.id = id
                 if(this.id) {
                     var ep = this.ep
-                    article.queryById({id: id}, ep)
-                    ep.on('queryById', (data) => {
-                        this.title = data.title
-                        this.content = data.content
-                        this.tags = data.tags
-                        this.alltags = data.alltags
-                    })
+                    article.queryById({id: id})
                 }
             },
             submit() {
@@ -63,18 +77,10 @@
                     else this.add()
             },
             add() {
-                var ep = this.ep
-                article.add(ep, this.$data)
-                ep.on('add', () => {
-                    this.$router.go(url.article.VUE_ROOT)
-                })
+                article.add(this.$data)
             },
             update() {
-                var ep = this.ep
-                article.update(ep, Object.assign({}, this.$data , {id: this.id}))
-                ep.on('update', () => {
-                    this.$router.go(url.article.VUE_ROOT)
-                })
+                article.update(Object.assign({}, this.$data , {id: this.id}))
             }
         },
         components: {

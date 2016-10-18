@@ -7,7 +7,7 @@
 </template>
 
 <script type='text/babel'>
-    import {app} from '../../api'
+    import {app} from '../../transform'
     import {ScrollFire} from '../../utils'
 
     let EventProxy = require('eventproxy'),

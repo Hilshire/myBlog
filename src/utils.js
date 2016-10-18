@@ -11,8 +11,7 @@ export class ScrollFire {
             return
         }
 
-        let up = true,
-            down = false,
+        let down = false,
             targetHeight = el.offsetTop
 
         document.addEventListener('scroll', this.scrollHandler = (e) => {
@@ -20,20 +19,13 @@ export class ScrollFire {
             if (scrollHetight >= targetHeight) {
                 if (down) return
                 downCallback()
-                mark('down')
+                down = true
             } else {
-                if (up) return
+                if (!down) return
                 upCallback()
-                mark('up')
+                down = false
             }
 
-            function mark(mark) {
-                if (mark == 'up') {
-                    up = true; down = false
-                } else if (mark == 'down') {
-                    up = false; down = true
-                }
-            }
         })
     }
 

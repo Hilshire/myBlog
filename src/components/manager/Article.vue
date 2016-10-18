@@ -33,7 +33,7 @@
     import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
     import Card from '../CardPanel'
-    import {article} from '../../api'
+    import {article} from '../../transform'
 
     export default {
         data() {
@@ -47,7 +47,7 @@
             },
             query: function() {
                 var ep = this.ep
-                article.queryList(ep)
+                article.queryList()
                 ep.on('queryList', data => {
                     this.table = data
                 })
@@ -61,7 +61,7 @@
             }
         },
         ready() {
-            this.ep = new EventProxy()
+            this.ep = article.ep
             this.query()
         },
         components: {

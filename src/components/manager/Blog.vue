@@ -34,7 +34,7 @@
     import CardPanel from '../CardPanel'
     import CardReveal from '../CardReveal.vue'
     import Tags from '../Tags.vue'
-    import {blog} from '../../api'
+    import {blog} from '../../transform'
 
     let EventProxy = require('eventproxy')
 
@@ -64,7 +64,7 @@
             }
         },
         ready() {
-            this.ep = new EventProxy()
+            this.ep = blog.ep
             this.query()
         },
         components: {

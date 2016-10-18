@@ -10,7 +10,7 @@
     'use strict'
 
     import BlogPrev from './BlogPrev.vue'
-    import {app} from '../../api'
+    import {app} from '../../transform'
 
     let EventProxy = require('eventproxy')
 

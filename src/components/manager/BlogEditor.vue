@@ -24,7 +24,7 @@ import Button from '../Button'
 import Pagedown from '../PageDown'
 import TagsEditor from '../TagsEditor.vue'
 
-import {blog} from '../../api'
+import {blog} from '../../transform'
 import url from '../../const'
 
 var EventProxy = require('eventproxy')
@@ -39,26 +39,34 @@ export default {
         }
     },
     ready() {
-        this.ep = new EventProxy()
+        var ep = this.ep = blog.ep
+
+        ep.on('queryById', data => {
+            this.title = data.title
+            this.content = data.content
+            this.tags = data.tags
+            this.$nextTick(() => {
+                Materialize.updateTextFields()
+            })
+        })
+
+        ep.on('add', () => {
+            this.$router.go(url.blog.VUE_ROOT)
+        })
+
+        ep.on('update', () => {
+            this.$router.go(url.blog.VUE_ROOT)
+        })
+
         this.query()
     },
     methods: {
         query() {
             //这里其实可以用$set，让vue来代理id，但是vue会发出一条警告
-            var id = this.id = this.$route.params.id,
-                ep = this.ep
+            var id = this.id = this.$route.params.id
 
             if(id) {
-                blog.queryById({id: id}, ep)
-
-                ep.on('queryById', data => {
-                    this.title = data.title
-                    this.content = data.content
-                    this.tags = data.tags
-                    this.$nextTick(() => {
-                        Materialize.updateTextFields()
-                    })
-                })
+                blog.queryById({id: id})
             }
         },
         submit() {
@@ -66,21 +74,13 @@ export default {
                 else this.add()
         },
         add() {
-            var ep = this.ep
-            blog.add(ep, this.$data)
-            ep.on('add', () => {
-                this.$router.go(url.blog.VUE_ROOT)
-            })
+            blog.add(this.$data)
         },
         update() {
-            var ep = this.ep
-            blog.update(ep, {
+            blog.update({
                 id: this.id,
                 title: this.title,
                 content: this.content,
-            })
-            ep.on('update', () => {
-                this.$router.go(url.blog.VUE_ROOT)
             })
         },
         tagInit() {

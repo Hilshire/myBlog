@@ -8,6 +8,7 @@ import Article from './components/manager/Article.vue'
 import ArticleEditor from './components/manager/ArticleEditor.vue'
 import Tips from './components/manager/Tips.vue'
 import TipsEditor from './components/manager/tipEditor.vue'
+import About from './components/manager/About.vue'
 
 import '../node_modules/materialize-css/dist/css/materialize.min.css'
 import '../node_modules/materialize-css/dist/js/materialize.js'
@@ -55,6 +56,9 @@ router.map({
     '/tips/update/:id': {
         name: 'updateArticle',
         component: TipsEditor
+    },
+    '/about': {
+        component: About
     }
 })
 

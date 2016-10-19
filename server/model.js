@@ -77,6 +77,20 @@ exports.account = {
   queryByUsername: createGetFn('SELECT password FROM account WHERE username = ?;')
 }
 
+exports.about = {
+    query: createGetFn('SELECT * from about'),
+    update: createRunFn('UPDATE about SET content = ?')    
+}
+
+exports.banner = {
+    add: createRunFn('INSERT INTO banner VALUES(null, ?)'),
+    del: createRunFn('DELETE FROM banner WHERE id = ?'),
+    update: createRunFn('UPDATE banner SET content = ? WHERE id = ?'),
+    query: createGetFn('SELECT from banner WHERE id = ?'),
+    queryList: createGetFn('SELECT from banner', 'all'),
+    getLength: createGetFn('SELECT COUNT(*) FROM banner')
+}
+
 // return a sqlite3 interface function
 function createRunFn(sql, method) {
   return function(data, callback) {

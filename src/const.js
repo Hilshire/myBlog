@@ -38,11 +38,26 @@ exports.tips = {
     UPDATE: '/manager/tips/update'
 }
 
+exports.about = {
+    QUERY: '/manager/about/query',
+    UPDATE: '/manager/about/update'
+}
+
+exports.banner = {
+    QUERY_BY_ID: '/manager/banner/queryById',
+    QUERY_LIST: '/manager/banner/queryList',
+    ADD: '/manager/banner/add',
+    UPDATE: '/manager/banner/update',
+    DEL: '/manager/banner/del'
+}
+
 exports.app = {
     QUERY_BLOG_LIST: '/app/blogList',
     QUERY_BLOG :'/app/blog',
     QUERY_ARTICLE: '/app/query',
     QUERY_ARTICLE_LIST: '/app/articleList',
     QUERY_TIPS_LIST: '/app/tipsList',
-    QUERY_TIPS: '/app/tips'
+    QUERY_TIPS: '/app/tips',
+    QUERY_ABOUT: '/app/about',
+    QUERY_BANNER: '/app/banner'
 }

@@ -21,6 +21,12 @@
                 }, {
                     link: '/tips',
                     text: 'tips'
+                }, {
+                    link: '/about',
+                    text: 'About Me'
+                }, {
+                    link: '/bannar',
+                    text: 'bannar'
                 }]
             }
         },

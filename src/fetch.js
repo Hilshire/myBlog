@@ -8,7 +8,7 @@ let jsonInit = {
 }
 
 //TODO: 异常捕获
-export let jsonAjax = (url, data, callback) => {
+export let post = (url, data, callback) => {
     if (Object.prototype.toString.call(data) === '[object Function]') {
         callback = data
         data = undefined

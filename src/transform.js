@@ -1,4 +1,4 @@
-import * as api from './fetch'
+import * as fetch from './fetch'
 import * as url from './const'
 import EventProxy from 'eventproxy'
 
@@ -16,13 +16,17 @@ class Query {
     }
 
     queryList() {
-        api.get(this.url.queryList, json => {
+        if (!this.url.queryList) return
+
+        fetch.get(this.url.queryList, json => {
             this.ep.emit('queryList', json)
         })
     }
 
     queryById(id) {
-        api.get(this.url.queryById, id, json => {
+        if (!this.url.queryById) return
+
+        fetch.get(this.url.queryById, id, json => {
             this.ep.emit('queryById', json)
         })
     }
@@ -36,26 +40,75 @@ class Transform extends Query {
     }
 
     add(data) {
-        api.jsonAjax(this.url.add, data, json => {
+        fetch.post(this.url.add, data, json => {
             Materialize.toast(json.msg, this.toastTime)
             if(json.success) this.ep.emit('add')
         })
     }
 
     del(id) {
-        api.get(this.url.del, id, json => {
+        fetch.get(this.url.del, id, json => {
             Materialize.toast(json.msg, this.toastTime)
             if(json.success) this.ep.emit('del')
         })
     }
 
     update(data) {
-        api.jsonAjax(this.url.update, data, json => {
+        fetch.post(this.url.update, data, json => {
             Materialize.toast(json.msg, this.toastTime)
             if(json.success) this.ep.emit('update')
         })
     }
 }
+
+let manager_about = (function() {
+    let ep = new EventProxy
+
+    return {
+        ep: ep,
+        query() {
+            fetch.get(url.about.QUERY, result => {
+                this.content = result
+                ep.emit('query')
+            })
+        },
+        update(data) {
+            fetch.post(url.about.UPDATE, data, result => {
+                if (result.success)
+                ep.emit('update') 
+            })
+        }
+    }
+
+})()
+
+let app_about = (function() {
+    let ep = new EventProxy
+
+    return {
+        ep: ep,
+        query() {
+            fetch.post(url.app.QUERY_ABOUT, result => {
+                ep.emit('query')
+            })
+        }
+    }
+
+})()
+
+let app_banner = (function(store) {
+    let ep = new EventProxy
+
+    return {
+        ep: ep,
+        query() {
+            fetch.get(url.app.QUERY_BANNER, result => {
+                ep.emit('query')
+            })
+        }
+    }
+
+})()
 
 export let manager = {
     blog: new Transform({
@@ -80,6 +133,16 @@ export let manager = {
         del: url.tips.DEL,
         queryList: url.tips.QUERY_LIST,
         queryById: url.tips.QUERY_BY_ID
+    }),
+
+    about: manager_about,
+
+    banner: new Transform({
+        add: url.banner.ADD,
+        update: url.banner.UPDATE,
+        del: url.banner.DEL,
+        queryList: url.banner.QUERY_LIST,
+        queryById: url.banner.QUERY_BY_ID
     })
 }
 
@@ -95,11 +158,12 @@ export let app = {
     tips: new Query({
         queryList: url.app.QUERY_TIPS_LIST,
         queryById: url.app.QUERY_TIPS
-    })
+    }),
+    about: app_about
 }
 
 export function login(username, password) {
-    api.jsonAjax(url.base.LOGIN, {username:username, password:password}, data => {
+    fetch.post(url.base.LOGIN, {username:username, password:password}, data => {
         if(!data.passValidate) Materialize.toast(data.msg, toastTime)
             else window.location.href = url.blog.ROOT
     })

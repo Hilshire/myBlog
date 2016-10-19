@@ -87,6 +87,29 @@ tips.update = function(data, ep) {
     })
 }
 
+var about = {
+    query(ep) {
+        hildb.about.query((err, row) => {
+            handleData(err, ep, row)
+        })
+    },
+    update(data, ep) {
+        hildb.about.update(data, (err, row) => {
+            handleData(err, ep, {success: 1, msg: 'Update Success'})
+        })
+    }
+}
+
+var banner = new Dispatch(hildb.banner)
+banner.queryById = ep => {
+    var model = this.model,
+        len = this.model.getLength(),
+        id = Math.round(Math.random() * len)
+    model.queryById(data, (err, row) => {
+        handleData(err, ep, row) 
+    })
+}
+
 //TODO：if err 部分有点重合，也许可以提取
 function validatePassword(username, password, ep) {
     hildb.account.queryByUsername(username, function(err, row) {
@@ -224,4 +247,6 @@ function getSummary(content) {
 exports.blog = blog
 exports.article = article
 exports.tips = tips
+exports.about = about
+exports.banner = banner
 exports.validatePassword = validatePassword

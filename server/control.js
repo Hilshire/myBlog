@@ -24,6 +24,8 @@ module.exports = function(app) {
         [url.app.QUERY_ARTICLE, dispatch.article, 'queryById'],
         [url.app.QUERY_TIPS_LIST, dispatch.tips, 'queryList', 1],
         [url.app.QUERY_TIPS, dispatch.tips, 'queryById', 1],
+        [url.app.QUERY_ABOUT, dispatch.about, 'query', 1],
+        [url.app.QUERY_BANNER, dispatch.banner, 'queryById', 1],
 
         [url.blog.DEL, dispatch.blog, 'del'],
         [url.blog.QUERY_LIST, dispatch.blog, 'queryList', 1],
@@ -36,6 +38,12 @@ module.exports = function(app) {
         [url.tips.DEL, dispatch.tips, 'del'],
         [url.tips.QUERY_LIST, dispatch.tips, 'queryList', 1],
         [url.tips.QUERY_BY_ID, dispatch.tips, 'queryById'],
+
+        [url.about.QUERY, dispatch.about, 'query', 1],
+
+        [url.banner.QUERY_LIST, dispatch.banner, 'queryList', 1],
+        [url.banner.QUERY_BY_ID, dispatch.banner, 'queryById'],
+        [url.banner.DEL, dispatch.banner, 'del', 1]
     ]
 
     var postReqs = [
@@ -47,7 +55,12 @@ module.exports = function(app) {
         [url.article.UPDATE, dispatch.article, 'update'],
 
         [url.tips.ADD, dispatch.tips, 'add'],
-        [url.tips.UPDATE, dispatch.tips, 'update']
+        [url.tips.UPDATE, dispatch.tips, 'update'],
+
+        [url.about.UPDATE, dispatch.about, 'update'],
+
+        [url.banner.UPDATE, dispatch.banner, 'update'],
+        [url.banner.UPDATE, dispatch.banner, 'queryById']
     ]
 
     // 对每一项调用handlePost | handleGet, 简单地传入req.body，输出dispatch返回的数据

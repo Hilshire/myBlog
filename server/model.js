@@ -37,10 +37,10 @@ exports.article = {
 }
 
 exports.tips = {
-    add: createRunFn('INSERT INTO tigs VALUES(null, ?, ?, ?);'),
-    del: createRunFn('DELETE FROM tigs WHERE id = ?'),
-    update: createRunFn('UPDATE tigs SET title = ?, content = ? WHERE id = ?'),
-    query: createGetFn('SELECT * FROM tigs WHERE id = ?'),
+    add: createRunFn('INSERT INTO tips VALUES(null, ?, ?, ?);'),
+    del: createRunFn('DELETE FROM tips WHERE id = ?'),
+    update: createRunFn('UPDATE tips SET title = ?, content = ? WHERE id = ?'),
+    query: createGetFn('SELECT * FROM tips WHERE id = ?'),
     queryList: createGetFn('SELECT id, title, content, time FROM tips', 'all')
 }
 

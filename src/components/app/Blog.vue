@@ -10,8 +10,7 @@
     import {app} from '../../transform'
     import {ScrollFire} from '../../utils'
 
-    let EventProxy = require('eventproxy'),
-        scrollFire = new ScrollFire('#app-blog .title')
+    let scrollFire = new ScrollFire('#app-blog .title')
 
     export default{
         data(){

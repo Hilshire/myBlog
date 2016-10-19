@@ -10,6 +10,7 @@ import ContentList from './components/app/ContentList'
 import BlogList from './components/app/BlogList'
 import Article from './components/app/Article'
 import ArticleList from './components/app/ArticleList'
+import TipList from './components/app/TipList.vue'
 
 let converter = new Markdown.Converter()
 window.hljs = hljs
@@ -40,6 +41,9 @@ router.map({
             },
             '/article': {
                 component: ArticleList
+            },
+            '/tips': {
+                component: TipList
             }
         }
     },
@@ -50,7 +54,7 @@ router.map({
     '/article/:id': {
         name: 'article',
         component: Article
-    }
+    },
 })
 
 router.start(App, '#app')

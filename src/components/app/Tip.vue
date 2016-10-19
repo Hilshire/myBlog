@@ -1,15 +1,33 @@
 <template>
-    <div class="app-tip">
+    <div class="tip section">
         <p class="title">{{title}}</p>
         <p class="time">{{time}}</p>
-        <p class="content">{{content}}</p>
+        <p class="content">{{{content | mdToHtml}}}</p>
     </div>
 </template>
 
 <script type="text/babel">
+    import Card from '../CardPanel.vue'
     export default {
-        props: ['title', 'time', 'content']
+        props: ['title', 'time', 'content'],
+        components: {
+            Card
+        }
     }
 </script>
 
-<style></style>
+<style lang="sass">
+    .tip {
+        .title {
+            text-align: left;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 0.5em 0;
+            letter-spacing: 0;
+        }
+        .time {
+
+        }
+    }
+</style>

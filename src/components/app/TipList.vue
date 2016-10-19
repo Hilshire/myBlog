@@ -11,14 +11,32 @@
     import Tip from './Tip.vue'
     import {app} from '../../transform.js'
 
+    let tips = app.tips
+
     export default {
         data() {
            return {
-               tips: []
+               tips: [],
+               hasContent: true
            }
         },
         ready() {
-            this.ep = app.tips.queryList()
+            var ep = this.ep = tips.ep
+
+            ep.on('queryList', result => {
+                this.tips = result
+                this.$nextTick(() => {
+                    if(result.length === 0) this.hasContent = false
+                        else this.hasContent = true
+                })
+            })
+
+            this.query()
+        },
+        methods: {
+            query() {
+                tips.queryList()
+            }
         },
         components: {
            Tip,

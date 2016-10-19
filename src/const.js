@@ -43,6 +43,6 @@ exports.app = {
     QUERY_BLOG :'/app/blog',
     QUERY_ARTICLE: '/app/query',
     QUERY_ARTICLE_LIST: '/app/articleList',
-    QUERY_TIPS_LIST: '/app/tipsLIst',
+    QUERY_TIPS_LIST: '/app/tipsList',
     QUERY_TIPS: '/app/tips'
 }

@@ -33,3 +33,16 @@ export class ScrollFire {
         document.removeEventListener('scroll', this.scrollHandler)
     }
 }
+
+export function highLight() {
+    window.hljs.initHighlighting.called = false
+    window.hljs.initHighlighting()
+}
+
+export function hasContent(result) {
+    if(result.length === 0) {
+        return false
+    } else {
+        return true
+    }
+}

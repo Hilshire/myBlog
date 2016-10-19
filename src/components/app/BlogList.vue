@@ -11,8 +11,7 @@
 
     import BlogPrev from './BlogPrev.vue'
     import {app} from '../../transform'
-
-    let EventProxy = require('eventproxy')
+    import * as utils from '../../utils.js'
 
     export default{
         data(){
@@ -29,10 +28,12 @@
             ep.on('queryList', result => {
                 this.$data.blogs = result
 
+                // 判断是否有内容。
+                // 如果使用computed，会导致页面载入时出现无内容提示，
+                // 然后再渲染出内容，故在获取数据后进行判断。
                 this.$nextTick(() => {
-                    if(result.length === 0) {
-                        this.hasContent = false
-                    }
+                    utils.highLight()
+                    this.hasContent = utils.hasContent(result)
                 })
             })
         },

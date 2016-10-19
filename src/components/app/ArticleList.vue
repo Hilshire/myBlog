@@ -15,8 +15,6 @@
     import ArticlePrev from './ArticlePrev.vue'
     import {app} from '../../transform'
 
-    let EventProxy = require('eventproxy')
-
     export default{
         data(){
             let ep = this.ep = app.article.ep
@@ -35,6 +33,8 @@
                 this.$nextTick(() => {
                     if(result.length === 0) {
                         this.hasContent = false
+                    } else {
+                        this.hasContent = true
                     }
                 })
             })

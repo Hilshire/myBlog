@@ -31,6 +31,8 @@ class Query {
 class Transform extends Query {
     constructor(option) {
         super(option)
+        this.toastTime = toastTime
+        this.infoToastTime = infoToastTime
     }
 
     add(data) {

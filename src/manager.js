@@ -54,7 +54,7 @@ router.map({
         component: TipsEditor
     },
     '/tips/update/:id': {
-        name: 'updateArticle',
+        name: 'updateTip',
         component: TipsEditor
     },
     '/about': {

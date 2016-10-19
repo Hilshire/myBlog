@@ -69,13 +69,13 @@ let manager_about = (function() {
         query() {
             fetch.get(url.about.QUERY, result => {
                 this.content = result
-                ep.emit('query')
+                ep.emit('query', result)
             })
         },
         update(data) {
             fetch.post(url.about.UPDATE, data, result => {
-                if (result.success)
-                ep.emit('update') 
+                Materialize.toast(result.msg, toastTime)
+                if (result.success) ep.emit('update') 
             })
         }
     }
@@ -88,8 +88,8 @@ let app_about = (function() {
     return {
         ep: ep,
         query() {
-            fetch.post(url.app.QUERY_ABOUT, result => {
-                ep.emit('query')
+            fetch.get(url.app.QUERY_ABOUT, result => {
+                ep.emit('query', result)
             })
         }
     }
@@ -103,7 +103,7 @@ let app_banner = (function(store) {
         ep: ep,
         query() {
             fetch.get(url.app.QUERY_BANNER, result => {
-                ep.emit('query')
+                ep.emit('query', result)
             })
         }
     }

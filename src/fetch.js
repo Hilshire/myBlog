@@ -52,5 +52,7 @@ export let get = (url, data, callback) => {
     }
 
     fetch(url, {method: 'GET'}).then(response => response.json())
+        .catch(err => console.error(err))
         .then(json => {callback(json)})
+        .catch(err => console.error(err))
 }

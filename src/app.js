@@ -17,7 +17,8 @@ let converter = new Markdown.Converter()
 window.hljs = hljs
 
 Vue.filter('mdToHtml', (mdstr) => {
-   return converter.makeHtml(mdstr)
+    if(!mdstr) return mdstr
+        else return converter.makeHtml(mdstr)
 })
 Vue.filter('highLight', (code) => {
     return hljs.highlightAuto(code).value

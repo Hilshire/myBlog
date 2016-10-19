@@ -94,7 +94,7 @@ var about = {
         })
     },
     update(data, ep) {
-        hildb.about.update(data, (err, row) => {
+        hildb.about.update(data.content, (err, row) => {
             handleData(err, ep, {success: 1, msg: 'Update Success'})
         })
     }

@@ -25,7 +25,7 @@
             var ep = this.ep = manager.about.ep
 
             ep.on('query', result => {
-                this.content = result
+                this.content = result.content
             })
             ep.on('update', () => {
                 window.location.refresh()

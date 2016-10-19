@@ -1,10 +1,10 @@
 <template>
-    <div id="about_me">
+    <div id="about_me" class="container">
         {{{content | mdToHtml}}}
     </div>
 </template>
 
-<script>
+<script type="text/babel">
     import {app} from '../../transform.js'
 
     export default {
@@ -17,7 +17,11 @@
             let ep = this.ep = app.about.ep
 
             ep.on('query', result => {
-                this.content = result
+                if(!result) {
+                    this.content = '####He is too lazy to write anything'
+                    return
+                }
+                this.content = result.content
             })
 
             app.about.query()

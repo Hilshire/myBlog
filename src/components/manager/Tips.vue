@@ -54,7 +54,7 @@
                 })
             },
             update: function(id) {
-                this.$router.go({name: 'updateArticle', params: {id: id}})
+                this.$router.go({name: 'updateTip', params: {id: id}})
             },
             del: function(id) {
                 tips.del({id: id})

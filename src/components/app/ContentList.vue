@@ -1,7 +1,7 @@
 <template>
     <div>
         <section id="banner">
-            <p>你现在遭遇的不幸，是你荒废时间的报应。你现在在干什么，而你该干什么？</p>
+            <p>{{banner}}</p>
         </section>
         <router-view></router-view>
     </div>
@@ -11,11 +11,21 @@
     import AppNav from "./Nav.vue"
     import BlogList from "./BlogList.vue"
     import AppFooter from "./Footer.vue"
+    import {app} from "../../transform.js"
 
     export default{
         data(){
             return{
+                banner:''
             }
+        },
+        ready() {
+            let banner = app.banner,
+                ep = banner.ep
+            banner.query()
+            ep.on('query', result => {
+                this.banner = result.content
+            })
         },
         components:{
             AppNav,

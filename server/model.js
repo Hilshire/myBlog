@@ -86,9 +86,8 @@ exports.banner = {
     add: createRunFn('INSERT INTO banner VALUES(null, ?)'),
     del: createRunFn('DELETE FROM banner WHERE id = ?'),
     update: createRunFn('UPDATE banner SET content = ? WHERE id = ?'),
-    query: createGetFn('SELECT from banner WHERE id = ?'),
-    queryList: createGetFn('SELECT from banner', 'all'),
-    getLength: createGetFn('SELECT COUNT(*) FROM banner')
+    queryRandomRow: createGetFn('SELECT * FROM banner ORDER BY RANDOM() LIMIT 1'),
+    queryList: createGetFn('SELECT * from banner', 'all')
 }
 
 // return a sqlite3 interface function

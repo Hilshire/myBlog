@@ -101,12 +101,25 @@ var about = {
 }
 
 var banner = new Dispatch(hildb.banner)
-banner.queryById = ep => {
-    var model = this.model,
-        len = this.model.getLength(),
-        id = Math.round(Math.random() * len)
-    model.queryById(data, (err, row) => {
+banner.query = function(ep) {
+    var model = this.model
+
+    model.queryRandomRow((err, row) => {
         handleData(err, ep, row) 
+    })
+}
+banner.add = function(data, ep) {
+    var model = this.model,
+        content = this.content
+    model.add(data.content, (err, row) => {
+        handleData(err, ep, {success:1, msg: 'Add Success'})
+    })
+}
+banner.update = function(data, ep) {
+    var model = this.model,
+        content = this.content
+    model.update(content, (err, row) => {
+        handleData(err, ep, {success: 1, msg: 'Update Success'})
     })
 }
 
@@ -227,8 +240,8 @@ function handleData(err, ep, data, callback) {
         console.log(err)
         ep.emit('Error', {msg: 'ERROR! ' + err})
     } else {
+        console.log('db return data: ', data)
         if (callback) {
-            console.log('db return data: ', data)
             data = callback(data)
         }
         if (shouldEmit) {

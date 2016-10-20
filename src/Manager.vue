@@ -25,8 +25,8 @@
                     link: '/about',
                     text: 'About Me'
                 }, {
-                    link: '/bannar',
-                    text: 'bannar'
+                    link: '/banner',
+                    text: 'banner'
                 }]
             }
         },

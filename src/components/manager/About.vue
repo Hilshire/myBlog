@@ -26,9 +26,12 @@
 
             ep.on('query', result => {
                 this.content = result.content
+                this.$nextTick(() => {
+                    Materialize.updateTextFields()
+                })
             })
             ep.on('update', () => {
-                window.location.refresh()
+                window.location.reload()
             })
 
             this.query()

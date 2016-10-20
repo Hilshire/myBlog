@@ -159,7 +159,8 @@ export let app = {
         queryList: url.app.QUERY_TIPS_LIST,
         queryById: url.app.QUERY_TIPS
     }),
-    about: app_about
+    about: app_about,
+    banner: app_banner
 }
 
 export function login(username, password) {

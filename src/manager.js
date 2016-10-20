@@ -9,6 +9,7 @@ import ArticleEditor from './components/manager/ArticleEditor.vue'
 import Tips from './components/manager/Tips.vue'
 import TipsEditor from './components/manager/tipEditor.vue'
 import About from './components/manager/About.vue'
+import Banner from './components/manager/Banner'
 
 import '../node_modules/materialize-css/dist/css/materialize.min.css'
 import '../node_modules/materialize-css/dist/js/materialize.js'
@@ -59,6 +60,9 @@ router.map({
     },
     '/about': {
         component: About
+    },
+    '/banner': {
+        component: Banner
     }
 })
 

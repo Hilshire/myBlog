@@ -120,8 +120,10 @@ banner.add = function(data, ep) {
 }
 banner.update = function(data, ep) {
     var model = this.model,
-        content = data.content
-    model.update(content, (err, row) => {
+        content = data.content,
+        id = data.id
+    var data = [content, id]
+    model.update(data, (err, row) => {
         handleData(err, ep, {success: 1, msg: 'Update Success'})
     })
 }

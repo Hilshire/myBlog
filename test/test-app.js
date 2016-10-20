@@ -254,27 +254,27 @@ describe('test tips', () => {
 })
 
 describe('test About', () => {
-    var origin;
     agent.get(path.app.QUERY_ABOUT).end((err, res) => {
-        origin = res
-    })
+        var content = 'test',
+            origin;
+        origin = res.body
 
-    it('should success when change \'about me\'', (done) => {
-        agent.post(path.about.UPDATE).send({content: 'test'}).end((err, res) => {
-            res.body.should.have.property('success')
-            done()
+        it('should success when change \'about me\'', (done) => {
+            agent.post(path.about.UPDATE).send({content: content}).end((err, res) => {
+                res.body.should.have.property('success')
+                done()
+            })
         })
+
+        it('should change after update', (done) => {
+            agent.get(path.app.QUERY_ABOUT).end((err, res) => {
+                res.text.should.containEql(content)
+                done()
+            }) 
+        })
+
+        agent.post(path.about.UPDATE).send(origin)
     })
-
-    it('should change after update', (done) => {
-        agent.get(path.app.QUERY_ABOUT).end((err, res) => {
-            res.text.should.containEql('test')
-            done()
-        }) 
-    })
-
-    agent.post(path.about.UPDATE).send(origin)
-
 })
 
 describe('test banner', () => {

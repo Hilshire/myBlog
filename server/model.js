@@ -21,7 +21,7 @@ exports.disconnect = function() {
 }
 
 exports.blog = {
-  add: createRunFn('INSERT INTO blog VALUES(null, ?, ?, ?, ?);'),
+  add: createRunFn('INSERT INTO blog VALUES(?, ?, ?, ?, ?);'),
   del: createRunFn('DELETE FROM blog WHERE id = ?;'),
   update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
@@ -29,7 +29,7 @@ exports.blog = {
 }
 
 exports.article = {
-  add: createRunFn('INSERT INTO article VALUES(null, ?, ?, ?);'),
+  add: createRunFn('INSERT INTO article VALUES(?, ?, ?, ?);'),
   del: createRunFn('DELETE FROM article WHERE id = ?;'),
   update: createRunFn('UPDATE article SET title = ?, content = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM article WHERE id = ?;'),
@@ -37,7 +37,7 @@ exports.article = {
 }
 
 exports.tips = {
-    add: createRunFn('INSERT INTO tips VALUES(null, ?, ?, ?);'),
+    add: createRunFn('INSERT INTO tips VALUES(?, ?, ?, ?);'),
     del: createRunFn('DELETE FROM tips WHERE id = ?'),
     update: createRunFn('UPDATE tips SET title = ?, content = ? WHERE id = ?'),
     query: createGetFn('SELECT * FROM tips WHERE id = ?'),
@@ -83,7 +83,7 @@ exports.about = {
 }
 
 exports.banner = {
-    add: createRunFn('INSERT INTO banner VALUES(null, ?)'),
+    add: createRunFn('INSERT INTO banner VALUES(?, ?)'),
     del: createRunFn('DELETE FROM banner WHERE id = ?'),
     update: createRunFn('UPDATE banner SET content = ? WHERE id = ?'),
     queryRandomRow: createGetFn('SELECT * FROM banner ORDER BY RANDOM() LIMIT 1'),

@@ -41,9 +41,10 @@ blog.add = function (data, ep) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
-        model = this.model
+        model = this.model,
+        id = data.id?data.id:null
 
-    var data = [title, content, summary, moment().format('l')]
+    var data = [id, title, content, summary, moment().format('l')]
     model.add(data, err => {
         handleData(err, ep, {success: 1, msg: 'Add Success'})
     })
@@ -61,7 +62,7 @@ blog.update = function (data, ep) {
 
 var article = new Dispatch(hildb.article)
 article.add = function(data, ep) {
-    var data = [data.title, data.content, moment().format('l')]
+    var data = [data.id?data.id:null, data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
         handleData(err, ep, {success: 1, msg: 'Add Success'})
     })
@@ -75,7 +76,7 @@ article.update = function(data,ep) {
 
 var tips = new Dispatch(hildb.tips)
 tips.add = function(data, ep) {
-    var data = [data.title, data.content, moment().format('l')]
+    var data = [data.id?data.id:null ,data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
         handleData(err, ep, {success: 1, msg: 'Add Success'})
     })
@@ -110,14 +111,16 @@ banner.query = function(ep) {
 }
 banner.add = function(data, ep) {
     var model = this.model,
-        content = this.content
-    model.add(data.content, (err, row) => {
+        content = data.content,
+        id = data.id?data.id:null
+
+    model.add([id, content], (err, row) => {
         handleData(err, ep, {success:1, msg: 'Add Success'})
     })
 }
 banner.update = function(data, ep) {
     var model = this.model,
-        content = this.content
+        content = data.content
     model.update(content, (err, row) => {
         handleData(err, ep, {success: 1, msg: 'Update Success'})
     })

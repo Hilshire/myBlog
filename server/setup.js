@@ -6,6 +6,8 @@ var model = require('./model')
 var db = model.connect(),
     file = path.resolve(__dirname, 'schema.sql')
 
+// 虽然这里没必要上promise，却依然作为使用promise的案例保留下来了
+
 // var initSqlPromise = (function() {
 //     var defer = Q.defer()
 //

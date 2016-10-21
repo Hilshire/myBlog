@@ -1,3 +1,7 @@
+/* 
+ * 对model进行简单的处理。包含最基础的业务逻辑
+ */
+
 var hildb = require('./model.js')
 var moment = require('moment')
 
@@ -8,36 +12,36 @@ function Dispatch(model) {
     this.model = model
 }
 Dispatch.prototype = {
-    add(data, ep) {
+    add(data) {
         this.model.add(data, err => {
-            handleData(err, ep, {success: 1, msg: 'Add Success'})
+            return handleData(err, {success: 1, msg: 'Add Success'})
         })
     },
-    del(data, ep) {
+    del(data) {
         //TODO：如果id不存在也会显示成功
         this.model.del(data.id, err => {
-            handleData(err, ep, {success: 1, msg: 'Del Success'})
+            return handleData(err, {success: 1, msg: 'Del Success'})
         })
     },
-    update(data, ep) {
+    update(data) {
         this.model.update(data, err => {
-            handleData(err, ep, {success: 1, msg: 'Update Success'})
+            return handleData(err, {success: 1, msg: 'Update Success'})
         })
     },
-    queryList(ep) {
+    queryList() {
         this.model.queryList((err, row) => {
-            handleData(err, ep, row)
+            return handleData(err, row)
         })
     },
-    queryById(data, ep) {
+    queryById(data) {
         this.model.query(data.id, (err, row) => {
-            handleData(err, ep, row)
+            return handleData(err, row)
         })
     }
 }
 
 var blog = new Dispatch(hildb.blog)
-blog.add = function (data, ep) {
+blog.add = function (data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
@@ -46,85 +50,103 @@ blog.add = function (data, ep) {
 
     var data = [id, title, content, summary, moment().format('l')]
     model.add(data, err => {
-        handleData(err, ep, {success: 1, msg: 'Add Success'})
+        return handleData(err, {success: 1, msg: 'Add Success'})
     })
 }
-blog.update = function (data, ep) {
+blog.update = function (data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
         model = this.model
 
     model.update([title, content, summary, data.id], err => {
-        handleData(err, ep, {success: 1, msg: 'Update Success'})
+        return handleData(err, {success: 1, msg: 'Update Success'})
     })
 }
 
 var article = new Dispatch(hildb.article)
-article.add = function(data, ep) {
+article.add = function(data) {
     var data = [data.id?data.id:null, data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
-        handleData(err, ep, {success: 1, msg: 'Add Success'})
+        return handleData(err, {success: 1, msg: 'Add Success'})
     })
 }
-article.update = function(data,ep) {
+article.update = function(dat) {
     var data = [data.title, data.content, data.id]
     this.model.update(data, (err, row) => {
-        handleData(err, ep, {success: 1, msg: 'Update Success'})
+        return handleData(err, {success: 1, msg: 'Update Success'})
     })
 }
 
 var tips = new Dispatch(hildb.tips)
-tips.add = function(data, ep) {
+tips.add = function(data) {
     var data = [data.id?data.id:null ,data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
-        handleData(err, ep, {success: 1, msg: 'Add Success'})
+        return handleData(err, {success: 1, msg: 'Add Success'})
     })
 }
-tips.update = function(data, ep) {
+tips.update = function(data) {
     var data = [data.title, data.content, data.id]
     this.model.update(data, (err, row) => {
-        handleData(err, ep, {success: 1, msg: 'Update Success'})
+        return handleData(err, {success: 1, msg: 'Update Success'})
     })
 }
 
 var about = {
-    query(ep) {
+    query() {
         hildb.about.query((err, row) => {
-            handleData(err, ep, row)
+            return handleData(err, row)
         })
     },
-    update(data, ep) {
+    update(data) {
         hildb.about.update(data.content, (err, row) => {
-            handleData(err, ep, {success: 1, msg: 'Update Success'})
+            return handleData(err, {success: 1, msg: 'Update Success'})
         })
     }
 }
 
 var banner = new Dispatch(hildb.banner)
-banner.query = function(ep) {
+banner.query = function() {
     var model = this.model
 
     model.queryRandomRow((err, row) => {
-        handleData(err, ep, row) 
+        return handleData(err, row) 
     })
 }
-banner.add = function(data, ep) {
+banner.add = function(data) {
     var model = this.model,
         content = data.content,
         id = data.id?data.id:null
 
     model.add([id, content], (err, row) => {
-        handleData(err, ep, {success:1, msg: 'Add Success'})
+        return handleData(err, {success:1, msg: 'Add Success'})
     })
 }
-banner.update = function(data, ep) {
+banner.update = function(data) {
     var model = this.model,
         content = data.content,
         id = data.id
     var data = [content, id]
     model.update(data, (err, row) => {
-        handleData(err, ep, {success: 1, msg: 'Update Success'})
+        return handleData(err, {success: 1, msg: 'Update Success'})
+    })
+}
+
+var tag = new Dispatch(hildb.tag)
+tag.add = function(data) {
+    var model = this.model,
+        type = this.type,
+        id = this.id?this.id:null
+    var data = [id, type]
+    model.add(data, (err, row) => {
+        return handleData(err, {success: 1, msg:' Add Success'})
+    })
+}
+tag.queryByType =function(data) {
+    var model = this.model,
+        type = data.type
+    model.queryByType(type, (err, row) => {
+        return handleData(err, {success: 1})
     })
 }
 
@@ -144,114 +166,18 @@ function validatePassword(username, password, ep) {
     })
 }
 
-// exports.blog = {
-//     add(data, ep) {
-//         var title = data.title,
-//             content = data.content,
-//             summary = getSummary(content)
-//         var data = [title, content, summary, moment().format('l')]
-//         hildb.blog.add(data, err => {
-//             handleData(err, ep, {success: 1, msg: 'Add Success'})
-//         })
-//     },
-//     del(data, ep) {
-//         hildb.blog.del(data.id, err => {
-//             handleData(err, ep, {success: 1, msg: 'Del Success'})
-//         })
-//     },
-//     update(data, ep) {
-//         var title = data.title,
-//             content = data.content,
-//             summary = getSummary(content)
-//         hildb.blog.update([title, content, summary, data.id], err => {
-//             handleData(err, ep, {success: 1, msg: 'Update Success'})
-//         })
-//     },
-//     queryList(ep) {
-//         hildb.blog.queryList((err, row) => {
-//             handleData(err, ep, row)
-//         })
-//     },
-//     queryById(data, ep) {
-//         hildb.blog.query(data.id, (err, row) => {
-//             handleData(err, ep, row)
-//         })
-//     },
-//     addTag(data, ep) {
-//         if(data.tagId) {
-//             addExistTag(data)
-//         } else {
-//             //TODO:YOU SEE THE CALLBACK HELL
-//             var tagExist;
-//             hildb.tag.queryByText(data.text, (err, row) => {
-//                 if(err) {
-//                     ep.emit('Error', {msg: 'query blog tag by text error'})
-//                 }
-//
-//                 tagExist = row
-//
-//                 if(tagExist) {
-//                     addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
-//                 } else {
-//                     var text = data.text,
-//                         blogId = data.blogId
-//
-//                     hildb.tag.add([null, text], (err) => {
-//                         if(err) {
-//                             ep.emit('Error', {msg: 'add new tag error'})
-//                         }
-//
-//                         var newTagId;
-//
-//                         hildb.tag.queryByText(text, (err, row) => {
-//                             if(err) {
-//                                 ep.emit('Error', {msg: 'query blog tag by text error'})
-//                                 return
-//                             }
-//                             newTagId = row.id
-//
-//                             hildb.blogTag.add([blogId, newTagId], (err) => {
-//                                 handleData(err, ep, {success: 1, msg: 'Add Success'})
-//                             })
-//                         })
-//                     })
-//                 }
-//             })
-//         }
-//
-//         function addExistTag(data) {
-//             hildb.blogTag.add([data.blogId, data.tagId], err => {
-//                 handleData(err, ep, {success: 1, msg: 'Add Success'})
-//             })
-//         }
-//     },
-//     delTag(data, ep) {
-//         var blogId = data.blogId
-//         hildb.blogTag.del([blogId, data.tagId], err => {
-//             handleData(err, ep, {success: 1, msg: 'Del Success'})
-//         })
-//     }
-
-// }
-
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
-//最后一个参数可传一个boolean值，用于控制emit
-function handleData(err, ep, data, callback) {
-    var len = arguments.length,
-        shouldEmit = true;
-    if (typeof arguments[len] === 'Boolean')  shouldEmit = arguments[len]
+function handleData(err, data, callback) {
 
     if(err) {
         console.log(err)
-        ep.emit('Error', {msg: 'ERROR! ' + err})
+        return {error:1, msg: 'ERROR! ' + err}
     } else {
         console.log('db return data: ', data)
         if (callback) {
             data = callback(data)
         }
-        if (shouldEmit) {
-            ep.emit('success', data)
-        }
+        return data
     }
 }
 

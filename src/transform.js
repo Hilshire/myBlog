@@ -61,6 +61,24 @@ class Transform extends Query {
     }
 }
 
+class TagTransform extends Transform {
+    constructor(option) {
+        super(option)
+    }
+
+    addTag(data) {
+        fetch.get(this.url.addTag, data, result => {
+            if(result.success) this.ep.emit('addTag')
+        })
+    }
+
+    delTag(data) {
+        fetch.get(this.url.delTag, data, result => {
+            if(result.success) this.ep.emit('delTag')
+        })
+    }
+}
+
 let manager_about = (function() {
     let ep = new EventProxy
 
@@ -111,20 +129,24 @@ let app_banner = (function(store) {
 })()
 
 export let manager = {
-    blog: new Transform({
+    blog: new TagTransform({
         add: url.blog.ADD,
         update: url.blog.UPDATE,
         del: url.blog.DEL,
         queryList: url.blog.QUERY_LIST,
-        queryById: url.blog.QUERY_BY_ID
+        queryById: url.blog.QUERY_BY_ID,
+        addTag: url.blog.ADD_TAG,
+        delTag: url.blog.DEL_TAG
     }),
 
-    article: new Transform({
+    article: new TagTransform({
         add: url.article.ADD,
         update: url.article.UPDATE,
         del: url.article.DEL,
         queryList: url.article.QUERY_LIST,
-        queryById: url.article.QUERY_BY_ID
+        queryById: url.article.QUERY_BY_ID,
+        addTag: url.article.ADD_TAG,
+        delTag: url.article.DEL_TAG
     }),
     
     tips: new Transform({

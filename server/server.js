@@ -41,7 +41,24 @@ ServerTag.prototype.addTag = function(data, ep) {
         var defer = Q.defer()
         var tag = data.tag,
             relationId = data.id
-        var oldId = tagDP.queryByType(tag).id
+        tagDP.queryByType(tag)
+             .then((oldTagId) => {
+                if(!oldTagId) {
+                    return tagDP.add(tag).then(() => {
+                        return tagDP.queryByType(tag)
+                    })
+                } else {
+                    return oldTagId
+                }
+            })
+            .then((tagId) => {
+                if(tag) this.tagRelationDP.add(tag, relationId)
+            })
+            .done((result) => {
+                ep.emit('success', result)
+            }, (result) => {
+                ep.emit('error', result)
+            })
         //TODO: try to get id directly
         // if(!oldId) {
         //     tagDP.add(tag)
@@ -50,6 +67,32 @@ ServerTag.prototype.addTag = function(data, ep) {
         // } else {
         //     this.tagRelationDP.add(oldId, relationId)
         // }
+}
+ServerTag.prototype.delTag = function(data, ep) {
+    var defer = Q.defer()
+    var tag = data.tag,
+        relationId = data.relationId,
+        _tagId;
+    tagDP.del(tag)
+         .then(() => {
+             return tagDP.queryByType(tag)
+         })
+         .then((tagId) => {
+             if(tagId) tagRelationDP.del(tagId, relationId)
+             _tagId = tagId
+             return tagId
+         })
+         .then((tagId) => {
+             return tagRelationDP.queryByTagId(tagId)
+         })
+         .then((releationId) => {
+             if(!releationId) tagDp.del(_tagId)
+         })
+         .done((result) => {
+             ep.emit('success', result)
+         }, (result) => {
+             ep.emit('Error', result)
+         })
 }
 
 var blog = new ServerTag(dispatch.blog, dispatch.blogTag),

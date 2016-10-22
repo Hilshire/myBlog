@@ -25,7 +25,9 @@ exports.article = {
     DEL: '/manager/article/del',
     UPDATE: '/manager/article/update',
     QUERY_LIST: '/manager/article/queryList',
-    QUERY_BY_ID: '/manager/article/queryById'
+    QUERY_BY_ID: '/manager/article/queryById',
+    ADD_TAG: '/manager/blog/addTag',
+    DEL_TAG: '/manager/blog/delTag'
 }
 
 exports.tips = {

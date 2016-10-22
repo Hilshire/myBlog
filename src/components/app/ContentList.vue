@@ -16,7 +16,7 @@
     export default{
         data(){
             return{
-                banner:''
+                banner:' ' //占据高度
             }
         },
         ready() {

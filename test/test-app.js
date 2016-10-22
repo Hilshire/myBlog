@@ -111,6 +111,22 @@ describe('test blog', () => {
         })
     })
 
+    it('should success when add a tag', (done) => {
+        agent.get(path.blog.ADD_TAG)
+             .query({tag:'testTag'})
+             .end((err, res) => {
+                 res.body.should.have.property('success')
+             })
+    })
+
+    it('should success when del a tag', (done) => {
+        agent.get(path.blog.DEL_TAG)
+             .query({tag:'testTag'})
+             .end((err, res) => {
+                 res.body.should.have.property('success')
+             })
+    })
+
 })
 
 describe('test article', () => {

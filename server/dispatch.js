@@ -1,4 +1,4 @@
-/* 
+/*
  * 对model进行简单的处理。包含最基础的业务逻辑
  */
 
@@ -12,36 +12,36 @@ function Dispatch(model) {
     this.model = model
 }
 Dispatch.prototype = {
-    add(data) {
+    add(defer, data) {
         this.model.add(data, err => {
-            return handleData(err, {success: 1, msg: 'Add Success'})
+            return handleData(err, defer, {success: 1, msg: 'Add Success'})
         })
     },
-    del(data) {
+    del(defer, data) {
         //TODO：如果id不存在也会显示成功
         this.model.del(data.id, err => {
-            return handleData(err, {success: 1, msg: 'Del Success'})
+            return handleData(err, defer, {success: 1, msg: 'Del Success'})
         })
     },
-    update(data) {
+    update(defer, data) {
         this.model.update(data, err => {
-            return handleData(err, {success: 1, msg: 'Update Success'})
+            return handleData(err, defer, {success: 1, msg: 'Update Success'})
         })
     },
-    queryList() {
+    queryList(defer) {
         this.model.queryList((err, row) => {
-            return handleData(err, row)
+            return handleData(err, defer, row)
         })
     },
-    queryById(data) {
+    queryById(defer, data) {
         this.model.query(data.id, (err, row) => {
-            return handleData(err, row)
+            return handleData(err, defer, row)
         })
     }
 }
 
 var blog = new Dispatch(hildb.blog)
-blog.add = function (data) {
+blog.add = function (defer, data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
@@ -50,103 +50,103 @@ blog.add = function (data) {
 
     var data = [id, title, content, summary, moment().format('l')]
     model.add(data, err => {
-        return handleData(err, {success: 1, msg: 'Add Success'})
+        return handleData(err, defer, {success: 1, msg: 'Add Success'})
     })
 }
-blog.update = function (data) {
+blog.update = function (defer, data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
         model = this.model
 
     model.update([title, content, summary, data.id], err => {
-        return handleData(err, {success: 1, msg: 'Update Success'})
+        return handleData(err, defer, {success: 1, msg: 'Update Success'})
     })
 }
 
 var article = new Dispatch(hildb.article)
-article.add = function(data) {
+article.add = function(defer, data) {
     var data = [data.id?data.id:null, data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
-        return handleData(err, {success: 1, msg: 'Add Success'})
+        return handleData(err, defer, {success: 1, msg: 'Add Success'})
     })
 }
-article.update = function(dat) {
+article.update = function(defer, data) {
     var data = [data.title, data.content, data.id]
     this.model.update(data, (err, row) => {
-        return handleData(err, {success: 1, msg: 'Update Success'})
+        return handleData(err, defer, {success: 1, msg: 'Update Success'})
     })
 }
 
 var tips = new Dispatch(hildb.tips)
-tips.add = function(data) {
+tips.add = function(defer, data) {
     var data = [data.id?data.id:null ,data.title, data.content, moment().format('l')]
     this.model.add(data, err => {
-        return handleData(err, {success: 1, msg: 'Add Success'})
+        return handleData(err, defer, {success: 1, msg: 'Add Success'})
     })
 }
-tips.update = function(data) {
+tips.update = function(defer, data) {
     var data = [data.title, data.content, data.id]
     this.model.update(data, (err, row) => {
-        return handleData(err, {success: 1, msg: 'Update Success'})
+        return handleData(err, defer, {success: 1, msg: 'Update Success'})
     })
 }
 
 var about = {
-    query() {
+    query(defer) {
         hildb.about.query((err, row) => {
-            return handleData(err, row)
+            return handleData(err, defer, row)
         })
     },
-    update(data) {
+    update(defer, data) {
         hildb.about.update(data.content, (err, row) => {
-            return handleData(err, {success: 1, msg: 'Update Success'})
+            return handleData(err, defer, {success: 1, msg: 'Update Success'})
         })
     }
 }
 
 var banner = new Dispatch(hildb.banner)
-banner.query = function() {
+banner.query = function(defer) {
     var model = this.model
 
     model.queryRandomRow((err, row) => {
-        return handleData(err, row) 
+        return handleData(err, defer, row)
     })
 }
-banner.add = function(data) {
+banner.add = function(defer, data) {
     var model = this.model,
         content = data.content,
         id = data.id?data.id:null
 
     model.add([id, content], (err, row) => {
-        return handleData(err, {success:1, msg: 'Add Success'})
+        return handleData(err, defer, {success:1, msg: 'Add Success'})
     })
 }
-banner.update = function(data) {
+banner.update = function(defer, data) {
     var model = this.model,
         content = data.content,
         id = data.id
     var data = [content, id]
     model.update(data, (err, row) => {
-        return handleData(err, {success: 1, msg: 'Update Success'})
+        return handleData(err, defer, {success: 1, msg: 'Update Success'})
     })
 }
 
 var tag = new Dispatch(hildb.tag)
-tag.add = function(data) {
+tag.add = function(defer, data) {
     var model = this.model,
         type = this.type,
         id = this.id?this.id:null
     var data = [id, type]
     model.add(data, (err, row) => {
-        return handleData(err, {success: 1, msg:' Add Success'})
+        return handleData(err, defer, {success: 1, msg:' Add Success'})
     })
 }
-tag.queryByType =function(data) {
+tag.queryByType =function(defer, data) {
     var model = this.model,
         type = data.type
     model.queryByType(type, (err, row) => {
-        return handleData(err, {success: 1})
+        return handleData(err, defer, {success: 1})
     })
 }
 
@@ -167,17 +167,17 @@ function validatePassword(username, password, ep) {
 }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
-function handleData(err, data, callback) {
+function handleData(err, defer, data, callback) {
 
     if(err) {
         console.log(err)
-        return {error:1, msg: 'ERROR! ' + err}
+        defer.reject({error:1, msg: 'ERROR! ' + err})
     } else {
         console.log('db return data: ', data)
         if (callback) {
             data = callback(data)
         }
-        return data
+        defer.resolve(data)
     }
 }
 

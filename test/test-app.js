@@ -7,8 +7,8 @@ var app = require('../server'),
 
 
 
-describe('test/app', () => {
-    it('should / status 200', (done) => {
+describe('test homepage', () => {
+    it('should return app.html', (done) => {
         agent.get('/').end((err, res) => {
             res.status.should.equal(200)
             res.text.should.containEql("Hilshire's blog")
@@ -59,7 +59,7 @@ describe('test blog', () => {
             done()
         })
     })
-    
+
     it('should contain the test record when query list', (done) => {
         agent.get(path.app.QUERY_BLOG_LIST).end((err, res) => {
             res.status.should.equal(200)
@@ -270,7 +270,7 @@ describe('test About', () => {
             agent.get(path.app.QUERY_ABOUT).end((err, res) => {
                 res.text.should.containEql(content)
                 done()
-            }) 
+            })
         })
 
         agent.post(path.about.UPDATE).send(origin)

@@ -1,4 +1,4 @@
-/* 
+/*
  * service层。基础的service只是简单的传递给相应的dispatch，
  * 较为复杂的则会操纵其它的dispatch。
  */
@@ -16,24 +16,19 @@ function Server(dispatch) {
 }
 Server.prototype = {
     add(data, ep) {
-        var result = this.dispatch.add(data, ep)
-        handleResult(result, ep)
+       handleResult(ep, data, this.dispatch.add.bind(this.dispatch))
     },
     update(data, ep) {
-        var result = this.dispatch.update(data, ep)
-        handleResult(result, ep)
+        handleResult(ep, data, this.dispatch.update.bind(this.dispatch))
     },
     del(data, ep) {
-        var result = this.dispatch.del(data, ep)
-        handleResult(result, ep)
+        handleResult(ep, data, this.dispatch.del.bind(this.dispatch))
     },
     queryById(data, ep) {
-        var result = this.dispatch.queryById(data, ep)
-        handleResult(result, ep)
+        handleResult(ep, data, this.dispatch.queryById.bind(this.dispatch))
     },
     queryList(ep) {
-        var result = this.dispatch.queryList()
-        handleResult(result, ep)
+        handleResult(ep, this.dispatch.queryList.bind(this.dispatch))
     }
 }
 
@@ -65,20 +60,17 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
     validatePassword = dispatch.validatePassword,
     about = {
         query(ep) {
-            var result = dispatch.about.query(ep)
-            handleResult(result, ep)
+            handleResult(ep, dispatch.about.query.bind(dispatch.about))
         },
         update(data, ep) {
-            var result = dispatch.about.update(data, ep)
-            handleResult(result, ep)
+            handleResult(data, ep, dispatch.about.update.bind(dispatch.about))
         }
     }
 
 banner.query = function (ep) {
-    var result = dispatch.banner.query()
-    handleResult(result, ep)
+    handleResult(ep, dispatch.banner.query.bind(dispatch.banner))
 }
-    
+
 exports.blog = blog
 exports.article = article
 exports.tips = tips
@@ -86,9 +78,20 @@ exports.about = about
 exports.banner = banner
 exports.validatePassword = validatePassword
 
-function handleResult(result, ep) {
-    if(result.error) ep.emit('Error', result)
-        else ep.emit('success', result)
+function handleResult(ep, data, handler) {
+    if(Object.prototype.toString.call(data) === '[object Function]') {
+        handler = data
+        data = ''
+    }
+    var defer = Q.defer()
+
+    handler(defer, data)
+
+    defer.promise.then((result) => {
+        ep.emit('success', result)
+    }, (result) => {
+        ep.emit('Errpr', result.msg)
+    })
 }
 
 

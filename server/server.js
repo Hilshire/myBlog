@@ -6,7 +6,7 @@
 'use strict'
 
 var dispatch = require('./dispatch'),
-    EventProxy = require('eventProxy'),
+    EventProxy = require('eventproxy'),
     Q = require('q')
 
 var tagDP = dispatch.tag

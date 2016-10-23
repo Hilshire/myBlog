@@ -49,7 +49,7 @@ exports.tag = {
   del: createRunFn('DELETE FROM tag WHERE id = ?;'),
   update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
   query: createGetFn('SELECT * FROM tag WHERE id = ?;'),
-  queryByType: createGetFn('SELECT * FROM tag WHERE text = ?'),
+  queryByType: createGetFn('SELECT * FROM tag WHERE type = ?'),
   used: createGetFn()
 }
 

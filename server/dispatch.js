@@ -134,19 +134,43 @@ banner.update = function(defer, data) {
 
 var tag = new Dispatch(hildb.tag)
 tag.add = function(defer, data) {
+    if(!defer.promise) {
+        data = defer
+        defer = null
+    }
     var model = this.model,
-        type = this.type,
-        id = this.id?this.id:null
+        type = data.text,
+        id = data.id?data.id:null
     var data = [id, type]
     model.add(data, (err, row) => {
         return handleData(err, defer, {success: 1, msg:' Add Success'})
     })
 }
-tag.queryByType =function(defer, data) {
+tag.queryByType = function(defer, data) {
+    if(!defer.promise) {
+        data = defer
+        defer = null
+    }
     var model = this.model,
-        type = data.type
+        type = data.text
     model.queryByType(type, (err, row) => {
-        return handleData(err, defer, {success: 1})
+        return handleData(err, defer, row)
+    })
+}
+
+var blogTag = new Dispatch(hildb.blogTag)
+blogTag.add = function (tagId, relationId) {
+    var model = this.model,
+        data = [tagId, relationId]
+    model.add(data, (err, row) => {
+        return handleData(err, null, row)
+    })
+
+}
+blogTag.queryByTagId = function (tagId) {
+    var model = this.model
+    model.queryByTagId(tagId, (err, row) => {
+        return handleData(err, null ,row)
     })
 }
 
@@ -171,13 +195,24 @@ function handleData(err, defer, data, callback) {
 
     if(err) {
         console.log(err)
-        defer.reject({error:1, msg: 'ERROR! ' + err})
+        if(defer && defer.promise) {
+
+            defer.reject({error:1, msg: 'ERROR! ' + err})
+        } else {
+            return {error:1, msg: 'ERROR! ' + err}
+        }
     } else {
         console.log('db return data: ', data)
         if (callback) {
             data = callback(data)
         }
-        defer.resolve(data)
+        if(defer && defer.promise) {
+
+            defer.resolve(data)
+        } else {
+
+            return data
+        }
     }
 }
 
@@ -189,8 +224,10 @@ function getSummary(content) {
 }
 
 exports.blog = blog
+exports.blogTag = blogTag
 exports.article = article
 exports.tips = tips
 exports.about = about
 exports.banner = banner
+exports.tag = tag
 exports.validatePassword = validatePassword

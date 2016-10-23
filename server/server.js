@@ -34,31 +34,31 @@ Server.prototype = {
 
 function ServerTag(mainDP, tagRelationDP) {
     this.dispatch = mainDP
-    this.tagDP = tagRelationDP
+    this.tagRelationDP = tagRelationDP
 }
 ServerTag.prototype = Object.create(Server.prototype)
 ServerTag.prototype.addTag = function(data, ep) {
         var defer = Q.defer()
-        var tag = data.tag,
-            relationId = data.id
-        tagDP.queryByType(tag)
-             .then((oldTagId) => {
-                if(!oldTagId) {
-                    return tagDP.add(tag).then(() => {
-                        return tagDP.queryByType(tag)
-                    })
-                } else {
-                    return oldTagId
-                }
-            })
-            .then((tagId) => {
-                if(tag) this.tagRelationDP.add(tag, relationId)
-            })
-            .done((result) => {
-                ep.emit('success', result)
-            }, (result) => {
-                ep.emit('error', result)
-            })
+        var tag = data.text,
+            relationId = data.relationId
+        tagDP.queryByType(defer, data)
+        defer.promise.then((oldTag) => {
+            if(!oldTag) {
+                return tagDP.add(data).then(() => {
+                    return tagDP.queryByType(tag)
+                })
+            } else {
+                return oldTag
+            }
+        })
+        .then((tag) => {
+            if(tag) return this.tagRelationDP.add(tag.id, relationId)
+        })
+        .done((result) => {
+            ep.emit('success', result)
+        }, (result) => {
+            ep.emit('error', result)
+        })
         //TODO: try to get id directly
         // if(!oldId) {
         //     tagDP.add(tag)
@@ -133,7 +133,7 @@ function handleResult(ep, data, handler) {
     defer.promise.then((result) => {
         ep.emit('success', result)
     }, (result) => {
-        ep.emit('Errpr', result.msg)
+        ep.emit('Error', result.msg)
     })
 }
 

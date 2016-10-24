@@ -4,6 +4,7 @@
 
 var hildb = require('./model.js')
 var moment = require('moment')
+var Q = require('q')
 
 var summaryHook = '<!--summary-->'
 moment.locale('zh-cn')
@@ -12,36 +13,46 @@ function Dispatch(model) {
     this.model = model
 }
 Dispatch.prototype = {
-    add(defer, data) {
-        this.model.add(data, err => {
-            return handleData(err, defer, {success: 1, msg: 'Add Success'})
-        })
+    add(data) {
+        return Q.Promise(function (resolve) {
+            this.model.add(data, err => {
+                resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+            })
+        }.bind(this))
     },
-    del(defer, data) {
+    del(data) {
         //TODO：如果id不存在也会显示成功
-        this.model.del(data.id, err => {
-            return handleData(err, defer, {success: 1, msg: 'Del Success'})
-        })
+        return Q.Promise(function (resolve) {
+            this.model.del(data.id, err => {
+                resolve(handleData(err, {success: 1, msg: 'Del Success'}))
+            })
+        }.bind(this))
     },
-    update(defer, data) {
-        this.model.update(data, err => {
-            return handleData(err, defer, {success: 1, msg: 'Update Success'})
-        })
+    update(data) {
+        return Q.Promise(function (resolve) {
+            this.model.update(data, err => {
+                resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            })
+        }.bind(this))
     },
-    queryList(defer) {
-        this.model.queryList((err, row) => {
-            return handleData(err, defer, row)
-        })
+    queryList(data) {
+        return Q.Promise(function (resolve) {
+            this.model.queryList((err, row) => {
+                resolve(handleData(err, row))
+            })
+        }.bind(this))
     },
-    queryById(defer, data) {
-        this.model.query(data.id, (err, row) => {
-            return handleData(err, defer, row)
-        })
+    queryById(data) {
+        return Q.Promise(function (resolve) {
+            this.model.query(data.id, (err, row) => {
+                resolve(handleData(err, row))
+            })
+        }.bind(this))
     }
 }
 
 var blog = new Dispatch(hildb.blog)
-blog.add = function (defer, data) {
+blog.add = function (data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
@@ -49,129 +60,151 @@ blog.add = function (defer, data) {
         id = data.id?data.id:null
 
     var data = [id, title, content, summary, moment().format('l')]
-    model.add(data, err => {
-        return handleData(err, defer, {success: 1, msg: 'Add Success'})
-    })
+    return Q.Promise(function (resolve) {
+        model.add(data, err => {
+            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+        })
+    }.bind(this))
 }
-blog.update = function (defer, data) {
+blog.update = function (data) {
     var title = data.title,
         content = data.content,
         summary = getSummary(content),
         model = this.model
 
-    model.update([title, content, summary, data.id], err => {
-        return handleData(err, defer, {success: 1, msg: 'Update Success'})
-    })
+    return Q.Promise(function (resolve) {
+        model.update([title, content, summary, data.id], err => {
+            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+        })
+    }.bind(this))
 }
 
 var article = new Dispatch(hildb.article)
-article.add = function(defer, data) {
+article.add = function(data) {
     var data = [data.id?data.id:null, data.title, data.content, moment().format('l')]
-    this.model.add(data, err => {
-        return handleData(err, defer, {success: 1, msg: 'Add Success'})
-    })
+    return Q.Promise(function (resolve) {
+        this.model.add(data, err => {
+            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+        })
+    }.bind(this))
 }
-article.update = function(defer, data) {
+article.update = function(data) {
     var data = [data.title, data.content, data.id]
-    this.model.update(data, (err, row) => {
-        return handleData(err, defer, {success: 1, msg: 'Update Success'})
-    })
+    return Q.Promise(function (resolve) {
+        this.model.update(data, (err, row) => {
+            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+        })
+    }.bind(this))
 }
 
 var tips = new Dispatch(hildb.tips)
-tips.add = function(defer, data) {
+tips.add = function(data) {
     var data = [data.id?data.id:null ,data.title, data.content, moment().format('l')]
-    this.model.add(data, err => {
-        return handleData(err, defer, {success: 1, msg: 'Add Success'})
-    })
+    return Q.Promise(function (resolve) {
+        this.model.add(data, err => {
+            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+        })
+    }.bind(this))
 }
-tips.update = function(defer, data) {
+tips.update = function(data) {
     var data = [data.title, data.content, data.id]
-    this.model.update(data, (err, row) => {
-        return handleData(err, defer, {success: 1, msg: 'Update Success'})
-    })
+    return Q.Promise(function (resolve) {
+        this.model.update(data, (err, row) => {
+            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+        })
+    }.bind(this))
 }
 
 var about = {
-    query(defer) {
-        hildb.about.query((err, row) => {
-            return handleData(err, defer, row)
-        })
+    query() {
+        return Q.Promise(function (resolve) {
+            hildb.about.query((err, row) => {
+                resolve(handleData(err, row))
+            })
+        }.bind(this))
     },
-    update(defer, data) {
-        hildb.about.update(data.content, (err, row) => {
-            return handleData(err, defer, {success: 1, msg: 'Update Success'})
-        })
+    update(data) {
+        return Q.Promise(function (resolve) {
+            hildb.about.update(data.content, (err, row) => {
+                resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            })
+        }.bind(this))
     }
 }
 
 var banner = new Dispatch(hildb.banner)
-banner.query = function(defer) {
+banner.query = function(data) {
     var model = this.model
 
-    model.queryRandomRow((err, row) => {
-        return handleData(err, defer, row)
-    })
+    return Q.Promise(function (resolve) {
+        model.queryRandomRow((err, row) => {
+            resolve(handleData(err, row))
+        })
+    }.bind(this))
 }
-banner.add = function(defer, data) {
+banner.add = function(data) {
     var model = this.model,
         content = data.content,
         id = data.id?data.id:null
 
-    model.add([id, content], (err, row) => {
-        return handleData(err, defer, {success:1, msg: 'Add Success'})
-    })
+    return Q.Promise(function (resolve) {
+        model.add([id, content], (err, row) => {
+            resolve(handleData(err, {success:1, msg: 'Add Success'}))
+        })
+    }.bind(this))
 }
-banner.update = function(defer, data) {
+banner.update = function(data) {
     var model = this.model,
         content = data.content,
         id = data.id
     var data = [content, id]
-    model.update(data, (err, row) => {
-        return handleData(err, defer, {success: 1, msg: 'Update Success'})
-    })
+    return Q.Promise(function (resolve) {
+        model.update(data, (err, row) => {
+            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+        })
+    }.bind(this))
 }
 
 var tag = new Dispatch(hildb.tag)
-tag.add = function(defer, data) {
-    if(!defer.promise) {
-        data = defer
-        defer = null
-    }
+tag.add = function(data) {
     var model = this.model,
         type = data.text,
         id = data.id?data.id:null
     var data = [id, type]
-    model.add(data, (err, row) => {
-        return handleData(err, defer, {success: 1, msg:' Add Success'})
-    })
+    return Q.Promise(function (resolve) {
+        model.add(data, (err, row) => {
+            resolve(handleData(err, {success: 1, msg:' Add Success'}))
+        })
+    }.bind(this))
 }
-tag.queryByType = function(defer, data) {
-    if(!defer.promise) {
-        data = defer
-        defer = null
-    }
+tag.queryByType = function(data) {
     var model = this.model,
         type = data.text
-    model.queryByType(type, (err, row) => {
-        return handleData(err, defer, row)
-    })
+    return Q.Promise(function (resolve) {
+        model.queryByType(type, (err, row) => {
+            resolve(handleData(err, row))
+        })
+    }.bind(this))
 }
 
 var blogTag = new Dispatch(hildb.blogTag)
 blogTag.add = function (tagId, relationId) {
     var model = this.model,
         data = [tagId, relationId]
-    model.add(data, (err, row) => {
-        return handleData(err, null, row)
-    })
+    return Q.Promise(function (resolve) {
+        model.add(data, (err, row) => {
+            resolve(handleData(err, null, {success: 1, msg: 'Tag Add Success'}))
+        })
+    }.bind(this))
 
 }
 blogTag.queryByTagId = function (tagId) {
     var model = this.model
+    return Q.Promise(function (resolve) {
     model.queryByTagId(tagId, (err, row) => {
-        return handleData(err, null ,row)
-    })
+            resolve(handleData(err, null, row))
+        })
+    }.bind(this))
 }
 
 //TODO：if err 部分有点重合，也许可以提取
@@ -191,29 +224,20 @@ function validatePassword(username, password, ep) {
 }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
-function handleData(err, defer, data, callback) {
-
+function handleData(err, data, callback) {
     if(err) {
-        console.log(err)
-        if(defer && defer.promise) {
-
-            defer.reject({error:1, msg: 'ERROR! ' + err})
-        } else {
-            return {error:1, msg: 'ERROR! ' + err}
-        }
+        return {error:1, msg: 'ERROR! ' + err}
     } else {
-        console.log('db return data: ', data)
-        if (callback) {
-            data = callback(data)
-        }
-        if(defer && defer.promise) {
-
-            defer.resolve(data)
-        } else {
-
-            return data
-        }
+        console.log('dispatch return data: ', data)
+        if (callback) data = callback(data)
+        return data
     }
+}
+
+function asyncDisPatch(fn) {
+    return Q.promise(function (resolve, reject) {
+        fn(resolve, reject)
+    })
 }
 
 //从markdown截取Summary

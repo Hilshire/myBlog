@@ -116,6 +116,7 @@ describe('test blog', () => {
              .query({tag:'testTag'})
              .end((err, res) => {
                  res.body.should.have.property('success')
+                 done()
              })
     })
 
@@ -124,6 +125,7 @@ describe('test blog', () => {
              .query({tag:'testTag'})
              .end((err, res) => {
                  res.body.should.have.property('success')
+                 done()
              })
     })
 

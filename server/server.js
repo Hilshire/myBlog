@@ -38,25 +38,34 @@ function ServerTag(mainDP, tagRelationDP) {
 }
 ServerTag.prototype = Object.create(Server.prototype)
 ServerTag.prototype.addTag = function(data, ep) {
-        var defer = Q.defer()
         var tag = data.text,
             relationId = data.relationId
-        tagDP.queryByType(defer, data)
-        defer.promise.then((oldTag) => {
+        tagDP
+        .queryByType(data)
+        .then((oldTag) => {
             if(!oldTag) {
-                return tagDP.add(data).then(() => {
-                    return tagDP.queryByType(tag)
+                tagDP
+                .add(data)
+                .then(() => {
+                    return tagDP.queryByType(data)
+                }, (err) => {
+                    console.log(err)
                 })
             } else {
                 return oldTag
             }
         })
-        .then((tag) => {
-            if(tag) return this.tagRelationDP.add(tag.id, relationId)
+        .then(result => {
+            if (tag.error) {
+                console.log(result)
+                return ep.emit('Error', result)
+            }
+            if (tag) return this.tagRelationDP.add(tag.id, relationId)
         })
-        .done((result) => {
+        .done(result => {
             ep.emit('success', result)
         }, (result) => {
+            if (result instanceof Error) throw result 
             ep.emit('error', result)
         })
         //TODO: try to get id directly
@@ -126,15 +135,15 @@ function handleResult(ep, data, handler) {
         handler = data
         data = ''
     }
-    var defer = Q.defer()
 
-    handler(defer, data)
-
-    defer.promise.then((result) => {
+    handler(data)
+    .then((result) => {
         ep.emit('success', result)
     }, (result) => {
+        if (result instanceof Error) throw result
         ep.emit('Error', result.msg)
     })
+    .done()
 }
 
 

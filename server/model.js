@@ -55,7 +55,7 @@ exports.tag = {
 
 exports.blogTag = {
   add: createRunFn('INSERT INTO blog_tag VALUES(?, ?);'),
-  del: createRunFn('DELETE FROM blog_tag WHERE blog_id = ?, tag_id = ?;'),
+  del: createRunFn('DELETE FROM blog_tag WHERE blog_id = ? AND tag_id = ?;'),
   update: createRunFn('UPDATE blog_tag SET tag_id = ? WHERE blog_id = ?;'),
   queryByblog: createGetFn('SELECT blog_id FROM blog_tag WHERE tag_id = ?;'),
   queryByTag: createGetFn('SELECT blog_id FROM blog_tag WHERE tag_id = ?;'),

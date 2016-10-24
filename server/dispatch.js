@@ -16,7 +16,7 @@ Dispatch.prototype = {
     add(data) {
         return Q.Promise(function (resolve) {
             this.model.add(data, err => {
-                resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+                handleData(err, {success: 1, msg: 'Add Success'}, resolve)
             })
         }.bind(this))
     },
@@ -24,28 +24,28 @@ Dispatch.prototype = {
         //TODO：如果id不存在也会显示成功
         return Q.Promise(function (resolve) {
             this.model.del(data.id, err => {
-                resolve(handleData(err, {success: 1, msg: 'Del Success'}))
+                handleData(err, {success: 1, msg: 'Del Success'}, resolve)
             })
         }.bind(this))
     },
     update(data) {
         return Q.Promise(function (resolve) {
             this.model.update(data, err => {
-                resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+                handleData(err, {success: 1, msg: 'Update Success'}, resolve)
             })
         }.bind(this))
     },
     queryList(data) {
         return Q.Promise(function (resolve) {
             this.model.queryList((err, row) => {
-                resolve(handleData(err, row))
+                handleData(err, row, resolve)
             })
         }.bind(this))
     },
     queryById(data) {
         return Q.Promise(function (resolve) {
             this.model.query(data.id, (err, row) => {
-                resolve(handleData(err, row))
+                handleData(err, row, resolve)
             })
         }.bind(this))
     }
@@ -62,7 +62,7 @@ blog.add = function (data) {
     var data = [id, title, content, summary, moment().format('l')]
     return Q.Promise(function (resolve) {
         model.add(data, err => {
-            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+            handleData(err, {success: 1, msg: 'Add Success'}, resolve)
         })
     }.bind(this))
 }
@@ -74,7 +74,7 @@ blog.update = function (data) {
 
     return Q.Promise(function (resolve) {
         model.update([title, content, summary, data.id], err => {
-            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            handleData(err, {success: 1, msg: 'Update Success'}, resolve)
         })
     }.bind(this))
 }
@@ -84,7 +84,7 @@ article.add = function(data) {
     var data = [data.id?data.id:null, data.title, data.content, moment().format('l')]
     return Q.Promise(function (resolve) {
         this.model.add(data, err => {
-            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+            handleData(err, {success: 1, msg: 'Add Success'}, resolve)
         })
     }.bind(this))
 }
@@ -92,7 +92,7 @@ article.update = function(data) {
     var data = [data.title, data.content, data.id]
     return Q.Promise(function (resolve) {
         this.model.update(data, (err, row) => {
-            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            handleData(err, {success: 1, msg: 'Update Success'}, resolve)
         })
     }.bind(this))
 }
@@ -102,7 +102,7 @@ tips.add = function(data) {
     var data = [data.id?data.id:null ,data.title, data.content, moment().format('l')]
     return Q.Promise(function (resolve) {
         this.model.add(data, err => {
-            resolve(handleData(err, {success: 1, msg: 'Add Success'}))
+            handleData(err, {success: 1, msg: 'Add Success'}, resolve)
         })
     }.bind(this))
 }
@@ -110,7 +110,7 @@ tips.update = function(data) {
     var data = [data.title, data.content, data.id]
     return Q.Promise(function (resolve) {
         this.model.update(data, (err, row) => {
-            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            handleData(err, {success: 1, msg: 'Update Success'}, resolve)
         })
     }.bind(this))
 }
@@ -119,14 +119,14 @@ var about = {
     query() {
         return Q.Promise(function (resolve) {
             hildb.about.query((err, row) => {
-                resolve(handleData(err, row))
+                handleData(err, row, resolve)
             })
         }.bind(this))
     },
     update(data) {
         return Q.Promise(function (resolve) {
             hildb.about.update(data.content, (err, row) => {
-                resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+                handleData(err, {success: 1, msg: 'Update Success'}, resolve)
             })
         }.bind(this))
     }
@@ -138,7 +138,7 @@ banner.query = function(data) {
 
     return Q.Promise(function (resolve) {
         model.queryRandomRow((err, row) => {
-            resolve(handleData(err, row))
+            handleData(err, row, resolve)
         })
     }.bind(this))
 }
@@ -149,7 +149,7 @@ banner.add = function(data) {
 
     return Q.Promise(function (resolve) {
         model.add([id, content], (err, row) => {
-            resolve(handleData(err, {success:1, msg: 'Add Success'}))
+            handleData(err, {success:1, msg: 'Add Success'}, resolve)
         })
     }.bind(this))
 }
@@ -160,7 +160,7 @@ banner.update = function(data) {
     var data = [content, id]
     return Q.Promise(function (resolve) {
         model.update(data, (err, row) => {
-            resolve(handleData(err, {success: 1, msg: 'Update Success'}))
+            handleData(err, {success: 1, msg: 'Update Success'}, resolve)
         })
     }.bind(this))
 }
@@ -169,11 +169,11 @@ var tag = new Dispatch(hildb.tag)
 tag.add = function(data) {
     var model = this.model,
         type = data.text,
-        id = data.id?data.id:null
-    var data = [id, type]
+        tagId = data.tagId?data.tagId:null
+    var data = [tagId, type]
     return Q.Promise(function (resolve) {
         model.add(data, (err, row) => {
-            resolve(handleData(err, {success: 1, msg:' Add Success'}))
+            handleData(err, {success: 1, msg:' Add Success'}, resolve)
         })
     }.bind(this))
 }
@@ -182,7 +182,7 @@ tag.queryByType = function(data) {
         type = data.text
     return Q.Promise(function (resolve) {
         model.queryByType(type, (err, row) => {
-            resolve(handleData(err, row))
+            handleData(err, row, resolve)
         })
     }.bind(this))
 }
@@ -193,7 +193,7 @@ blogTag.add = function (tagId, relationId) {
         data = [tagId, relationId]
     return Q.Promise(function (resolve) {
         model.add(data, (err, row) => {
-            resolve(handleData(err, null, {success: 1, msg: 'Tag Add Success'}))
+            handleData(err, {success: 1, msg: 'Tag Add Success'}, resolve)
         })
     }.bind(this))
 
@@ -201,8 +201,8 @@ blogTag.add = function (tagId, relationId) {
 blogTag.queryByTagId = function (tagId) {
     var model = this.model
     return Q.Promise(function (resolve) {
-    model.queryByTagId(tagId, (err, row) => {
-            resolve(handleData(err, null, row))
+        model.queryByTagId(tagId, (err, row) => {
+            handleData(err, row, resolve)
         })
     }.bind(this))
 }
@@ -224,20 +224,14 @@ function validatePassword(username, password, ep) {
 }
 
 //善后: 处理错误，触发事件，回调处理数据。data是返回的数据
-function handleData(err, data, callback) {
+function handleData(err, data, resolve, callback) {
     if(err) {
-        return {error:1, msg: 'ERROR! ' + err}
+        throw err
     } else {
         console.log('dispatch return data: ', data)
         if (callback) data = callback(data)
-        return data
+        resolve(data)
     }
-}
-
-function asyncDisPatch(fn) {
-    return Q.promise(function (resolve, reject) {
-        fn(resolve, reject)
-    })
 }
 
 //从markdown截取Summary

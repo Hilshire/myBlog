@@ -47,7 +47,9 @@ describe('test blog', () => {
     var id = 999,
         title = 'test',
         content = 'this record was created by mocha test',
-        title_update = 'test_update'
+        title_update = 'test_update',
+        tag = 'testTag',
+        tagId = 999
 
     it('should success when add a row', (done) => {
         agent.post(path.blog.ADD).send({
@@ -113,7 +115,7 @@ describe('test blog', () => {
 
     it('should success when add a tag', (done) => {
         agent.get(path.blog.ADD_TAG)
-             .query({tag:'testTag'})
+             .query({text: tag, relatedId: id, tagId: tagId})
              .end((err, res) => {
                  res.body.should.have.property('success')
                  done()
@@ -122,7 +124,7 @@ describe('test blog', () => {
 
     it('should success when del a tag', (done) => {
         agent.get(path.blog.DEL_TAG)
-             .query({tag:'testTag'})
+             .query({tagId: tagId, relatedId: id})
              .end((err, res) => {
                  res.body.should.have.property('success')
                  done()

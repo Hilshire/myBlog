@@ -88,10 +88,10 @@ export default {
             blog.tagInit({id: this.id}, this)
         },
         addTag(newTag) {
-            blog.addTag({text: newTag, relationId: this.id})
+            blog.addTag({text: newTag, relatedId: this.id})
         },
         delTag(tag) {
-            blog.delTag({TagId})
+            blog.delTag({TagId: tag, relatedId: this.id})
         }
     },
     components: {

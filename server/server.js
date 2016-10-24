@@ -32,76 +32,62 @@ Server.prototype = {
     }
 }
 
-function ServerTag(mainDP, tagRelationDP) {
+function ServerTag(mainDP, tagRelatedDP) {
     this.dispatch = mainDP
-    this.tagRelationDP = tagRelationDP
+    this.tagRelatedDP = tagRelatedDP
 }
 ServerTag.prototype = Object.create(Server.prototype)
 ServerTag.prototype.addTag = function(data, ep) {
         var tag = data.text,
-            relationId = data.relationId
+            relatedId = data.relatedId
         tagDP
         .queryByType(data)
-        .then((oldTag) => {
+        .then(oldTag => {
             if(!oldTag) {
-                tagDP
-                .add(data)
-                .then(() => {
-                    return tagDP.queryByType(data)
-                }, (err) => {
-                    console.log(err)
-                })
+                return tagDP
+                    .add(data)
+                    .then(() => tagDP.queryByType(data))
             } else {
                 return oldTag
             }
         })
-        .then(result => {
-            if (tag.error) {
-                console.log(result)
-                return ep.emit('Error', result)
-            }
-            if (tag) return this.tagRelationDP.add(tag.id, relationId)
+        .then(tag => {
+            if (tag) return this.tagRelatedDP.add(tag.id, relatedId)
         })
         .done(result => {
             ep.emit('success', result)
-        }, (result) => {
-            if (result instanceof Error) throw result 
-            ep.emit('error', result)
+        }, (error) => {
+            throw error
+            console.log('dispatch error: ', error)
+            ep.emit('Error', error)
         })
         //TODO: try to get id directly
         // if(!oldId) {
         //     tagDP.add(tag)
         //     var tagid = tagDP.queryByType(tag).id
-        //     this.tagRelationDP.add(id, relationId)
+        //     this.tagRelatedDP.add(id, relationId)
         // } else {
-        //     this.tagRelationDP.add(oldId, relationId)
+        //     this.tagRelatedDP.add(oldId, relationId)
         // }
 }
 ServerTag.prototype.delTag = function(data, ep) {
     var defer = Q.defer()
-    var tag = data.tag,
-        relationId = data.relationId,
-        _tagId;
-    tagDP.del(tag)
-         .then(() => {
-             return tagDP.queryByType(tag)
-         })
-         .then((tagId) => {
-             if(tagId) tagRelationDP.del(tagId, relationId)
-             _tagId = tagId
-             return tagId
-         })
-         .then((tagId) => {
-             return tagRelationDP.queryByTagId(tagId)
-         })
-         .then((releationId) => {
-             if(!releationId) tagDp.del(_tagId)
-         })
-         .done((result) => {
-             ep.emit('success', result)
-         }, (result) => {
-             ep.emit('Error', result)
-         })
+    var tagId = data.tagId,
+        relationId = data.relationId
+
+    this.tagRelatedDP
+        .del(tag)
+        .then(() => {
+            return tagRelatedDP.queryById(tagId)
+        })
+        .then(tag => {
+            if (!tag) tagDP.del(tagId)
+        })
+        .done((result) => {
+            ep.emit('success', result)
+        }, (result) => {
+            ep.emit('Error', result)
+        })
 }
 
 var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
@@ -137,12 +123,15 @@ function handleResult(ep, data, handler) {
     }
 
     handler(data)
-    .then((result) => {
-        ep.emit('success', result)
-    }, (result) => {
-        if (result instanceof Error) throw result
-        ep.emit('Error', result.msg)
-    })
+    .then(
+        result => {
+            ep.emit('success', result)
+        }, 
+        error => {
+            console.log('dispatch error ', error)
+            ep.emit('Error', error)
+        }
+    )
     .done()
 }
 

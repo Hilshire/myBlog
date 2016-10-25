@@ -45,27 +45,27 @@ exports.tips = {
 }
 
 exports.tag = {
-  add: createRunFn('INSERT INTO tag VALUES(?, ?);'),
-  del: createRunFn('DELETE FROM tag WHERE id = ?;'),
-  update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM tag WHERE id = ?;'),
-  queryByType: createGetFn('SELECT * FROM tag WHERE type = ?'),
-  used: createGetFn()
+    add: createRunFn('INSERT INTO tag VALUES(?, ?);'),
+    del: createRunFn('DELETE FROM tag WHERE id = ?;'),
+    update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
+    query: createGetFn('SELECT * FROM tag WHERE id = ?;'),
+    queryByType: createGetFn('SELECT * FROM tag WHERE type = ?'),
+    queryList: createGetFn('SELECT * FROM tag', 'all')
 }
 
 exports.blogTag = {
   add: createRunFn('INSERT INTO blog_tag VALUES(?, ?);'),
-  del: createRunFn('DELETE FROM blog_tag WHERE blog_id = ? AND tag_id = ?;'),
-  update: createRunFn('UPDATE blog_tag SET tag_id = ? WHERE blog_id = ?;'),
-  queryByblog: createGetFn('SELECT blog_id FROM blog_tag WHERE tag_id = ?;'),
-  queryByTag: createGetFn('SELECT blog_id FROM blog_tag WHERE tag_id = ?;'),
+  del: createRunFn('DELETE FROM blog_tag WHERE tag_id = ? AND blog_id = ?'),
+  update: createRunFn('UPDATE blog_tag SET tag_id = ? WHERE blog_id = ?'),
+  queryByRelation: createGetFn('SELECT tag_id FROM blog_tag WHERE blog_id = ?', 'all'),
+  queryByTag: createGetFn('SELECT blog_id FROM blog_tag WHERE tag_id = ?', 'all'),
 }
 
 exports.articleTag = {
   add: createRunFn('INSERT INTO article_tag VALUES(?, ?);'),
   del: createRunFn('DELETE FROM article_tag WHERE article_id = ? AND tag_id = ?;'),
   update: createRunFn('UPDATE article_tag SET tag_id WHERE article_id = ?;'),
-  queryByarticle: createGetFn('SELECT tag_id FROM article_tag WHERE article_id = ?;'),
+  queryByRelation: createGetFn('SELECT tag_id FROM article_tag WHERE article_id = ?;'),
   queryByTag: createGetFn('SELECT article_id FROM article_tag WHERE tag_id = ?;'),
 }
 

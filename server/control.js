@@ -133,7 +133,6 @@ module.exports = function(app) {
 
     function handlePost(url, callback) {
         var ep = new EventProxy()
-        // var event = Array.prototype.slice.call(arguments, 2)
 
         app.post(url, function(req, res) {
             console.log('handlePost', url, req.sessionID)
@@ -149,16 +148,12 @@ module.exports = function(app) {
             ep.once('success', result => {
                 res.send(result)
             })
-            ep.once('Error', msg => {
-                res.send(msg)
+            ep.once('Error', err => {
+                res.send({error: 1, msg: err.message})
             })
 
             //callback必须在事件绑定之后。因为callback内通常会触发事件。
             callback(req.body, ep)
-
-            // for(key in event) {
-            //     event[key](res, ep)
-            // }
         })
     }
 
@@ -168,8 +163,9 @@ module.exports = function(app) {
             ep.once('success', result => {
                 res.json(result)
             })
-            ep.once('Error', (msg) => {
-                res.json(msg)
+            ep.once('Error', (err) => {
+                throw err
+                res.json({error:1, msg: err.message})
             })
 
             callback(req.query, ep)

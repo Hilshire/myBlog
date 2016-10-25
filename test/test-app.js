@@ -49,7 +49,7 @@ describe('test blog', () => {
         content = 'this record was created by mocha test',
         title_update = 'test_update',
         tag = 'testTag',
-        tagId = 999
+        tagId = 9999
 
     it('should success when add a row', (done) => {
         agent.post(path.blog.ADD).send({

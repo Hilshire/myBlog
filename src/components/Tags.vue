@@ -1,7 +1,7 @@
 <template>
     <div class="tags">
         <div v-for='item in tags' class="chip">
-            {{item}}
+            {{item.type}}
             <i v-if='canClose' class="close material-icons">close</i>
         </div>
     </div>

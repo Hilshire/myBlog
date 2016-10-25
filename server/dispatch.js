@@ -51,6 +51,40 @@ Dispatch.prototype = {
     }
 }
 
+function tagRelDP(model) {
+    this.model = model
+}
+tagRelDP.prototype = {
+    queryById(tagId) {
+        return Q.promise(function (resolve) {
+            this.model.queryByTag(tagId, (err, row) => {
+                handleData(err, row, resolve)
+            })
+        }.bind(this))
+    },
+    queryByRelation(relatedId) {
+        return Q.promise(function (resolve) {
+           this.model.queryByRelation(relatedId, (err, row) => {
+               handleData(err, row, resolve)
+           })
+        }.bind(this))
+    },
+    del(tagId, relatedId) {
+        return Q.promise(function (resolve) {
+           this.model.del([tagId, relatedId], (err, row) => {
+               handleData(err, {success: 1, msg: 'Tag Deleted'}, resolve)
+           })
+        }.bind(this))
+    },
+    add(tagId, relatedId) {
+        return Q.promise(function (resolve) {
+            this.model.add([tagId, relatedId], (err, row) => {
+                handleData(err, {success: 1, msg: 'Tag Added'}, resolve)
+            })
+        }.bind(this))
+    }
+}
+
 var blog = new Dispatch(hildb.blog)
 blog.add = function (data) {
     var title = data.title,
@@ -187,25 +221,34 @@ tag.queryByType = function(data) {
     }.bind(this))
 }
 
-var blogTag = new Dispatch(hildb.blogTag)
-blogTag.add = function (tagId, relationId) {
-    var model = this.model,
-        data = [tagId, relationId]
-    return Q.Promise(function (resolve) {
-        model.add(data, (err, row) => {
-            handleData(err, {success: 1, msg: 'Tag Add Success'}, resolve)
-        })
-    }.bind(this))
-
-}
-blogTag.queryByTagId = function (tagId) {
-    var model = this.model
-    return Q.Promise(function (resolve) {
-        model.queryByTagId(tagId, (err, row) => {
-            handleData(err, row, resolve)
-        })
-    }.bind(this))
-}
+var blogTag = new tagRelDP(hildb.blogTag)
+// blogTag.add = function (tagId, relatedId) {
+//     var model = this.model,
+//         data = [tagId, relatedId]
+//     return Q.Promise(function (resolve) {
+//         model.add(data, (err, row) => {
+//             handleData(err, {success: 1, msg: 'Tag Add Success'}, resolve)
+//         })
+//     }.bind(this))
+//
+// }
+// blogTag.queryByTagId = function (tagId) {
+//     var model = this.model
+//     return Q.Promise(function (resolve) {
+//         model.queryByTagId(tagId, (err, row) => {
+//             handleData(err, row, resolve)
+//         })
+//     }.bind(this))
+// }
+// blogTag.del = function (tagId, relatedId) {
+//     var model = this.model,
+//         data = [tagId, relatedId]
+//     return Q.promise(function (resolve) {
+//         model.del(data, (err, row) => {
+//             handleData(err, row, resolve)
+//         })
+//     })
+// }
 
 //TODO：if err 部分有点重合，也许可以提取
 function validatePassword(username, password, ep) {

@@ -19,6 +19,9 @@ class Query {
         if (!this.url.queryList) return
 
         fetch.get(this.url.queryList, json => {
+            if (json.error) {
+                return Materialize.toast(json.msg, this.infoToastTime)
+            }
             this.ep.emit('queryList', json)
         })
     }
@@ -27,6 +30,9 @@ class Query {
         if (!this.url.queryById) return
 
         fetch.get(this.url.queryById, id, json => {
+            if (json.error) {
+                return Materialize.toast(json.msg, this.infoToastTime)
+            }
             this.ep.emit('queryById', json)
         })
     }

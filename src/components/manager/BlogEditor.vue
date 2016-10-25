@@ -36,16 +36,22 @@ export default {
             title: '',
             content: '',
             tags: ['JavaScript'],
-            alltags: ['js']
+            alltags: []
         }
     },
     ready() {
         var ep = this.ep = blog.ep
 
         ep.on('queryById', data => {
-            this.title = data.title
-            this.content = data.content
-            this.tags = data.tags
+            var main = data.main,
+                tags = data.tags,
+                alltags = data.allTags
+
+            this.title = main.title
+            this.content = main.content
+            this.tags = tags
+            this.alltags = alltags
+
             this.$nextTick(() => {
                 Materialize.updateTextFields()
             })
@@ -91,7 +97,7 @@ export default {
             blog.addTag({text: newTag, relatedId: this.id})
         },
         delTag(tag) {
-            blog.delTag({TagId: tag, relatedId: this.id})
+            blog.delTag({tagId: tag, relatedId: this.id})
         }
     },
     components: {

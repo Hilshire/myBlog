@@ -1,16 +1,17 @@
 /*
  * service层。基础的service只是简单的传递给相应的dispatch，
  * 较为复杂的则会操纵其它的dispatch。
+ * 用eventproxy与control交互，用promise与dispatch交互
  */
 
 'use strict'
 
 var dispatch = require('./dispatch'),
-    EventProxy = require('eventproxy'),
     Q = require('q')
 
 var tagDP = dispatch.tag
 
+// 定义类
 function Server(dispatch) {
     this.dispatch = dispatch
 }
@@ -37,46 +38,64 @@ function ServerTag(mainDP, tagRelatedDP) {
     this.tagRelatedDP = tagRelatedDP
 }
 ServerTag.prototype = Object.create(Server.prototype)
+ServerTag.prototype.queryById = function (data, ep) {
+    var id = data.id
+
+    Q.all([
+        this.dispatch.queryById(data),
+        this.tagRelatedDP.queryByRelation(id),
+        tagDP.queryList()
+    ])
+    .spread(function(mainArr, tagArr, allTagArr) {
+        return {main: mainArr, tags: tagArr, allTags: allTagArr}
+    })
+    .done(
+        result => ep.emit('success', result),
+        error => ep.emit('Error', error)
+    )
+}
+ServerTag.prototype.queryAllTags = function (data, ep) {
+    var relatedId = data.relatedId,
+        tagRelatedDP = this.tagRelatedDP
+    tagRelatedDP
+        .queryByRelated(relatedId)
+        .done(
+            result => ep.emit('success', result),
+            error => ep.emit('Error', error)
+        )
+    
+}
 ServerTag.prototype.addTag = function(data, ep) {
-        var tag = data.text,
-            relatedId = data.relatedId
-        tagDP
-        .queryByType(data)
-        .then(oldTag => {
-            if(!oldTag) {
-                return tagDP
-                    .add(data)
-                    .then(() => tagDP.queryByType(data))
-            } else {
-                return oldTag
-            }
-        })
-        .then(tag => {
-            if (tag) return this.tagRelatedDP.add(tag.id, relatedId)
-        })
-        .done(result => {
-            ep.emit('success', result)
-        }, (error) => {
-            throw error
-            console.log('dispatch error: ', error)
-            ep.emit('Error', error)
-        })
-        //TODO: try to get id directly
-        // if(!oldId) {
-        //     tagDP.add(tag)
-        //     var tagid = tagDP.queryByType(tag).id
-        //     this.tagRelatedDP.add(id, relationId)
-        // } else {
-        //     this.tagRelatedDP.add(oldId, relationId)
-        // }
+    var tag = data.text,
+        relatedId = data.relatedId
+    tagDP
+    .queryByType(data)
+    .then(oldTag => {
+        if(!oldTag) {
+            return tagDP
+                .add(data)
+                .then(() => tagDP.queryByType(data))
+        } else {
+            return oldTag
+        }
+    })
+    .then(tag => {
+        if (tag) return this.tagRelatedDP.add(relatedId, tag.id)
+    })
+    .done(result => {
+        ep.emit('success', result)
+    }, (error) => {
+        throw error
+        ep.emit('Error', error)
+    })
 }
 ServerTag.prototype.delTag = function(data, ep) {
-    var defer = Q.defer()
     var tagId = data.tagId,
-        relationId = data.relationId
+        relatedId = data.relatedId,
+        tagRelatedDP = this.tagRelatedDP
 
-    this.tagRelatedDP
-        .del(tag)
+    tagRelatedDP
+        .del(relatedId, tagId)
         .then(() => {
             return tagRelatedDP.queryById(tagId)
         })
@@ -90,6 +109,7 @@ ServerTag.prototype.delTag = function(data, ep) {
         })
 }
 
+// 生成对象
 var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
     article = new ServerTag(dispatch.article, dispatch.articleTag),
     tips = new ServerTag(dispatch.tips, dispatch.tipsTag),
@@ -105,10 +125,12 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
         }
     }
 
+// 定制
 banner.query = function (ep) {
     handleResult(ep, dispatch.banner.query.bind(dispatch.banner))
 }
 
+// 导出
 exports.blog = blog
 exports.article = article
 exports.tips = tips
@@ -116,6 +138,7 @@ exports.about = about
 exports.banner = banner
 exports.validatePassword = validatePassword
 
+// 辅助函数
 function handleResult(ep, data, handler) {
     if(Object.prototype.toString.call(data) === '[object Function]') {
         handler = data
@@ -134,94 +157,3 @@ function handleResult(ep, data, handler) {
     )
     .done()
 }
-
-
-// exports.blog = {
-//     add(data, ep) {
-//         var title = data.title,
-//             content = data.content,
-//             summary = getSummary(content)
-//         var data = [title, content, summary, moment().format('l')]
-//         hildb.blog.add(data, err => {
-//             handleData(err, ep, {success: 1, msg: 'Add Success'})
-//         })
-//     },
-//     del(data, ep) {
-//         hildb.blog.del(data.id, err => {
-//             handleData(err, ep, {success: 1, msg: 'Del Success'})
-//         })
-//     },
-//     update(data, ep) {
-//         var title = data.title,
-//             content = data.content,
-//             summary = getSummary(content)
-//         hildb.blog.update([title, content, summary, data.id], err => {
-//             handleData(err, ep, {success: 1, msg: 'Update Success'})
-//         })
-//     },
-//     queryList(ep) {
-//         hildb.blog.queryList((err, row) => {
-//             handleData(err, ep, row)
-//         })
-//     },
-//     queryById(data, ep) {
-//         hildb.blog.query(data.id, (err, row) => {
-//             handleData(err, ep, row)
-//         })
-//     },
-//     addTag(data, ep) {
-//         if(data.tagId) {
-//             addExistTag(data)
-//         } else {
-//             //TODO:YOU SEE THE CALLBACK HELL
-//             var tagExist;
-//             hildb.tag.queryByText(data.text, (err, row) => {
-//                 if(err) {
-//                     ep.emit('Error', {msg: 'query blog tag by text error'})
-//                 }
-//
-//                 tagExist = row
-//
-//                 if(tagExist) {
-//                     addExistTag({blogId: data.blogId, tagId: tagExist.tagId})
-//                 } else {
-//                     var text = data.text,
-//                         blogId = data.blogId
-//
-//                     hildb.tag.add([null, text], (err) => {
-//                         if(err) {
-//                             ep.emit('Error', {msg: 'add new tag error'})
-//                         }
-//
-//                         var newTagId;
-//
-//                         hildb.tag.queryByText(text, (err, row) => {
-//                             if(err) {
-//                                 ep.emit('Error', {msg: 'query blog tag by text error'})
-//                                 return
-//                             }
-//                             newTagId = row.id
-//
-//                             hildb.blogTag.add([blogId, newTagId], (err) => {
-//                                 handleData(err, ep, {success: 1, msg: 'Add Success'})
-//                             })
-//                         })
-//                     })
-//                 }
-//             })
-//         }
-//
-//         function addExistTag(data) {
-//             hildb.blogTag.add([data.blogId, data.tagId], err => {
-//                 handleData(err, ep, {success: 1, msg: 'Add Success'})
-//             })
-//         }
-//     },
-//     delTag(data, ep) {
-//         var blogId = data.blogId
-//         hildb.blogTag.del([blogId, data.tagId], err => {
-//             handleData(err, ep, {success: 1, msg: 'Del Success'})
-//         })
-//     }
-
-// }

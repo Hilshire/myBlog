@@ -13,7 +13,7 @@ exports.blog = {
     UPDATE: '/manager/blog/update',
     QUERY_LIST: '/manager/blog/queryList',
     QUERY_BY_ID: '/manager/blog/queryId',
-    TAG_INIT: '/manager/blog/tagInit',
+    QUERY_ALL_TAGS: '/manager/blog/tags',
     ADD_TAG: '/manager/blog/addTag',
     DEL_TAG: '/manager/blog/delTag'
 }

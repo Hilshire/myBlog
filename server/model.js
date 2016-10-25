@@ -21,11 +21,12 @@ exports.disconnect = function() {
 }
 
 exports.blog = {
-  add: createRunFn('INSERT INTO blog VALUES(?, ?, ?, ?, ?);'),
-  del: createRunFn('DELETE FROM blog WHERE id = ?;'),
-  update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
-  queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
+    add: createRunFn('INSERT INTO blog VALUES(?, ?, ?, ?, ?);'),
+    del: createRunFn('DELETE FROM blog WHERE id = ?;'),
+    update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
+    query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
+    queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
+    queryTags: createGetFn('SELECT bt.tag_id, tag.type FROM blog_tag bt INNER JOIN tag on tag.id = bt.tag_id and bt.blog_id = ?', 'all')
 }
 
 exports.article = {

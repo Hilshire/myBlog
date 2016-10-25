@@ -43,7 +43,7 @@ ServerTag.prototype.queryById = function (data, ep) {
 
     Q.all([
         this.dispatch.queryById(data),
-        this.tagRelatedDP.queryByRelation(id),
+        this.dispatch.queryTags(id),
         tagDP.queryList()
     ])
     .spread(function(mainArr, tagArr, allTagArr) {

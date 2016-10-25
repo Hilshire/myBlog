@@ -74,7 +74,7 @@ describe('test blog', () => {
     it('should contain the test content when query by id', (done) => {
         agent.get(path.blog.QUERY_BY_ID).query({id: 999}).end((err, res) => {
             res.status.should.equal(200)
-            res.body.content.should.equal(content)
+            res.body.main.content.should.equal(content)
             done()
         })
     })

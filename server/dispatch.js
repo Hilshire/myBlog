@@ -48,7 +48,15 @@ Dispatch.prototype = {
                 handleData(err, row, resolve)
             })
         }.bind(this))
-    }
+    },
+    queryTags(id) {
+        if (!this.model.queryTags) return
+        return Q.promise(resolve => {
+            this.model.queryTags(id, (err, row) => {
+                handleData(err, row, resolve)
+            })
+        })
+    },
 }
 
 function tagRelDP(model) {

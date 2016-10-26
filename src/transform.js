@@ -86,7 +86,7 @@ class TagTransform extends Transform {
 }
 
 let manager_about = (function() {
-    let ep = new EventProxy
+    let ep = new EventProxy()
 
     return {
         ep: ep,
@@ -107,7 +107,7 @@ let manager_about = (function() {
 })()
 
 let app_about = (function() {
-    let ep = new EventProxy
+    let ep = new EventProxy()
 
     return {
         ep: ep,
@@ -121,7 +121,7 @@ let app_about = (function() {
 })()
 
 let app_banner = (function(store) {
-    let ep = new EventProxy
+    let ep = new EventProxy()
 
     return {
         ep: ep,
@@ -155,17 +155,19 @@ export let manager = {
         delTag: url.article.DEL_TAG
     }),
     
-    tips: new Transform({
+    tips: new TagTransform({
         add: url.tips.ADD,
         update: url.tips.UPDATE,
         del: url.tips.DEL,
         queryList: url.tips.QUERY_LIST,
-        queryById: url.tips.QUERY_BY_ID
+        queryById: url.tips.QUERY_BY_ID,
+        addTag: url.tips.ADD_TAG,
+        delTag: url.tips.DEL_TAG
     }),
 
     about: manager_about,
 
-    banner: new Transform({
+    banner: new TagTransform({
         add: url.banner.ADD,
         update: url.banner.UPDATE,
         del: url.banner.DEL,

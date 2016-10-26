@@ -3,7 +3,7 @@
         <input-group :value.sync='title' label='标题'></input-group>
     </card-panel>
 
-    <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag'></tags-editor>
+    <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag' :new-tag.sync='newTag'></tags-editor>
 
     <card-panel>
         <pagedown :md-val.sync='content'></pagedown>
@@ -36,10 +36,11 @@ export default {
             title: '',
             content: '',
             tags: ['JavaScript'],
-            alltags: []
+            alltags: [],
+            newTag: ''
         }
     },
-    ready() {
+    created() {
         var ep = this.ep = blog.ep
 
         ep.on('queryById', data => {
@@ -51,6 +52,7 @@ export default {
             this.content = main.content
             this.tags = tags
             this.alltags = alltags
+            this.newTag = ''
 
             this.$nextTick(() => {
                 Materialize.updateTextFields()
@@ -63,6 +65,14 @@ export default {
 
         ep.on('update', () => {
             this.$router.go(url.blog.VUE_ROOT)
+        })
+
+        ep.on('delTag', () => {
+            this.query()
+        })
+
+        ep.on('addTag', () => {
+            this.query()
         })
 
         this.query()
@@ -90,14 +100,11 @@ export default {
                 content: this.content,
             })
         },
-        tagInit() {
-            blog.tagInit({id: this.id}, this)
-        },
         addTag(newTag) {
             blog.addTag({text: newTag, relatedId: this.id})
         },
-        delTag(tag) {
-            blog.delTag({tagId: tag, relatedId: this.id})
+        delTag(tagId) {
+            blog.delTag({tagId: tagId, relatedId: this.id})
         }
     },
     components: {

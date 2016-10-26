@@ -63,7 +63,6 @@ ServerTag.prototype.queryAllTags = function (data, ep) {
             result => ep.emit('success', result),
             error => ep.emit('Error', error)
         )
-    
 }
 ServerTag.prototype.addTag = function(data, ep) {
     var tag = data.text,
@@ -83,7 +82,7 @@ ServerTag.prototype.addTag = function(data, ep) {
         if (tag) return this.tagRelatedDP.add(relatedId, tag.id)
     })
     .done(result => {
-        ep.emit('success', result)
+        ep.emit('success', {success: 1})
     }, (error) => {
         throw error
         ep.emit('Error', error)
@@ -95,15 +94,15 @@ ServerTag.prototype.delTag = function(data, ep) {
         tagRelatedDP = this.tagRelatedDP
 
     tagRelatedDP
-        .del(relatedId, tagId)
+        .del(tagId, relatedId)
         .then(() => {
             return tagRelatedDP.queryById(tagId)
         })
-        .then(tag => {
-            if (!tag) tagDP.del(tagId)
+        .then(tagArr => {
+            if (tagArr.length === 0) tagDP.del({id: tagId})
         })
         .done((result) => {
-            ep.emit('success', result)
+            ep.emit('success', {success: 1})
         }, (result) => {
             ep.emit('Error', result)
         })

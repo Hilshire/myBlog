@@ -4,7 +4,7 @@
     </card-panel>
 
 
-    <tags-editor :tags='tags' :alltags='alltags'></tags-editor>
+    <tags-editor :tags='tags' :add-tag='addTag' :del-tag='delTag' :alltags='alltags' :new-tag.sync='newTag'></tags-editor>
 
     <card-panel>
         <pagedown :md-val.sync='content'></pagedown>
@@ -36,18 +36,23 @@
             return {
                 title: '',
                 content: '',
-                tags: ['JavaScript'],
-                alltags: ['js']
+                tags: [],
+                alltags: [],
+                newTag: ''
             }
         },
         ready() {
             var ep = this.ep = article.ep
 
             ep.on('queryById', (data) => {
-                this.title = data.title
-                this.content = data.content
-                this.tags = data.tags
-                this.alltags = data.alltags
+                var main = data.main,
+                    tags = data.tags,
+                    allTags = data.allTags
+
+                this.title = main.title
+                this.content = main.content
+                this.tags = tags
+                this.alltags = alltags
 
                 this.$nextTick(() => {
                     Materialize.updateTextFields()
@@ -60,6 +65,14 @@
 
             ep.on('add', () => {
                 this.$router.go(url.article.VUE_ROOT)
+            })
+
+            ep.on('delTag', () => {
+                this.query()
+            })
+
+            ep.on('addTag', () => {
+                this.query()
             })
 
             this.query()
@@ -82,6 +95,12 @@
             },
             update() {
                 article.update(Object.assign({}, this.$data , {id: this.id}))
+            },
+            addTag(newTag) {
+                article.addTag({text: newTag, relatedId: this.id})
+            },
+            delTag(tagId) {
+                article.delTag({tagId: tagId, relatedId: this.id})
             }
         },
         components: {

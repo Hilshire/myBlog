@@ -15,7 +15,8 @@ exports.blog = {
     QUERY_BY_ID: '/manager/blog/queryId',
     QUERY_ALL_TAGS: '/manager/blog/tags',
     ADD_TAG: '/manager/blog/addTag',
-    DEL_TAG: '/manager/blog/delTag'
+    DEL_TAG: '/manager/blog/delTag',
+    QUERY_TAG: '/manager/blog/queryTag'
 }
 
 exports.article = {
@@ -26,8 +27,8 @@ exports.article = {
     UPDATE: '/manager/article/update',
     QUERY_LIST: '/manager/article/queryList',
     QUERY_BY_ID: '/manager/article/queryById',
-    ADD_TAG: '/manager/blog/addTag',
-    DEL_TAG: '/manager/blog/delTag'
+    ADD_TAG: '/manager/article/addTag',
+    DEL_TAG: '/manager/article/delTag'
 }
 
 exports.tips = {
@@ -37,7 +38,9 @@ exports.tips = {
     QUERY_BY_ID: '/manager/tips/queryById',
     ADD: '/manager/tips/add',
     DEL: '/manager/tips/del',
-    UPDATE: '/manager/tips/update'
+    UPDATE: '/manager/tips/update',
+    ADD_TAG: '/manager/tips/addTag',
+    DEL_TAG: '/manager/tips/delTag'
 }
 
 exports.about = {

@@ -1,42 +1,40 @@
 <template>
-    <card-reveal title='tags' cr-title='all tags'>
-        <div slot='cardContent'>
+    <card-panel title='tags'>
+        <div>
             <br>
-            <tags :tags=tags :can-close=true></tags>
-            <br>
-            <input-group label='新增标签' :value.sync='newTag'></input-group>
-            <button text='添加' @click="addTag(newTag)"></button>
+            <div class="row">
+                <span class="col s1">已有标签：</span>
+                <tags :tags=tags :can-close=true :del-tag=delTag></tags>
+            </div>
+            <div class="row">
+                <span class="col s1">全部标签：</span>
+                <tags :tags=alltags></tags>
+            </div>
+            <input-group label='新增标签' :value.sync='newTag' div-class='s9'><button text='添加' @click="addTag(newTag)"></button></input-group>
         </div>
-        <div slot='cardReveal'>
-            <br>
-            <tags :tags=alltags></tags>
-            <br>
-            <button text='添加'></button>
-        </div>
-    </card-reveal>
+    </card-panel>
 </template>
 <style>
 </style>
 <script>
-    import CardReveal from './CardReveal.vue'
+    import CardPanel from './CardPanel.vue'
     import Tags from './Tags.vue'
     import InputGroup from './InputGroup.vue'
     import Button from './Button.vue'
 
     export default{
         data(){
-            return{
-                newTag: ''
-            }
+            return{}
         },
         props: {
             tags: Array,
             alltags: Array,
             addTag: Function,
-            delTag: Function
+            delTag: Function,
+            newTag: String
         },
         components:{
-            CardReveal,
+            CardPanel,
             Tags,
             InputGroup,
             Button,

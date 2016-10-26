@@ -4,6 +4,7 @@
       <input v-model="value" type={{type}} class="validate">
       <label class={{active}} for={{divId}}>{{label}}</label>
     </div>
+    <slot></slot>
   </div>
 </template>
 

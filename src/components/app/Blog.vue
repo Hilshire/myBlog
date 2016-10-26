@@ -1,8 +1,8 @@
 <template>
     <div id="app-blog" class="app-content">
-        <p class="title">{{title}}</p>
-        <p class="time">{{time}}</p>
-        <article class="contentHTML markdown-body">{{{content | mdToHtml }}}</article>
+        <p class="title">{{main.title}}</p>
+        <p class="time">{{main.time}}</p>
+        <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
     </div>
 </template>
 
@@ -15,10 +15,12 @@
     export default{
         data(){
             return{
-                id: '',
-                title: '',
-                time: '',
-                content: '',
+                main: {
+                    id: '',
+                    title: '',
+                    time: '',
+                    content: '',
+                }
             }
         },
         ready() {

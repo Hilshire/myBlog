@@ -1,6 +1,6 @@
 <template>
     <div class="tags">
-        <div v-for='item in tags' class="tag">
+        <div v-for='item in tags' class="tag" @click='addTag(item.type)'>
             {{item.type}}
             <i v-if='canClose' class="material-icons" @click='delTag(item.tag_id)'>close</i>
         </div>
@@ -19,6 +19,9 @@
             },
             delTag: {
                 type: Function,
+            },
+            addTag: {
+                type: Function
             }
         }
     }

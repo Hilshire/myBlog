@@ -28,7 +28,7 @@
             // 获取数据
             app.article.queryById({id: id}, ep)
             ep.on('queryById', data => {
-                Object.assign(this.$data, data)
+                Object.assign(this.$data, data.main)
             })
 
             scrollFire.init(

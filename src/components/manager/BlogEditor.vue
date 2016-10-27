@@ -50,8 +50,8 @@ export default {
 
             this.title = main.title
             this.content = main.content
-            this.tags = tags
-            this.alltags = alltags
+            this.tags = tags || []
+            this.alltags = alltags || []
             this.newTag = ''
 
             this.$nextTick(() => {

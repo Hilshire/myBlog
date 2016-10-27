@@ -50,7 +50,9 @@ Dispatch.prototype = {
         }.bind(this))
     },
     queryTags(id) {
-        if (!this.model.queryTags) return
+        if (!this.model.queryTags) {
+            return console.log('dispatch: model has no queryTags function, return')
+        }
         return Q.promise(resolve => {
             this.model.queryTags(id, (err, row) => {
                 handleData(err, row, resolve)
@@ -230,6 +232,8 @@ tag.queryByType = function(data) {
 }
 
 var blogTag = new tagRelDP(hildb.blogTag)
+var articleTag = new tagRelDP(hildb.articleTag)
+var tipsTag = new tagRelDP(hildb.tipsTag)
 // blogTag.add = function (tagId, relatedId) {
 //     var model = this.model,
 //         data = [tagId, relatedId]
@@ -295,7 +299,9 @@ function getSummary(content) {
 exports.blog = blog
 exports.blogTag = blogTag
 exports.article = article
+exports.articleTag = articleTag
 exports.tips = tips
+exports.tipsTag = tipsTag
 exports.about = about
 exports.banner = banner
 exports.tag = tag

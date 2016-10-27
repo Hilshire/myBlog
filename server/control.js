@@ -36,12 +36,14 @@ module.exports = function(app) {
         [url.article.DEL, server.article, 'del'],
         [url.article.QUERY_LIST, server.article, 'queryList', 1],
         [url.article.QUERY_BY_ID, server.article, 'queryById'],
-        [url.blog.ADD_TAG, server.blog, 'addTag'],
-        [url.blog.DEL_TAG, server.blog, 'delTag'],
+        [url.article.ADD_TAG, server.article, 'addTag'],
+        [url.article.DEL_TAG, server.article, 'delTag'],
 
         [url.tips.DEL, server.tips, 'del'],
         [url.tips.QUERY_LIST, server.tips, 'queryList', 1],
         [url.tips.QUERY_BY_ID, server.tips, 'queryById'],
+        [url.tips.ADD_TAG, server.tips, 'addTag'],
+        [url.tips.DEL_TAG, server.tips, 'delTag'],
 
         [url.about.QUERY, server.about, 'query', 1],
 

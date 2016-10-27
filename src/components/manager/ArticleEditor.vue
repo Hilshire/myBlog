@@ -47,12 +47,13 @@
             ep.on('queryById', (data) => {
                 var main = data.main,
                     tags = data.tags,
-                    allTags = data.allTags
+                    alltags = data.allTags
 
                 this.title = main.title
                 this.content = main.content
-                this.tags = tags
-                this.alltags = alltags
+                this.tags = tags || []
+                this.alltags = alltags || []
+                this.newTag = ''
 
                 this.$nextTick(() => {
                     Materialize.updateTextFields()

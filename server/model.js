@@ -26,15 +26,16 @@ exports.blog = {
     update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
     query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
     queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
-    queryTags: createGetFn('SELECT bt.tag_id, tag.type FROM blog_tag bt INNER JOIN tag on tag.id = bt.tag_id and bt.blog_id = ?', 'all')
+    queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM blog_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.blog_id = ?', 'all')
 }
 
 exports.article = {
-  add: createRunFn('INSERT INTO article VALUES(?, ?, ?, ?);'),
-  del: createRunFn('DELETE FROM article WHERE id = ?;'),
-  update: createRunFn('UPDATE article SET title = ?, content = ? WHERE id = ?;'),
-  query: createGetFn('SELECT * FROM article WHERE id = ?;'),
-  queryList: createGetFn('SELECT id, title, content, time FROM article', 'all')
+    add: createRunFn('INSERT INTO article VALUES(?, ?, ?, ?);'),
+    del: createRunFn('DELETE FROM article WHERE id = ?;'),
+    update: createRunFn('UPDATE article SET title = ?, content = ? WHERE id = ?;'),
+    query: createGetFn('SELECT * FROM article WHERE id = ?;'),
+    queryList: createGetFn('SELECT id, title, content, time FROM article', 'all'),
+    queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM article_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.article_id = ?', 'all')
 }
 
 exports.tips = {
@@ -42,7 +43,8 @@ exports.tips = {
     del: createRunFn('DELETE FROM tips WHERE id = ?'),
     update: createRunFn('UPDATE tips SET title = ?, content = ? WHERE id = ?'),
     query: createGetFn('SELECT * FROM tips WHERE id = ?'),
-    queryList: createGetFn('SELECT id, title, content, time FROM tips', 'all')
+    queryList: createGetFn('SELECT id, title, content, time FROM tips', 'all'),
+    queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM tips_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.tip_id = ?', 'all')
 }
 
 exports.tag = {
@@ -64,18 +66,18 @@ exports.blogTag = {
 
 exports.articleTag = {
   add: createRunFn('INSERT INTO article_tag VALUES(?, ?);'),
-  del: createRunFn('DELETE FROM article_tag WHERE tag_id = ? AND article_id = ?;'),
-  update: createRunFn('UPDATE article_tag SET tag_id WHERE article_id = ?;'),
-  queryByRelation: createGetFn('SELECT tag_id FROM article_tag WHERE article_id = ?;'),
-  queryByTag: createGetFn('SELECT article_id FROM article_tag WHERE tag_id = ?;'),
+  del: createRunFn('DELETE FROM article_tag WHERE tag_id = ? AND article_id = ?'),
+  update: createRunFn('UPDATE article_tag SET tag_id WHERE article_id = ?'),
+  queryByRelation: createGetFn('SELECT tag_id FROM article_tag WHERE article_id = ?', 'all'),
+  queryByTag: createGetFn('SELECT article_id FROM article_tag WHERE tag_id = ?', 'all'),
 }
 
 exports.tipsTag = {
-  add: createRunFn('INSERT INTO tips_tag VALUES(?, ?);'),
-  del: createRunFn('DELETE FROM tips_tag WHERE tag_id = ? AND tips_id = ?;'),
-  update: createRunFn('UPDATE tips_tag SET tag_id WHERE tips_id = ?;'),
-  queryBytips: createGetFn('SELECT tag_id FROM tips_tag WHERE tips_id = ?;'),
-  queryByTag: createGetFn('SELECT tips_id FROM tips_tag WHERE tag_id = ?;'),
+  add: createRunFn('INSERT INTO tips_tag VALUES(?, ?)'),
+  del: createRunFn('DELETE FROM tips_tag WHERE tag_id = ? AND tips_id = ?'),
+  update: createRunFn('UPDATE tips_tag SET tag_id WHERE tips_id = ?'),
+  queryBytips: createGetFn('SELECT tag_id FROM tips_tag WHERE tips_id = ?', 'all'),
+  queryByTag: createGetFn('SELECT tips_id FROM tips_tag WHERE tag_id = ?', 'all'),
 }
 
 exports.account = {

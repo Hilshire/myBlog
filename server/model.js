@@ -53,7 +53,13 @@ exports.tag = {
     update: createRunFn('UPDATE tag SET type = ? WHERE id = ?;'),
     query: createGetFn('SELECT * FROM tag WHERE id = ?;'),
     queryByType: createGetFn('SELECT * FROM tag WHERE type = ?'),
-    queryList: createGetFn('SELECT * FROM tag', 'all')
+    queryList: createGetFn('SELECT * FROM tag', 'all'),
+    queryRelation: createGetFn(
+        'SELECT * FROM ' +
+            '(SELECT blog_id FROM blog_tag WHERE tag_id = ?)' +
+            'LEFT JOIN' +
+            '(SELECT article_id FROM article_tag WHERE tag_id = ?)', 'all'
+    )
 }
 
 exports.blogTag = {

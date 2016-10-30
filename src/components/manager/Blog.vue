@@ -33,7 +33,6 @@
     import Button from '../Button.vue'
     import CardPanel from '../CardPanel'
     import CardReveal from '../CardReveal.vue'
-    import Tags from '../Tags.vue'
     import {manager} from '../../transform'
 
     let EventProxy = require('eventproxy')
@@ -73,7 +72,6 @@
             Button,
             CardPanel,
             CardReveal,
-            Tags
         }
     }
 </script>

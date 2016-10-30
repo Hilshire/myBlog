@@ -28,7 +28,7 @@
     import Textarea from '../Textarea'
     import Button from '../Button'
     import Pagedown from '../PageDown'
-    import TagsEditor from '../TagsEditor.vue'
+    import TagsEditor from './TagsEditor.vue'
 
     var article = manager.article
     export default {

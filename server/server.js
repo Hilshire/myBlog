@@ -96,7 +96,7 @@ ServerTag.prototype.delTag = function(data, ep) {
     tagRelatedDP
         .del(tagId, relatedId)
         .then(() => {
-            return tagRelatedDP.queryById(tagId)
+            return tagDP.queryRelation(tagId)
         })
         .then(tagArr => {
             if (tagArr.length === 0) tagDP.del({id: tagId})

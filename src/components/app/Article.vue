@@ -1,12 +1,14 @@
 <template>
     <div id="app-article" class="app-content">
-        <p class="title">{{title}}</p>
-        <p class="time">{{time}}</p>
-        <article class="contentHTML markdown-body">{{{content | mdToHtml }}}</article>
+        <p class="title">{{main.title}}</p>
+        <p class="time">{{main.time}}</p>
+        <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
+        <tags :tags="tags"></tags>
     </div>
 </template>
 
 <script type='text/babel'>
+    import Tags from '../Tags'
     import {app} from '../../transform'
     import {ScrollFire} from '../../utils'
 
@@ -15,10 +17,13 @@
     export default{
         data(){
             return{
-                id: '',
-                title: '',
-                time: '',
-                content: '',
+                main: {                
+                    id: '',
+                    title: '',
+                    time: '',
+                    content: '',
+                },
+                tags: []
             }
         },
         ready() {
@@ -28,7 +33,7 @@
             // 获取数据
             app.article.queryById({id: id}, ep)
             ep.on('queryById', data => {
-                Object.assign(this.$data, data.main)
+                Object.assign(this.$data, data)
             })
 
             scrollFire.init(
@@ -41,7 +46,7 @@
             }
         },
         components:{
-
+            Tags
         }
     }
 </script>

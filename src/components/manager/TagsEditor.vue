@@ -17,10 +17,10 @@
 <style>
 </style>
 <script>
-    import CardPanel from './CardPanel.vue'
+    import CardPanel from '../CardPanel.vue'
     import Tags from './Tags.vue'
-    import InputGroup from './InputGroup.vue'
-    import Button from './Button.vue'
+    import InputGroup from '../InputGroup.vue'
+    import Button from '../Button.vue'
 
     export default{
         data(){

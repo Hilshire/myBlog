@@ -3,10 +3,14 @@
         <p class="title">{{main.title}}</p>
         <p class="time">{{main.time}}</p>
         <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
+        <div class="tags app">
+            <i class="material-icons">loyalty</i><tag v-for='item in tags' :tag=item></tag>
+        </div>
     </div>
 </template>
 
 <script type='text/babel'>
+    import Tags from '../Tags'
     import {app} from '../../transform'
     import {ScrollFire} from '../../utils'
 
@@ -20,7 +24,8 @@
                     title: '',
                     time: '',
                     content: '',
-                }
+                },
+                tags: []
             }
         },
         ready() {
@@ -48,7 +53,7 @@
             }
         },
         components:{
-
+            Tags
         }
     }
 </script>
@@ -62,10 +67,25 @@
 
         .title {
             text-align: center;
+            margin: 20% 0 10% 0;
         }
         
         .time {
             text-align: right;
+            margin-bottom: 5%;
+        }
+
+        .tags.app {
+            margin-top: 120px;
+            display: flex;
+            align-items: center;
+
+            .tag {
+                display: inline-block;
+                padding: 5px;
+                margin-left:3px;
+                // text-decoration: underline;
+            }
         }
     }
 </style>

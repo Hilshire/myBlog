@@ -230,6 +230,15 @@ tag.queryByType = function(data) {
         })
     }.bind(this))
 }
+tag.queryRelation = function (id) {
+    var model = this.model,
+        data = [id, id]
+    return Q.promise(function (resolve) {
+        model.queryRelation(data, (err, row) => {
+            handleData(err, row, resolve)
+        })
+    })
+}
 
 var blogTag = new tagRelDP(hildb.blogTag)
 var articleTag = new tagRelDP(hildb.articleTag)

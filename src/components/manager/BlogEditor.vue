@@ -22,7 +22,7 @@ import Select from '../Select'
 import Textarea from '../Textarea'
 import Button from '../Button'
 import Pagedown from '../PageDown'
-import TagsEditor from '../TagsEditor.vue'
+import TagsEditor from './TagsEditor.vue'
 
 import {manager} from '../../transform'
 import url from '../../const'

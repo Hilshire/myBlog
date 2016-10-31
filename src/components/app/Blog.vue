@@ -3,9 +3,7 @@
         <p class="title">{{main.title}}</p>
         <p class="time">{{main.time}}</p>
         <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
-        <div class="tags app">
-            <i class="material-icons">loyalty</i><tag v-for='item in tags' :tag=item></tag>
-        </div>
+        <tags :tags='tags'></tags>
     </div>
 </template>
 
@@ -67,12 +65,12 @@
 
         .title {
             text-align: center;
-            margin: 20% 0 10% 0;
+            margin: 20% 0 5% 0;
         }
         
         .time {
             text-align: right;
-            margin-bottom: 5%;
+            margin-bottom: 15%;
         }
 
         .tags.app {

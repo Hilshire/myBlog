@@ -3,7 +3,12 @@
         <input-group :value.sync='title' label='标题'></input-group>
     </card-panel>
 
-    <tags-editor :tags='tags' :alltags='alltags' :add-tag='addTag' :del-tag='delTag' :new-tag.sync='newTag'></tags-editor>
+    <tags-editor v-if="isUpdate" 
+                 :tags='tags' 
+                 :alltags='alltags' 
+                 :add-tag='addTag' 
+                 :del-tag='delTag' 
+                 :new-tag.sync='newTag'></tags-editor>
 
     <card-panel>
         <pagedown :md-val.sync='content'></pagedown>
@@ -38,6 +43,11 @@ export default {
             tags: ['JavaScript'],
             alltags: [],
             newTag: ''
+        }
+    },
+    computed: {
+        isUpdate() {
+            return this.$route.path.indexOf('update') !== -1
         }
     },
     created() {
@@ -101,6 +111,7 @@ export default {
             })
         },
         addTag(newTag) {
+            if(!this.isUpdate) return
             blog.addTag({text: newTag, relatedId: this.id})
         },
         delTag(tagId) {

@@ -1,11 +1,13 @@
 <template>
     <div class="tags app">
-        <i class="material-icons left">label</i><span class='tag' v-for='tag in tags'>{{tag.type}}</span>
+        <i class="material-icons left" v-if="tags.length !== 0">label</i><span class='tag' v-for='tag in tags'>{{tag.type}}</span>
     </div>
 </template>
 <script>
     export default {
-        props: ['tags']
+        props: {
+            tags: Array
+        }
     }
 </script>
 <style lang="sass">

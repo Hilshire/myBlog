@@ -46,3 +46,4 @@ export function hasContent(result) {
         return true
     }
 }
+

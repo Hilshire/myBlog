@@ -243,33 +243,6 @@ tag.queryRelation = function (id) {
 var blogTag = new tagRelDP(hildb.blogTag)
 var articleTag = new tagRelDP(hildb.articleTag)
 var tipsTag = new tagRelDP(hildb.tipsTag)
-// blogTag.add = function (tagId, relatedId) {
-//     var model = this.model,
-//         data = [tagId, relatedId]
-//     return Q.Promise(function (resolve) {
-//         model.add(data, (err, row) => {
-//             handleData(err, {success: 1, msg: 'Tag Add Success'}, resolve)
-//         })
-//     }.bind(this))
-//
-// }
-// blogTag.queryByTagId = function (tagId) {
-//     var model = this.model
-//     return Q.Promise(function (resolve) {
-//         model.queryByTagId(tagId, (err, row) => {
-//             handleData(err, row, resolve)
-//         })
-//     }.bind(this))
-// }
-// blogTag.del = function (tagId, relatedId) {
-//     var model = this.model,
-//         data = [tagId, relatedId]
-//     return Q.promise(function (resolve) {
-//         model.del(data, (err, row) => {
-//             handleData(err, row, resolve)
-//         })
-//     })
-// }
 
 //TODO：if err 部分有点重合，也许可以提取
 function validatePassword(username, password, ep) {

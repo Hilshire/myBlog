@@ -1,5 +1,4 @@
 'use strict'
-import 'whatwg-fetch'
 import * as urlConst from './const'
 
 let jsonInit = {

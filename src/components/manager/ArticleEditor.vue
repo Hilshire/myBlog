@@ -4,7 +4,12 @@
     </card-panel>
 
 
-    <tags-editor :tags='tags' :add-tag='addTag' :del-tag='delTag' :alltags='alltags' :new-tag.sync='newTag'></tags-editor>
+    <tags-editor v-if="isUpdate"
+                 :tags='tags' 
+                 :add-tag='addTag' 
+                 :del-tag='delTag' 
+                 :alltags='alltags' 
+                 :new-tag.sync='newTag'></tags-editor>
 
     <card-panel>
         <pagedown :md-val.sync='content'></pagedown>
@@ -41,6 +46,11 @@
                 newTag: ''
             }
         },
+        computed: {
+            isUpdate() {
+                return this.$route.path.indexOf('update') !== -1
+            }
+        },        
         ready() {
             var ep = this.ep = article.ep
 
@@ -98,6 +108,7 @@
                 article.update(Object.assign({}, this.$data , {id: this.id}))
             },
             addTag(newTag) {
+                if (!isUpdate) return
                 article.addTag({text: newTag, relatedId: this.id})
             },
             delTag(tagId) {

@@ -80,10 +80,10 @@ exports.articleTag = {
 
 exports.tipsTag = {
   add: createRunFn('INSERT INTO tips_tag VALUES(?, ?)'),
-  del: createRunFn('DELETE FROM tips_tag WHERE tag_id = ? AND tips_id = ?'),
-  update: createRunFn('UPDATE tips_tag SET tag_id WHERE tips_id = ?'),
-  queryBytips: createGetFn('SELECT tag_id FROM tips_tag WHERE tips_id = ?', 'all'),
-  queryByTag: createGetFn('SELECT tips_id FROM tips_tag WHERE tag_id = ?', 'all'),
+  del: createRunFn('DELETE FROM tips_tag WHERE tag_id = ? AND tip_id = ?'),
+  update: createRunFn('UPDATE tips_tag SET tag_id WHERE tip_id = ?'),
+  queryByRelation: createGetFn('SELECT tag_id FROM tips_tag WHERE tip_id = ?', 'all'),
+  queryByTag: createGetFn('SELECT tip_id FROM tips_tag WHERE tag_id = ?', 'all'),
 }
 
 exports.account = {

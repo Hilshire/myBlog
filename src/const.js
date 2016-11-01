@@ -64,5 +64,7 @@ exports.app = {
     QUERY_TIPS_LIST: '/app/tipsList',
     QUERY_TIPS: '/app/tips',
     QUERY_ABOUT: '/app/about',
-    QUERY_BANNER: '/app/banner'
+    QUERY_BANNER: '/app/banner',
+    QUERY_CONTENT_BY_TAG: '/app/queryContentByTag'
 }
+

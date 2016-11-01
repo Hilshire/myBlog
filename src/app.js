@@ -12,6 +12,7 @@ import Article from './components/app/Article'
 import ArticleList from './components/app/ArticleList'
 import TipList from './components/app/TipList.vue'
 import About from './components/app/About'
+import TagContent from './components/app/TagContent'
 
 let converter = new Markdown.Converter()
 window.hljs = hljs
@@ -59,6 +60,10 @@ router.map({
     },
     '/about': {
         component: About
+    },
+    '/tag/:id': {
+        name: 'tag',
+        component: TagContent
     }
 })
 

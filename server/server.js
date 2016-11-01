@@ -124,6 +124,42 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
         }
     }
 
+tag.queryContentByTag = function(data, ep) {
+    var id = data.id
+    
+    Q.all([
+        dispatch.blog.queryListByTag(id),
+        dispatch.article.queryListByTag(id),
+        dispatch.tips.queryListByTag(id)
+    ])
+    .spread(function(blogArr, articleArr, tipsArr) {
+        var result = {}
+        blogArr.forEach(blog => {
+            var time = blog.time,
+                timeArr = result[time] = []
+
+            timeArr.push({type:'blog', id:blog.id, title:blog.title})
+
+            articleArr.forEach(article => {
+                if (article.time === time) {
+                    timeArr.push({type:'article', id:article.id, title:article.title})
+                }
+            })
+
+            tipsArr.forEach(tip => {
+                if (tip.time === time) {
+                    timeArr.push({type:'tip', id:tip.id, title:tip.title})
+                }
+            })
+        })
+        return result
+    })
+    .done(
+        result => ep.emit('success', result),
+        error => ep.emit('Error', error)
+    )
+}
+
 // 定制
 banner.query = function (ep) {
     handleResult(ep, dispatch.banner.query.bind(dispatch.banner))
@@ -135,6 +171,7 @@ exports.article = article
 exports.tips = tips
 exports.about = about
 exports.banner = banner
+exports.tag = tag
 exports.validatePassword = validatePassword
 
 // 辅助函数

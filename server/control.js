@@ -16,7 +16,7 @@ module.exports = function(app) {
     // 第二项为对应的server,
     // 第三项为调用的方法名，
     // 第四项为方法的参数, 从handlepost.arguments中选择一个，默认为都有
-    // server的方法的参数可能为data或(data,ep)，如果不加控制会报错
+    // server的方法的参数可能为ep或(data,ep)，如果不加控制会报错
     var getReqs = [
         [url.app.QUERY_BLOG_LIST, server.blog, 'queryList', 1],
         [url.app.QUERY_BLOG, server.blog, 'queryById'],
@@ -26,6 +26,7 @@ module.exports = function(app) {
         [url.app.QUERY_TIPS, server.tips, 'queryById'],
         [url.app.QUERY_ABOUT, server.about, 'query', 1],
         [url.app.QUERY_BANNER, server.banner, 'query', 1],
+        [url.app.QUERY_CONTENT_BY_TAG, server.tag, 'queryContentByTag'],
 
         [url.blog.DEL, server.blog, 'del'],
         [url.blog.QUERY_LIST, server.blog, 'queryList', 1],

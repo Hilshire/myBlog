@@ -162,7 +162,7 @@ describe('test article', () => {
     it('should contain the test content when query by id', (done) => {
         agent.get(path.article.QUERY_BY_ID).query({id: 999}).end((err, res) => {
             res.status.should.equal(200)
-            res.body.content.should.equal(content)
+            res.body.main.content.should.equal(content)
             done()
         })
     })
@@ -232,7 +232,7 @@ describe('test tips', () => {
     it('should contain the test content when query by id', (done) => {
         agent.get(path.tips.QUERY_BY_ID).query({id: 999}).end((err, res) => {
             res.status.should.equal(200)
-            res.body.content.should.equal(content)
+            res.body.main.content.should.equal(content)
             done()
         })
     })

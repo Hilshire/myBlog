@@ -134,6 +134,19 @@ let app_banner = (function(store) {
 
 })()
 
+let app_tag = (function() {
+    let ep = new EventProxy()
+
+    return {
+        ep: ep,
+        query(data) {
+            fetch.get(url.app.QUERY_CONTENT_BY_TAG, data, result => {
+                ep.emit('queryContentByTag', result)
+            })
+        }
+    }
+})()
+
 export let manager = {
     blog: new TagTransform({
         add: url.blog.ADD,
@@ -190,7 +203,8 @@ export let app = {
         queryById: url.app.QUERY_TIPS
     }),
     about: app_about,
-    banner: app_banner
+    banner: app_banner,
+    tag: app_tag
 }
 
 export function login(username, password) {

@@ -59,6 +59,16 @@ Dispatch.prototype = {
             })
         })
     },
+    queryListByTag(id) {
+        if (!this.model.queryListByTag) {
+            return console.log('dispatch: model has no queryListByTag, return')
+        }
+        return Q.promise(resolve => {
+            this.model.queryListByTag(id, (err, row) => {
+                handleData(err, row, resolve)
+            })
+        })
+    }
 }
 
 function tagRelDP(model) {

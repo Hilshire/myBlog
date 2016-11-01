@@ -70,7 +70,7 @@
         
         .time {
             text-align: right;
-            margin-bottom: 15%;
+            margin-bottom: 5%;
         }
 
         .tags.app {

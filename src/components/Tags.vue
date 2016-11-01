@@ -1,6 +1,9 @@
 <template>
     <div class="tags app">
-        <i class="material-icons left" v-if="tags.length !== 0">label</i><span class='tag' v-for='tag in tags'>{{tag.type}}</span>
+        <i class="material-icons left" v-if="tags.length !== 0">label</i>
+        <span class='tag' 
+              v-for='tag in tags' 
+              v-link="{name: 'tag', params: {id: tag.tag_id}}">{{tag.type}}</span>
     </div>
 </template>
 <script>

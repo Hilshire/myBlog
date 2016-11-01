@@ -14,5 +14,12 @@
     }
 </script>
 <style lang="sass">
-        
+    .tags.app {
+        .tag {
+            cursor: pointer
+        }
+        .tag:hover {
+            text-decoration: underline
+        }
+    }        
 </style>

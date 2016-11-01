@@ -138,7 +138,7 @@ tag.queryContentByTag = function(data, ep) {
             var time = blog.time,
                 timeArr = result[time] = []
 
-            timeArr.push({type:'blog', id:blog.id, title:blog.title})
+            timeArr.push({type:'blog', id:blog.id, title:blog.title, summary:blog.summary})
 
             articleArr.forEach(article => {
                 if (article.time === time) {
@@ -148,7 +148,7 @@ tag.queryContentByTag = function(data, ep) {
 
             tipsArr.forEach(tip => {
                 if (tip.time === time) {
-                    timeArr.push({type:'tip', id:tip.id, title:tip.title})
+                    timeArr.push({type:'tip', id:tip.id, title:tip.title, content:tip.content})
                 }
             })
         })

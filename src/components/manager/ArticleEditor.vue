@@ -108,7 +108,7 @@
                 article.update(Object.assign({}, this.$data , {id: this.id}))
             },
             addTag(newTag) {
-                if (!isUpdate) return
+                if (!this.isUpdate) return
                 article.addTag({text: newTag, relatedId: this.id})
             },
             delTag(tagId) {

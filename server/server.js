@@ -124,6 +124,8 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
         }
     }
 
+// 定制
+
 tag.queryContentByTag = function(data, ep) {
     var id = data.id
     
@@ -160,7 +162,6 @@ tag.queryContentByTag = function(data, ep) {
     )
 }
 
-// 定制
 banner.query = function (ep) {
     handleResult(ep, dispatch.banner.query.bind(dispatch.banner))
 }

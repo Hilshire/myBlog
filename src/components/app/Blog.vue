@@ -48,6 +48,7 @@
         route: {
             deactivate() {
                 scrollFire.destory()
+                this.$root.showNav = true
             }
         },
         components:{

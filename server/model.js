@@ -2,7 +2,7 @@ var sqlite3 = require('sqlite3').verbose()
 var db;
 
 exports.connect = function(callback) {
-  callback = callback || () => {}
+  callback = callback || function() {}
 
   db = new sqlite3.Database('hilshire.db',
     sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,

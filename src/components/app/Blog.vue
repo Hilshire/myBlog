@@ -59,7 +59,7 @@
 
 <style lang="sass">
     .app-content {
-        width: 70%;
+        width: 60%;
         min-width: 640px;
         max-width: 1020px;
         margin: 100px auto;

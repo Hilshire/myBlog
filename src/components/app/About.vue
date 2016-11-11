@@ -1,5 +1,5 @@
 <template>
-    <div id="about_me" class="container">
+    <div id="about_me" class="app-content">
         {{{content | mdToHtml}}}
     </div>
 </template>
@@ -28,3 +28,9 @@
         }
     }
 </script>
+
+<style lang="sass">
+#about_me {
+    margin: 80px auto;
+}
+</style>

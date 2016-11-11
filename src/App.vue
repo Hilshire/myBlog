@@ -32,6 +32,12 @@
     html, body, #app, .wrapper {
         height: 100%;
     }
+    body, .markdown-body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft Yahei", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+    }
+    .markdown-body {
+        line-height: 1.8em;
+    }
     body{
         background-color: #fafafa;
         position: relative;

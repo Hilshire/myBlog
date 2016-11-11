@@ -141,19 +141,18 @@ tag.queryContentByTag = function(data, ep) {
                 timeArr = result[time] = []
 
             timeArr.push({type:'blog', id:blog.id, title:blog.title, summary:blog.summary})
-
-            articleArr.forEach(article => {
-                if (article.time === time) {
-                    timeArr.push({type:'article', id:article.id, title:article.title})
-                }
-            })
-
-            tipsArr.forEach(tip => {
-                if (tip.time === time) {
-                    timeArr.push({type:'tip', id:tip.id, title:tip.title, content:tip.content})
-                }
-            })
         })
+        articleArr.forEach(article => {
+            var time = article.time
+            if(!result[time]) result[time] = []
+            result[time].push({type:'article', id:article.id, title:article.title})
+        })
+        tipsArr.forEach(tip => {
+            var time = tip.time
+            if(!result[time]) result[time] = []
+            result[time].push({type:'tip', id:tip.id, title:tip.title, content:tip.content})
+        })
+
         return result
     })
     .done(

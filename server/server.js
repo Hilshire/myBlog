@@ -120,7 +120,7 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
             handleResult(ep, dispatch.about.query.bind(dispatch.about))
         },
         update(data, ep) {
-            handleResult(data, ep, dispatch.about.update.bind(dispatch.about))
+            handleResult(ep, data, dispatch.about.update.bind(dispatch.about))
         }
     }
 

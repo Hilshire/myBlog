@@ -1,5 +1,6 @@
 'use strict'
 import * as urlConst from './const'
+import 'whatwg-fetch'
 
 let jsonInit = {
     method: 'POST',

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Markdown from '../node_modules/pagedown/Markdown.Converter.js'
-import hljs from '../node_modules/highlight.js/lib/index'
+import hljs from './highlight'
 import '../node_modules/highlight.js/styles/default.css'
 
 import App from './App'

@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from './Login'
 
 import '../node_modules/materialize-css/dist/css/materialize.min.css'
-import '../node_modules/materialize-css/dist/js/materialize.js'
+import '../node_modules/materialize-css/dist/js/materialize.min.js'
 
 Vue.use(VueRouter)
 

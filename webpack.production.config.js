@@ -1,4 +1,6 @@
-import config from './webpack.config.js'
+var config = require('./webpack.config.js')
+var webpack = require('webpack')
+var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin
 
 var uglify = new uglifyJsPlugin({
     compress: {
@@ -7,7 +9,7 @@ var uglify = new uglifyJsPlugin({
 })
 
 config.plugins.push(uglify)
-config.unshift('devServer')
+delete config.devServer
 config.output.filename = '[name].[hash:6].js'
 
 module.exports = config

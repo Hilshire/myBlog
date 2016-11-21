@@ -1,6 +1,7 @@
 var config = require('./webpack.config.js')
-var webpack = require('webpack')
-var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin
+var webpack = require('webpack'),
+    uglifyJsPlugin = webpack.optimize.UglifyJsPlugin,
+    ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var uglify = new uglifyJsPlugin({
     compress: {
@@ -10,10 +11,10 @@ var uglify = new uglifyJsPlugin({
 
 config.plugins.push(uglify)
 delete config.devServer
-config.output.filename = '[name].[hash:6].js'
+config.output.filename = '[name].js'
 config.plugins = [
-    new ExtractTextPlugin ('app.[hash:6].css'),
-    new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.[hash:6].js'),
+    new ExtractTextPlugin ('app.css'),
+    new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js'),
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",

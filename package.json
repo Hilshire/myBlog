@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "build": "export NODE_ENV=product && webpack -p --config webpack.production.config.js --optimize-dedupe --optimize-minimize --hide-modules",
+    "build": "NODE_ENV=product && webpack -p --config webpack.production.config.js --optimize-dedupe --optimize-minimize --hide-modules",
     "build_win": "set NODE_ENV=product && webpack -p --config webpack.production.config.js --optimize-dedupe --optimize-minimize --hide-modules",
     "dev": "webpack-dev-server --devtool eval --progress  --content-base build --inline --hot"
   },

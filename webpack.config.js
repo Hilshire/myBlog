@@ -1,7 +1,6 @@
 var path = require('path'),
     webpack = require('webpack'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    uglifyJsPlugin = webpack.optimize.UglifyJsPlugin
+    ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var APP_PATH = path.resolve(__dirname, 'src'),
     BUILD_PATH = path.resolve(__dirname, 'dist'),
@@ -38,7 +37,7 @@ module.exports = {
             {test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192'},
             {
                 test: /\.(woff|woff2|ttf|svg|eot)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loaders: ["url-loader?limit=1000&name=fonts/[name]_[hash].[ext]"]
+                loaders: ["url-loader?limit=1000&name=/fonts/[name]_[hash].[ext]"]
             }
         ]
     },

@@ -2,13 +2,17 @@
     <div class="tip section">
         <p class="title">{{title}}</p>
         <p class="time">{{time}}</p>
-        <p class="content">{{{content | mdToHtml}}}</p>
+        <p class="markdown-body contentHTML">{{{content | mdToHtml}}}</p>
     </div>
 </template>
 
 <script type="text/babel">
     import Card from '../CardPanel.vue'
     export default {
+        ready() {
+            window.hljs.initHighlighting.called = false
+            window.hljs.initHighlighting()
+        },
         props: ['title', 'time', 'content'],
         components: {
             Card

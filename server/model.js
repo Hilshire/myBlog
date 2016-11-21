@@ -25,7 +25,7 @@ exports.blog = {
     del: createRunFn('DELETE FROM blog WHERE id = ?;'),
     update: createRunFn('UPDATE blog SET title = ?, content = ?, summary = ? WHERE id = ?;'),
     query: createGetFn('SELECT * FROM blog WHERE id = ?;'),
-    queryList: createGetFn('SELECT id, title, summary, time From blog', 'all'),
+    queryList: createGetFn('SELECT id, title, summary, time From blog ORDER BY TIME DESC', 'all'),
     queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM blog_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.blog_id = ?', 'all'),
     queryListByTag: createGetFn('SELECT blog.* from blog INNER JOIN (SELECT blog_id FROM blog_tag WHERE tag_id = ?) rt WHERE rt.blog_id = blog.id', 'all')
 }
@@ -35,7 +35,7 @@ exports.article = {
     del: createRunFn('DELETE FROM article WHERE id = ?;'),
     update: createRunFn('UPDATE article SET title = ?, content = ? WHERE id = ?;'),
     query: createGetFn('SELECT * FROM article WHERE id = ?;'),
-    queryList: createGetFn('SELECT id, title, content, time FROM article', 'all'),
+    queryList: createGetFn('SELECT id, title, content, time FROM article ORDER BY TIME DESC', 'all'),
     queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM article_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.article_id = ?', 'all'),
     queryListByTag: createGetFn('SELECT article.* from article INNER JOIN (SELECT article_id FROM article_tag WHERE tag_id = ?) rt WHERE rt.article_id = article.id', 'all')
 }
@@ -45,7 +45,7 @@ exports.tips = {
     del: createRunFn('DELETE FROM tips WHERE id = ?'),
     update: createRunFn('UPDATE tips SET title = ?, content = ? WHERE id = ?'),
     query: createGetFn('SELECT * FROM tips WHERE id = ?'),
-    queryList: createGetFn('SELECT id, title, content, time FROM tips', 'all'),
+    queryList: createGetFn('SELECT id, title, content, time FROM tips ORDER BY time DESC', 'all'),
     queryTags: createGetFn('SELECT rt.tag_id, tag.type FROM tips_tag rt INNER JOIN tag on tag.id = rt.tag_id and rt.tip_id = ?', 'all'),
     queryListByTag: createGetFn('SELECT tips.* from tips INNER JOIN (SELECT tip_id FROM tips_tag WHERE tag_id = ?) rt WHERE rt.tip_id = tips.id', 'all')
 }

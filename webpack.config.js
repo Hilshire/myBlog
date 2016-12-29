@@ -4,7 +4,7 @@ var path = require('path'),
 
 var APP_PATH = path.resolve(__dirname, 'src'),
     BUILD_PATH = path.resolve(__dirname, 'dist'),
-    PUBLIC_PATH = '/dist',
+    PUBLIC_PATH = '/public',
     MODULE_PATH = path.resolve(__dirname, 'node_modules'),
 
     VUE_PATH = path.resolve(MODULE_PATH, 'vue/dist/vue.min.js'),

@@ -10,15 +10,15 @@ var db = model.connect(),
 
 // var initSqlPromise = (function() {
 //     var defer = Q.defer()
-//
+
 //     fs.readFile("schema.sql", "utf-8", (error, sqls) => {
 //         if (error) defer.reject(new Error(err))
 //             else defer.resolve(sqls)
 //     })
-//
+
 //     return () => defer.promise
 // })()
-//
+
 // initSqlPromise()
 //     .then(sqls => {
 //         db.exec(sqls, err => {console.log(err)})

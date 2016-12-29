@@ -11,10 +11,10 @@ var uglify = new uglifyJsPlugin({
 
 config.plugins.push(uglify)
 delete config.devServer
-config.output.filename = '[name].js'
+config.output.filename = '[name].[hash:6].js'
 config.plugins = [
-    new ExtractTextPlugin ('app.css'),
-    new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js'),
+    new ExtractTextPlugin ('app.[hash:6].css'),
+    new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.[hash:6].js'),
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",

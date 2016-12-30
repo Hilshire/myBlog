@@ -37,10 +37,17 @@ Dispatch.prototype = {
     },
     queryList(data) {
         return Q.Promise(function (resolve) {
-            this.model.queryList((err, row) => {
+            this.model.queryList(data, (err, row) => {
                 handleData(err, row, resolve)
             })
         }.bind(this))
+    },
+    queryListCount() {
+        return Q.Promise(resolve => {
+            this.model.queryListCount((err, row) => {
+                handleData(err, row, resolve)
+            })
+        })
     },
     queryById(data) {
         return Q.Promise(function (resolve) {

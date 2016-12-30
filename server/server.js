@@ -7,6 +7,7 @@
 'use strict'
 
 var dispatch = require('./dispatch'),
+    config = require('../config.js'),
     Q = require('q')
 
 var tagDP = dispatch.tag
@@ -29,7 +30,7 @@ Server.prototype = {
         handleResult(ep, data, this.dispatch.queryById.bind(this.dispatch))
     },
     queryList(ep) {
-        handleResult(ep, this.dispatch.queryList.bind(this.dispatch))
+        handleResult(ep, data, this.dispatch.queryList.bind(this.dispatch))
     }
 }
 
@@ -38,6 +39,24 @@ function ServerTag(mainDP, tagRelatedDP) {
     this.tagRelatedDP = tagRelatedDP
 }
 ServerTag.prototype = Object.create(Server.prototype)
+ServerTag.prototype.queryList = function(data, ep) {
+    let page = parseInt(data.page),
+        pageSize = config.pageSize
+    let limit = [(page - 1) * pageSize + 1, pageSize]
+
+    Q.all([
+        this.dispatch.queryList(limit),
+        this.dispatch.queryListCount()
+    ])
+    .spread(function(list, count) {
+        let total = Math.ceil(count.val/pageSize)
+        return {list: list, total: total, current: page}
+    })
+    .done(
+        result => ep.emit('success', result),
+        error => ep.emit('Error', error)
+    )
+}
 ServerTag.prototype.queryById = function (data, ep) {
     var id = data.id
 

@@ -2,7 +2,7 @@
     <ul class="pagination" v-if="show">
         <li @click="_setPage(current-1)" :class="{disabled: !prev, 'waves-effect': prev}"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
         <li v-for="i in pages" :class="{'active light-blue darken-3': current===i, 'waves-effect': !(current===i)}"><a href="#" @click="setPage(i)">{{i}}</a></li>
-        <li :class="{disabled: !next, 'waves-effect': next}"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        <li @click="_setPage(current+1)" :class="{disabled: !next, 'waves-effect': next}"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
 </template>
 
@@ -11,28 +11,35 @@
         computed: {
             pages() {
                 let current = parseInt(this.current),
-                    total = parseInt(this.total)
-                let result = [], 
-                    bgn = current - 2, 
-                    end = current + 2,
-                    bgnFilling = 0,
-                    endFilling = 0
+                    total = parseInt(this.total),
+                    result = [],
+                    left = 1,
+                    right = total
 
-                if (bgn < 1) 
-                    bgnFilling = 1 - bgn
-                if (end > total)
-                    endFilling = total - end
-
-                for (let i=bgn; i<=end; i++) {
-                    result.push(i + bgnFilling + endFilling + "")
+                if (total < 1) return
+                if (total > 5) {
+                    if (current > 2 && current < total - 2) {
+                        left  = current - 2
+                        right = current + 2
+                    } 
+                    else
+                    if (current <= 2)
+                        right = 5
+                    else
+                    if (current + 2 >= total) 
+                        left = total - 4
                 }
+
+                for (let i=left; i<=right; i++) 
+                    result.push(i)
+                
                 return result
             },
             show() {
-                return this.total !== "1"  
+                return this.total !== 1
             },
             prev() {
-                return this.current !== "1"
+                return this.current !== 1
             },
             next() { 
                 return this.current !== this.total
@@ -48,11 +55,11 @@
         },
         props: {
             'current': {
-                type: String,
+                type: Number,
                 required: true
             }, 
             'total': {
-                type: String,
+                type: Number,
                 required: true
             }, 
             'setPage': {

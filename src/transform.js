@@ -15,10 +15,11 @@ class Query {
         }
     }
 
-    queryList() {
+    queryList(page) {
         if (!this.url.queryList) return
+        if (!page) page = 1
 
-        fetch.get(this.url.queryList, json => {
+        fetch.get(this.url.queryList, {page: page}, json => {
             if (json.error) {
                 return Materialize.toast(json.msg, this.infoToastTime)
             }

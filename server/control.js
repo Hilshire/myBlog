@@ -29,19 +29,19 @@ module.exports = function(app) {
         [url.app.QUERY_CONTENT_BY_TAG, server.tag, 'queryContentByTag'],
 
         [url.blog.DEL, server.blog, 'del'],
-        [url.blog.QUERY_LIST, server.blog, 'queryList', 1],
+        [url.blog.QUERY_LIST, server.blog, 'queryList'],
         [url.blog.QUERY_BY_ID, server.blog, 'queryById'],
         [url.blog.ADD_TAG, server.blog, 'addTag'],
         [url.blog.DEL_TAG, server.blog, 'delTag'],
 
         [url.article.DEL, server.article, 'del'],
-        [url.article.QUERY_LIST, server.article, 'queryList', 1],
+        [url.article.QUERY_LIST, server.article, 'queryList'],
         [url.article.QUERY_BY_ID, server.article, 'queryById'],
         [url.article.ADD_TAG, server.article, 'addTag'],
         [url.article.DEL_TAG, server.article, 'delTag'],
 
         [url.tips.DEL, server.tips, 'del'],
-        [url.tips.QUERY_LIST, server.tips, 'queryList', 1],
+        [url.tips.QUERY_LIST, server.tips, 'queryList'],
         [url.tips.QUERY_BY_ID, server.tips, 'queryById'],
         [url.tips.ADD_TAG, server.tips, 'addTag'],
         [url.tips.DEL_TAG, server.tips, 'delTag'],

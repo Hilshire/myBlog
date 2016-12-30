@@ -27,31 +27,34 @@
             </tbody>
         </table>
     </card>
+
+    <card-panel>
+        <pagination :total=total :current=current :set-page="query"></pagination>
+    </card-panel>
 </template>
 
 <script type="text/babel">
     import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
     import Card from '../CardPanel'
+    import Pagination from "../Pagination"
     import {manager} from '../../transform'
 
     var article = manager.article
     export default {
         data() {
             return {
-                table:[]
+                table:[],
+                total: 1,
+                current: 1
             }
         },
         methods: {
             add: function() {
                 this.$router.go('/article/add')
             },
-            query: function() {
-                var ep = this.ep
-                article.queryList()
-                ep.on('queryList', data => {
-                    this.table = data
-                })
+            query: function(page) {
+                article.queryList(page)
             },
             update: function(id) {
                 this.$router.go({name: 'updateArticle', params: {id: id}})
@@ -62,12 +65,20 @@
             }
         },
         ready() {
-            this.ep = article.ep
+            let ep = this.ep = article.ep
+
+            ep.on('queryList', data => {
+                this.table = data.list
+                this.total = data.total
+                this.current = data.current
+            })
+
             this.query()
         },
         components: {
             Button,
-            Card
+            Card,
+            Pagination
         }
     }
 </script>

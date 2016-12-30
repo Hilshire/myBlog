@@ -1,4 +1,4 @@
 module.exports = {
-    pageSize: 2,
+    pageSize: 5,
     pageBarSize: 5
 }

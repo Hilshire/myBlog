@@ -36,7 +36,7 @@
                 return result
             },
             show() {
-                return this.total !== 1
+                return this.total > 1
             },
             prev() {
                 return this.current !== 1
@@ -76,5 +76,9 @@
         margin: 40px auto 60px auto;
         display: flex;
         justify-content: center;
+    }
+
+    .card-panel ul.pagination {
+        margin: auto;
     }
 </style>

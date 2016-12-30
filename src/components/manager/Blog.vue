@@ -27,34 +27,35 @@
             </tbody>
         </table>
     </card-panel>
+
+    <card-panel>
+        <pagination :total=total :current=current :set-page="query"></pagination>
+    </card-panel>
 </template>
 
 <script type='text/babel'>
     import Button from '../Button.vue'
     import CardPanel from '../CardPanel'
     import CardReveal from '../CardReveal.vue'
+    import Pagination from '../Pagination.vue'
     import {manager} from '../../transform'
-
-    let EventProxy = require('eventproxy')
 
     var blog = manager.blog
 
     export default {
         data() {
             return {
-                table:[]
+                table:[],
+                total: 1,
+                current: 1
             }
         },
         methods: {
             add: function() {
                 this.$router.go('/blog/add')
             },
-            query: function() {
-                var ep = this.ep
-                blog.queryList(ep)
-                ep.on('queryList', data => {
-                    this.table = data
-                })
+            query: function(page) {
+                blog.queryList(page)
             },
             update: function(id) {
                 this.$router.go({name: 'updateBlog', params: {id: id}})
@@ -65,13 +66,21 @@
             }
         },
         ready() {
-            this.ep = blog.ep
+            let ep = this.ep = blog.ep
+
+            ep.on('queryList', data => {
+                this.table = data.list
+                this.total = data.total
+                this.current = data.current
+            })
+
             this.query()
         },
         components: {
             Button,
             CardPanel,
             CardReveal,
+            Pagination
         }
     }
 </script>

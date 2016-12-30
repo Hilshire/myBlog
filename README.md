@@ -32,13 +32,13 @@ password: 123456
 ###环境
 node v4.0以上
 sqlite3
-～～由于使用了fetch，目前仅支持chrome和firefox～～
+~~由于使用了fetch，目前仅支持chrome和firefox~~
 
 ### todos
 不保证完成
 
-- ～～fetch polyfil～～
-- ～～分页～～
+- ~~fetch polyfil~~
+- ~~分页~~
 - 响应式
 - 留言
 - 搜索

@@ -3,6 +3,7 @@ var session = require('express-session')
 var bodyParser = require('body-parser')
 var hildb = require('./server/model.js')
 var route = require('./server/control')
+var compression = require('compression')
 
 
 hildb.connect()
@@ -19,6 +20,7 @@ app.use(session({
     secure: false,
     cookie: { secure: false, maxAge: 1000 * 60 * 60 }
 }))
+app.use(compression())
 
 route(app)
 

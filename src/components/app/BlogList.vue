@@ -4,12 +4,14 @@
                    :title='blog.title' :time='blog.time' :id='blog.id' :summary='blog.summary'
                    :divider='$index !== blogs.length - 1'></blog-prev>
         <p class="error" v-if="!hasContent">这里什么都没有哦。</p>
+        <pagination total=15 current=1 :set-page="setPage"></pagination>
     </div>
 </template>
 <script type='text/babel'>
     'use strict'
 
     import BlogPrev from './BlogPrev.vue'
+    import Pagination from '../Pagination.vue'
     import {app} from '../../transform'
     import * as utils from '../../utils.js'
 
@@ -37,8 +39,14 @@
                 })
             })
         },
+        methods: {
+            setPage(page) {
+                alert(page)
+            }
+        },
         components:{
-            BlogPrev
+            BlogPrev,
+            Pagination
         }
     }
 </script>

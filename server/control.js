@@ -146,7 +146,7 @@ module.exports = function(app) {
                 }
             }
 
-            //这里只能用once。如果事件不解绑，res对象惠一直存在，
+            //这里只能用once。如果事件不解绑，res对象一直存在，
             //然后在新请求到来时报错。
             ep.once('success', result => {
                 res.send(result)

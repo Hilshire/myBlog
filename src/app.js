@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from '../node_modules/vue/dist/vue.js'
 import VueRouter from 'vue-router'
 import Markdown from '../node_modules/pagedown/Markdown.Converter.js'
 import hljs from './highlight'

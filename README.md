@@ -14,7 +14,7 @@ sqlite + express + webpack + vue
 
     npm install             // 安装依赖
     node server/setup.js    // 创建数据库
-    node server.js          // 运行后端
+    node server.js          // 运行服务
 
     // 调试
     npm run dev             
@@ -23,50 +23,22 @@ sqlite + express + webpack + vue
     npm run start
 
 默认的用户名和密码，可以在`server／schema.sql`里修改。
+
 username: admin
+
 password: 123456
 
 未来会逐渐完善功能与样式，直到它变成一个炫酷的网站，大概。
 ###环境
 node v4.0以上
 sqlite3
-由于使用了fetch，目前仅支持chrome和firefox
+～～由于使用了fetch，目前仅支持chrome和firefox～～
 
 ### todos
 不保证完成
 
-- fetch polyfil
-- 分页
+- ～～fetch polyfil～～
+- ～～分页～～
 - 响应式
 - 留言
 - 搜索
-
-### Q&A
-Q:为什么写了这个项目
-
-A:因为当初就是觉得能自己做网站很cool才入的码农坑……
-
-Q:why nodejs?
-
-A:我本职是前端，第一次尝试搭建后台，于是在ruby、python和node中选择了node。此外，我觉得前端想要了解后端的知识是理所当然的事，反之亦然。
-
-Q:你的后台代码看上去很乱
-
-A:是的。我需要时间和经验。
-
-Q:对node的感觉？
-
-A:如果能适应异步会很有趣，否则的话就是灾难。node社区曾对异步有过讨论
-> 我反对是那些把回调当宝，然后又把promise，generator当宝，现在又把async/await当宝的人。
-
-> 建议多看看其他语言的实现，看看人家怎么做的？有对比才会知道自己的优点和不足。幸好，我不是你所谓圈子里的人，还能看看其他语言，还不至于被个语法糖给唬住。
-    
-> 没有stackfull的协程支持，你的所谓形式同步永远是显式的，传染的。你提到的这些，都只不过式过渡解决方案，是现实的无奈和妥协，如果跟其他语言比，是万不可拿来炫耀的。
-> 
-> [https://cnodejs.org/topic/55531a00b8ec4ac201f117d6#58160797eae2a24f34e6806f](https://cnodejs.org/topic/55531a00b8ec4ac201f117d6#58160797eae2a24f34e6806f)
-
-就我个人而言，把那些异步的步骤排排好，让一切步骤顺着我想的过程发展的感觉还不错，但我也会怀恋同步的写法。目前node的发展似乎已经可以看到、甚至是已经来到另一个分叉点，而js又有了新的趋势。看着这些潮流最终会走向何方也足以让人心潮澎湃。
-
-Q:自己评价一下这个项目？
-
-A:初学者水平的node（我也确实是初学者）和玩具般的vue运用。不过我自己倒是挺满意的。因为写了一些让我觉得有趣的代码。

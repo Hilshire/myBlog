@@ -48,7 +48,7 @@ module.exports = function(app) {
 
         [url.about.QUERY, server.about, 'query', 1],
 
-        [url.banner.QUERY_LIST, server.banner, 'queryList', 1],
+        [url.banner.QUERY_LIST, server.banner, 'queryList'],
         [url.banner.DEL, server.banner, 'del']
     ]
 

@@ -4,6 +4,7 @@
         <p class="time">{{main.time}}</p>
         <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
         <tags :tags="tags"></tags>
+        <div id="disqus_thread"></div>
     </div>
 </template>
 
@@ -17,7 +18,7 @@
     export default{
         data(){
             return{
-                main: {                
+                main: {
                     id: '',
                     title: '',
                     time: '',

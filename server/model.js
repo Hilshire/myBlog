@@ -102,7 +102,7 @@ exports.account = {
 
 exports.about = {
     query: createGetFn('SELECT * from about'),
-    update: createRunFn('UPDATE about SET content = ?')    
+    update: createRunFn('UPDATE about SET content = ?')
 }
 
 exports.banner = {
@@ -110,7 +110,8 @@ exports.banner = {
     del: createRunFn('DELETE FROM banner WHERE id = ?'),
     update: createRunFn('UPDATE banner SET content = ? WHERE id = ?'),
     queryRandomRow: createGetFn('SELECT * FROM banner ORDER BY RANDOM() LIMIT 1'),
-    queryList: createGetFn('SELECT * from banner', 'all')
+    queryList: createGetFn('SELECT * from banner LIMIT?, ?', 'all'),
+    queryListCount: createGetFn('SELECT COUNT(*) AS val from banner')
 }
 
 // return a sqlite3 interface function

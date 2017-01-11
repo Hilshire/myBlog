@@ -3,6 +3,7 @@
         <input-group div-id='banner-input' label='content' :value.sync='input' @keyup.enter='add()'></input-group>
         <button text='ADD' @click='add()'></button>
     </card>
+
     <card>
         <table class="">
             <tbody>
@@ -19,12 +20,17 @@
             </tbody>
         </table>
     </card>
+
+    <card>
+        <pagination :total=total :current=current :set-page="query"></pagination>
+    </card>
 </template>
 <script>
     import {manager} from '../../transform.js'
     import Card from '../CardPanel'
     import InputGroup from '../InputGroup.vue'
     import Button from '../Button'
+    import Pagination from '../Pagination'
 
     let banner = manager.banner
 
@@ -32,25 +38,34 @@
         data() {
             return {
                 input: '',
-                table: ''
+                table: '',
+                total: 1,
+                current: 1
             }
         },
         ready() {
             let ep = this.ep = banner.ep
 
-            ep.on('queryList', result => this.table = result)
+            ep.on('queryList', result => {
+                this.table = result.list
+                this.total = result.total
+                this.current = result.current
+            })
             ep.on('add', () => {
-                this.query()
+                this.query(1)
                 this.input = ''
             })
-            ep.on('update', () => this.query())
-            ep.on('del', () => this.query())
+            ep.on('update', () => this.refresh())
+            ep.on('del', () => this.refresh())
 
             this.query()
         },
         methods: {
-            query() {
-                banner.queryList()
+            query(page) {
+                banner.queryList(page)
+            },
+            refresh() {
+                this.query(this.current)
             },
             add() {
                 banner.add({content: this.input})
@@ -70,7 +85,8 @@
         components: {
             Card,
             InputGroup,
-            Button
+            Button,
+            Pagination
         }
     }
 </script>

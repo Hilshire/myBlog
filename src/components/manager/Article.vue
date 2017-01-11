@@ -33,7 +33,7 @@
     </card-panel>
 </template>
 
-<script type="text/babel">
+<script>
     import EventProxy from 'eventproxy'
     import Button from '../Button.vue'
     import Card from '../CardPanel'
@@ -61,7 +61,7 @@
             },
             del: function(id) {
                 article.del({id: id})
-                this.query()
+                this.query(this.current)
             }
         },
         ready() {

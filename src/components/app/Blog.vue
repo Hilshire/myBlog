@@ -4,6 +4,7 @@
         <p class="time">{{main.time}}</p>
         <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
         <tags :tags='tags'></tags>
+        <div id="disqus_thread"></div>
     </div>
 </template>
 
@@ -68,7 +69,7 @@
             text-align: center;
             margin: 20% 0 5% 0;
         }
-        
+
         .time {
             text-align: right;
             margin-bottom: 5%;

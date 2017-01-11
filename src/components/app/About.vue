@@ -1,6 +1,7 @@
 <template>
     <div id="about_me" class="app-content">
         {{{content | mdToHtml}}}
+        <div id="disqus_thread"></div>
     </div>
 </template>
 

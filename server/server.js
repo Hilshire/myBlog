@@ -42,7 +42,7 @@ ServerTag.prototype = Object.create(Server.prototype)
 ServerTag.prototype.queryList = function(data, ep) {
     let page = parseInt(data.page),
         pageSize = config.pageSize
-    let limit = [(page - 1) * pageSize + 1, pageSize]
+    let limit = [(page - 1) * pageSize, pageSize]
 
     Q.all([
         this.dispatch.queryList(limit),
@@ -147,7 +147,7 @@ var blog = new ServerTag(dispatch.blog, dispatch.blogTag),
 
 tag.queryContentByTag = function(data, ep) {
     var id = data.id
-    
+
     Q.all([
         dispatch.blog.queryListByTag(id),
         dispatch.article.queryListByTag(id),
@@ -183,6 +183,8 @@ tag.queryContentByTag = function(data, ep) {
 banner.query = function (ep) {
     handleResult(ep, dispatch.banner.query.bind(dispatch.banner))
 }
+// 增加queryList方法
+banner.queryList = ServerTag.prototype.queryList
 
 // 导出
 exports.blog = blog
@@ -204,7 +206,7 @@ function handleResult(ep, data, handler) {
     .then(
         result => {
             ep.emit('success', result)
-        }, 
+        },
         error => {
             console.log('dispatch error ', error)
             ep.emit('Error', error)

@@ -4,12 +4,13 @@
         <p class="time">{{main.time}}</p>
         <article class="contentHTML markdown-body">{{{main.content | mdToHtml }}}</article>
         <tags :tags='tags'></tags>
-        <div id="disqus_thread"></div>
+        <comments></comments>
     </div>
 </template>
 
 <script type='text/babel'>
     import Tags from '../Tags'
+    import Comments from './Comments.vue'
     import {app} from '../../transform'
     import {ScrollFire} from '../../utils'
 
@@ -53,7 +54,8 @@
             }
         },
         components:{
-            Tags
+            Tags,
+            Comments
         }
     }
 </script>
